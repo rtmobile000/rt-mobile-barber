@@ -932,6 +932,7 @@
     <div style="display:flex; gap:8px;">
       <button class="btn-role-tab active" id="btn-role-nav-cliente" onclick="definirModoVisao('CLIENTE')">Visão Cliente</button>
       <button class="btn-role-tab" id="btn-role-nav-dono" onclick="definirModoVisao('DONO')">Painel Dono</button>
+      <button class="btn-role-tab" style="color:#38bdf8; border-color:#38bdf8;" onclick="abrirModalTutorial()">📖 Tutorial</button>
       <button class="btn-role-tab" style="color:var(--gold); border-color:var(--gold);" onclick="abrirModoTVExclusivo()">Modo TV 📺</button>
       <button class="btn-role-tab" style="color:var(--red);" onclick="realizarLogout()">Desconectar</button>
     </div>
@@ -2874,6 +2875,39 @@
       window.open(`https://wa.me/${item.telefone}?text=${encodeURIComponent(msg)}`, '_blank');
     }
 
+    
+    // =========================================================
+    // MODAL DE TUTORIAL & ONBOARDING
+    // =========================================================
+    function abrirModalTutorial() {
+      document.body.classList.add('modal-open');
+      document.getElementById('modal-tutorial-sistema').style.display = 'flex';
+    }
+
+    function fecharModalTutorial() {
+      document.body.classList.remove('modal-open');
+      document.getElementById('modal-tutorial-sistema').style.display = 'none';
+    }
+
+    function trocarAbaTutorial(tipo) {
+      const btnCli = document.getElementById('btn-tut-tab-cliente');
+      const btnDono = document.getElementById('btn-tut-tab-dono');
+      const boxCli = document.getElementById('box-tutorial-cliente');
+      const boxDono = document.getElementById('box-tutorial-dono');
+
+      if (tipo === 'TUT_CLIENTE') {
+        btnCli.classList.add('active');
+        btnDono.classList.remove('active');
+        boxCli.style.display = 'block';
+        boxDono.style.display = 'none';
+      } else {
+        btnDono.classList.add('active');
+        btnCli.classList.remove('active');
+        boxCli.style.display = 'none';
+        boxDono.style.display = 'block';
+      }
+    }
+
     function trocarAbaMobileCliente(tabId, btn) {
       trocarAbaWorkspace(tabId, btn);
     }
@@ -2924,6 +2958,100 @@
       <select id="sel-produto-para-comanda" class="form-input-field" style="background:#141724; color:#fff;"></select>
 
       <button class="btn-gold-primary" style="width:100%; padding:14px; margin-top:8px;" onclick="confirmarAddProdutoNaComanda()">Lançar na Conta do Cliente ➔</button>
+    </div>
+  </div>
+
+
+  <!-- MODAL TUTORIAL / GUIA COMPLETO DO SISTEMA -->
+  <div id="modal-tutorial-sistema" style="position:fixed; inset:0; background:rgba(0,0,0,0.94); backdrop-filter:blur(18px); z-index:9999999; display:none; align-items:flex-start; justify-content:center; padding:16px; overflow-y:auto;">
+    <div style="background:#0e111a; border:1.5px solid var(--gold); border-radius:26px; max-width:680px; width:100%; margin:24px auto 120px; padding:28px 24px; box-shadow:0 30px 80px rgba(0,0,0,0.95); box-sizing:border-box;">
+      
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:16px; margin-bottom:20px;">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div style="width:40px; height:40px; border-radius:12px; background:var(--gold-glow); border:1px solid var(--gold); display:flex; align-items:center; justify-content:center; font-size:20px;">📖</div>
+          <div>
+            <h3 style="font-size:18px; font-weight:900; color:#fff; text-transform:uppercase;">Guia do Usuário • RT Mobile Barber</h3>
+            <p style="font-size:11px; color:var(--text-muted);">Aprenda em 2 minutos tudo que a plataforma oferece</p>
+          </div>
+        </div>
+        <button onclick="fecharModalTutorial()" style="background:#1e2333; border:none; color:#fff; width:34px; height:34px; border-radius:50%; font-size:16px; cursor:pointer;">✕</button>
+      </div>
+
+      <!-- ABAS DO TUTORIAL -->
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:22px; background:#141724; padding:5px; border-radius:14px; border:1px solid var(--border);">
+        <button id="btn-tut-tab-cliente" class="auth-tab-btn active" onclick="trocarAbaTutorial('TUT_CLIENTE')">👤 Manual do Cliente</button>
+        <button id="btn-tut-tab-dono" class="auth-tab-btn" onclick="trocarAbaTutorial('TUT_DONO')">💈 Manual do Dono & Barbeiro</button>
+      </div>
+
+      <!-- CONTEÚDO DO CLIENTE -->
+      <div id="box-tutorial-cliente">
+        <div style="display:flex; flex-direction:column; gap:16px;">
+          <div style="background:#151824; border:1px solid var(--border); border-radius:18px; padding:16px;">
+            <strong style="color:var(--gold); font-size:14px; display:block; margin-bottom:4px;">1. Escolha da Barbearia</strong>
+            <p style="font-size:12px; color:#cbd5e1; line-height:1.6;">Na tela inicial da rede, você vê todas as barbearias com plano ativo na cidade, fotos da fachada, endereço e avaliações. Basta tocar em <strong>"Acessar Barbearia"</strong> para entrar no catálogo exclusivo daquele local.</p>
+          </div>
+
+          <div style="background:#151824; border:1px solid var(--border); border-radius:18px; padding:16px;">
+            <strong style="color:var(--gold); font-size:14px; display:block; margin-bottom:4px;">2. Agendamento em 4 Passos Rápidos</strong>
+            <p style="font-size:12px; color:#cbd5e1; line-height:1.6;">1º Escolha o Procedimento (Corte, Barba, Combo, etc.) • 2º Escolha o Barbeiro de sua preferência • 3º Selecione o dia e o horário de meia em meia hora • 4º Escolha se paga no Local ou via Pix e toque em <strong>"Garantir Meu Horário"</strong>.</p>
+          </div>
+
+          <div style="background:#151824; border:1px solid var(--border); border-radius:18px; padding:16px;">
+            <strong style="color:var(--gold); font-size:14px; display:block; margin-bottom:4px;">3. Histórico do Pente Favorito</strong>
+            <p style="font-size:12px; color:#cbd5e1; line-height:1.6;">Ao cadastrar sua conta com foto, o barbeiro anota na sua comanda a numeração do pente e o estilo que você gosta (ex: <i>"Degradê na 0, navalhado no topo"</i>). Você nunca mais precisará explicar o corte do zero!</p>
+          </div>
+
+          <div style="background:#151824; border:1px solid var(--border); border-radius:18px; padding:16px;">
+            <strong style="color:var(--gold); font-size:14px; display:block; margin-bottom:4px;">4. Cartão Fidelidade (10 Cortes = 1 Grátis)</strong>
+            <p style="font-size:12px; color:#cbd5e1; line-height:1.6;">A cada corte concluído, o sistema carimba seu cartão digital. Ao atingir 10 cortes, o próprio aplicativo gera o selo dourado de <strong>100% Grátis</strong> para o seu próximo atendimento.</p>
+          </div>
+
+          <div style="background:#151824; border:1px solid var(--border); border-radius:18px; padding:16px;">
+            <strong style="color:var(--gold); font-size:14px; display:block; margin-bottom:4px;">5. Loja de Produtos & Bebidas</strong>
+            <p style="font-size:12px; color:#cbd5e1; line-height:1.6;">Na aba <strong>Loja</strong>, compre pomadas modeladoras, óleos de barba e cervejas. Você escolhe se busca você mesmo ou se indica outra pessoa para retirar no balcão.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONTEÚDO DO DONO & BARBEIRO -->
+      <div id="box-tutorial-dono" style="display:none;">
+        <div style="display:flex; flex-direction:column; gap:16px;">
+          <div style="background:#151824; border:1px solid var(--border); border-radius:18px; padding:16px;">
+            <strong style="color:var(--gold); font-size:14px; display:block; margin-bottom:4px;">1. Fila de Espera & Disparo no WhatsApp com 1 Clique</strong>
+            <p style="font-size:12px; color:#cbd5e1; line-height:1.6;">Na tela de comandas, o barbeiro ou a recepção tocam em <strong>"Na Cadeira! 💺"</strong> e o sistema dispara na hora a mensagem no WhatsApp chamando o cliente para entrar. O botão <strong>"Lembrete 1h ⏰"</strong> envia o lembrete com a chave Pix opcional para evitar faltas.</p>
+          </div>
+
+          <div style="background:#151824; border:1px solid var(--border); border-radius:18px; padding:16px;">
+            <strong style="color:var(--gold); font-size:14px; display:block; margin-bottom:4px;">2. Comanda de Balcão Express (Para quem chega sem agendar)</strong>
+            <p style="font-size:12px; color:#cbd5e1; line-height:1.6;">Chegou cliente de surpresa no balcão? Clique em <strong>"+ Cliente de Balcão (Express)"</strong>, selecione quem vai cortar e o valor já soma no caixa e entra na fila da TV ao vivo.</p>
+          </div>
+
+          <div style="background:#151824; border:1px solid var(--border); border-radius:18px; padding:16px;">
+            <strong style="color:var(--gold); font-size:14px; display:block; margin-bottom:4px;">3. Lançar Produtos na Comanda da Cadeira</strong>
+            <p style="font-size:12px; color:#cbd5e1; line-height:1.6;">Se o cliente quiser levar uma pomada ou beber uma cerveja enquanto corta o cabelo, o barbeiro clica em <strong>"+ Lançar Produto na Comanda"</strong>. O estoque diminui e o valor do produto é somado ao corte na hora de pagar no caixa.</p>
+          </div>
+
+          <div style="background:#151824; border:1px solid var(--border); border-radius:18px; padding:16px;">
+            <strong style="color:var(--gold); font-size:14px; display:block; margin-bottom:4px;">4. Fechamento Cego de Caixa & Cupom Térmico (58mm/80mm)</strong>
+            <p style="font-size:12px; color:#cbd5e1; line-height:1.6;">No final do dia, conte o dinheiro e o cartão e clique em <strong>"Cupom Térmico"</strong>. O sistema calcula a comissão exata de cada barbeiro (40%) e o lucro líquido da barbearia, pronto para imprimir na maquininha ou mandar no WhatsApp do dono.</p>
+          </div>
+
+          <div style="background:#151824; border:1px solid var(--border); border-radius:18px; padding:16px;">
+            <strong style="color:var(--gold); font-size:14px; display:block; margin-bottom:4px;">5. Painel Modo TV (Totem ao Vivo)</strong>
+            <p style="font-size:12px; color:#cbd5e1; line-height:1.6;">Abra o botão <strong>"Modo TV 📺"</strong> na Smart TV da barbearia e aperte F11. Ela exibe em tempo real quem está na cadeira, os próximos 3 da fila e um QR Code para novos clientes agendarem pelo celular enquanto esperam.</p>
+          </div>
+
+          <div style="background:#151824; border:1px solid var(--border); border-radius:18px; padding:16px;">
+            <strong style="color:var(--gold); font-size:14px; display:block; margin-bottom:4px;">6. Gestão de Folgas & Clube de Assinatura Individual</strong>
+            <p style="font-size:12px; color:#cbd5e1; line-height:1.6;">Barbeiros podem marcar folga rápida (Dia todo ou Turno), bloqueando a agenda para clientes. E na aba de <strong>Clube de Assinatura</strong>, cada barbeiro decide se quer vender o plano de 4 cortes mensais e define seu preço.</p>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:22px; text-align:center;">
+        <button class="btn-gold-primary" style="padding:12px 28px; width:100%;" onclick="fecharModalTutorial()">Entendi tudo, fechar tutorial ✓</button>
+      </div>
+
     </div>
   </div>
 
