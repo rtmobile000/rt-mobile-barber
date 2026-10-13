@@ -1530,9 +1530,89 @@
           renderizarListaBarbeariasSaaS();
           renderizarMarketplaceBarbearias();
       sincronizarBarbeariasSupabase();
+      sincronizarBarbeirosSupabase();
+      sincronizarServicosSupabase();
+      sincronizarProdutosSupabase();
         }
       } catch (e) {
         console.error('Erro ao buscar barbearias no Supabase:', e);
+      }
+    }
+
+    
+    // =========================================================
+    // SINCRONIZAÇÃO COMPLETA DE DADOS COM SUPABASE
+    // =========================================================
+    async function sincronizarBarbeirosSupabase() {
+      if (!supabaseClient) return;
+      try {
+        const { data, error } = await supabaseClient.from('barbers').select('*');
+        if (!error && data && data.length > 0) {
+          barbeirosDB = data.map(b => ({
+            id: b.id,
+            nome: b.name,
+            rank: b.rank || 'BARBER',
+            nota: b.rating || '5.0',
+            foto: b.photo_url || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=300',
+            instagram: b.instagram || '@barber.rt',
+            whatsapp: b.whatsapp || dadosBarbearia.whatsapp,
+            fidelidadeAtiva: true,
+            linkGoogleAvaliacao: dadosBarbearia.linkGoogleAvaliacao,
+            tags: ['CORTE', 'BARBA'],
+            emFolga: !!b.on_leave,
+            tipoFolga: b.leave_type || 'NENHUMA',
+            aceitaClubeAssinatura: !!b.accepts_club,
+            valorClube: parseFloat(b.club_price || 130)
+          }));
+          renderizarBarbeirosCasaBrava();
+          renderizarBarbeirosCompletosDono();
+          renderizarTabelaMatrizEquipe();
+          renderizarGestaoClubeBarbeiros();
+        }
+      } catch (err) {
+        console.warn('Erro ao carregar barbeiros:', err);
+      }
+    }
+
+    async function sincronizarServicosSupabase() {
+      if (!supabaseClient) return;
+      try {
+        const { data, error } = await supabaseClient.from('services').select('*');
+        if (!error && data && data.length > 0) {
+          servicosDB = data.map(s => ({
+            id: s.id,
+            nome: s.name,
+            preco: parseFloat(s.price),
+            duracaoMinutos: parseInt(s.duration_minutes || 30),
+            categoria: s.category || 'CORTE',
+            ativo: s.active !== false
+          }));
+          renderizarCarrosselServicosCliente();
+          renderizarServicosGestao();
+          renderizarPainelHorizontal4Colunas();
+        }
+      } catch (err) {
+        console.warn('Erro ao carregar serviços:', err);
+      }
+    }
+
+    async function sincronizarProdutosSupabase() {
+      if (!supabaseClient) return;
+      try {
+        const { data, error } = await supabaseClient.from('products').select('*');
+        if (!error && data && data.length > 0) {
+          estoqueDB = data.map(p => ({
+            id: p.id,
+            nome: p.name,
+            preco: parseFloat(p.price),
+            estoque: parseInt(p.stock || 0),
+            img: p.image_url || 'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=500&auto=format&fit=crop&q=80'
+          }));
+          renderizarEstoqueGestao();
+          renderizarLojaCliente();
+        }
+      } catch (err) {
+        console.warn('Erro ao carregar produtos:', err);
       }
     }
 
@@ -1543,7 +1623,7 @@
       }
       try {
         const payload = {
-          client_name: (sessaoUsuario && sessaoUsuario.nome) ? sessaoUsuario.nome : 'Cliente Balcão',
+          client_name: (sessaoUsuario && sessaoUsuario.nome && sessaoUsuario.nome !== 'Cliente RT') ? sessaoUsuario.nome : (document.getElementById('auth-inp-nome')?.value.trim() || 'Cliente Balcão'),
           client_phone: dadosBarbearia.whatsapp || '5591984551100',
           appointment_date: new Date().toISOString().split('T')[0],
           appointment_time: horaSelecionada || '09:00',
@@ -1724,6 +1804,9 @@
       renderizarListaBarbeariasSaaS();
       renderizarMarketplaceBarbearias();
       sincronizarBarbeariasSupabase();
+      sincronizarBarbeirosSupabase();
+      sincronizarServicosSupabase();
+      sincronizarProdutosSupabase();
       verificarLinkDiretoBarbearia();
       alert(`Status da barbearia "${barbeariasCadastradasSaaS[idx].nome}" atualizado!`);
     }
@@ -1747,6 +1830,9 @@
       renderizarListaBarbeariasSaaS();
       renderizarMarketplaceBarbearias();
       sincronizarBarbeariasSupabase();
+      sincronizarBarbeirosSupabase();
+      sincronizarServicosSupabase();
+      sincronizarProdutosSupabase();
       verificarLinkDiretoBarbearia();
       alert(`Barbearia "${nome}" cadastrada com sucesso!`);
     }
@@ -1886,6 +1972,9 @@
       document.getElementById('cliente-marketplace-barbearias').style.display = 'block';
       renderizarMarketplaceBarbearias();
       sincronizarBarbeariasSupabase();
+      sincronizarBarbeirosSupabase();
+      sincronizarServicosSupabase();
+      sincronizarProdutosSupabase();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -1907,6 +1996,9 @@
       renderizarListaBarbeariasSaaS();
       renderizarMarketplaceBarbearias();
       sincronizarBarbeariasSupabase();
+      sincronizarBarbeirosSupabase();
+      sincronizarServicosSupabase();
+      sincronizarProdutosSupabase();
       verificarLinkDiretoBarbearia();
       renderizarGestaoClubeBarbeiros();
       renderizarModoTVTotem();
@@ -1971,11 +2063,12 @@
       }
     }
 
-    function submeterAutenticacao() {
+        async function submeterAutenticacao() {
       const email = document.getElementById('auth-inp-email').value.trim().toLowerCase();
       const senha = document.getElementById('auth-inp-senha').value;
       const nome = document.getElementById('auth-inp-nome').value.trim();
       const foto = document.getElementById('auth-inp-foto').value.trim();
+      const btn = document.getElementById('btn-submit-action-auth');
 
       if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { alert('Digite um e-mail válido.'); return; }
       if (!senha || senha.length < 6) { alert('A senha deve ter pelo menos 6 caracteres.'); return; }
@@ -1997,8 +2090,56 @@
         sessao.trialExpiresAt = Date.now() + 48 * 60 * 60 * 1000;
       }
 
+      // Conexão e sincronização com Supabase Auth / Profiles
+      if (supabaseClient) {
+        btn.innerText = 'Processando... ⏳';
+        try {
+          if (authFormMode === 'CADASTRO') {
+            const { data: authData, error: authErr } = await supabaseClient.auth.signUp({
+              email: email,
+              password: senha,
+              options: { data: { full_name: sessao.nome, role: sessao.role } }
+            });
+            if (authData && authData.user) {
+              sessao.id = authData.user.id;
+              // Salvar no public.profiles
+              await supabaseClient.from('profiles').upsert([{
+                id: authData.user.id,
+                full_name: sessao.nome,
+                email: sessao.email,
+                role: sessao.role,
+                avatar_url: sessao.foto
+              }]);
+            }
+          } else {
+            // Login
+            const { data: logData, error: logErr } = await supabaseClient.auth.signInWithPassword({
+              email: email,
+              password: senha
+            });
+            if (logData && logData.user) {
+              sessao.id = logData.user.id;
+              // Tentar buscar perfil atualizado
+              const { data: prof } = await supabaseClient
+                .from('profiles')
+                .select('*')
+                .eq('id', logData.user.id)
+                .single();
+              if (prof && prof.full_name) {
+                sessao.nome = prof.full_name;
+                if (prof.role) sessao.role = prof.role;
+                if (prof.avatar_url) sessao.foto = prof.avatar_url;
+              }
+            }
+          }
+        } catch (e) {
+          console.warn('Supabase Auth offline ou modo local:', e);
+        }
+        btn.innerText = 'Entrar com segurança →';
+      }
+
       localStorage.setItem('rt_auth_session', JSON.stringify(sessao));
-      aplicarSessao(email, role, sessao);
+      aplicarSessao(email, sessao.role, sessao);
     }
 
     function aplicarSessao(email, role, sessao = {}) {
@@ -2426,13 +2567,30 @@
       renderizarTudo();
     }
 
-    function adicionarServicoPrompt() {
+    async function adicionarServicoPrompt() {
       const nome = prompt("Nome do Procedimento (ex: Platinado, Barboterapia):");
       if (!nome) return;
-      const preco = parseFloat(prompt("Preço de Venda (R$):", "50.00"));
-      const tempo = parseInt(prompt("Tempo estimado de atendimento em minutos (ex: 30, 45, 60):", "35"));
-      servicosDB.push({ id: 's_' + Date.now(), nome: nome.trim(), preco: isNaN(preco) ? 50.00 : preco, duracaoMinutos: isNaN(tempo) ? 30 : tempo, categoria: 'GERAL', ativo: true });
+      const preco = parseFloat(prompt("Preço de Venda (R$):", "50.00")) || 50.00;
+      const tempo = parseInt(prompt("Tempo estimado de atendimento em minutos (ex: 30, 45, 60):", "35")) || 30;
+
+      const novoS = {
+        name: nome.trim(),
+        price: preco,
+        duration_minutes: tempo,
+        category: 'GERAL',
+        active: true
+      };
+
+      if (supabaseClient) {
+        try {
+          await supabaseClient.from('services').insert([novoS]);
+          console.log('✅ Serviço gravado no Supabase!');
+        } catch(e) { console.warn('Erro ao salvar serviço no banco:', e); }
+      }
+
+      servicosDB.push({ id: 's_' + Date.now(), nome: nome.trim(), preco, duracaoMinutos: tempo, categoria: 'GERAL', ativo: true });
       renderizarTudo();
+      alert(`Procedimento "${nome.trim()}" cadastrado com sucesso!`);
     }
 
     // 7. CUPOM TÉRMICO E FECHAMENTO DE CAIXA
@@ -2617,18 +2775,36 @@
       });
     }
 
-    function adicionarBarbeiroPrompt() {
+    async function adicionarBarbeiroPrompt() {
       const nome = prompt('Nome completo do barbeiro:');
       if (!nome) return;
+      const rank = prompt('Cargo / Especialidade (ex: MASTER BARBER, SENIOR, BARBER):', 'BARBER') || 'BARBER';
+      const zap = prompt('WhatsApp (com DDD):', '5591984551100') || '5591984551100';
+
+      const novoB = {
+        name: nome.trim(),
+        rank: rank.toUpperCase(),
+        whatsapp: zap.trim(),
+        rating: '5.0 (0)',
+        photo_url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=300',
+        on_leave: false
+      };
+
+      if (supabaseClient) {
+        try {
+          await supabaseClient.from('barbers').insert([novoB]);
+          console.log('✅ Barbeiro gravado no Supabase!');
+        } catch(e) { console.warn('Erro ao salvar barbeiro no banco:', e); }
+      }
+
       barbeirosDB.push({
-        id: 'b_' + Date.now(), nome: nome.trim(), rank: 'BARBER', nota: '5.0 (0)',
-        foto: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=300',
-        instagram: '@barber.rt', whatsapp: '5591984551100',
-      fidelidadeAtiva: true,
-      linkGoogleAvaliacao: 'https://g.page/r/exemplo-rt-barber/review', tags: ['CORTE', 'BARBA'], emFolga: false, tipoFolga: 'NENHUMA'
+        id: 'b_' + Date.now(), nome: nome.trim(), rank: rank.toUpperCase(), nota: '5.0 (0)',
+        foto: novoB.photo_url, instagram: '@barber.rt', whatsapp: zap.trim(),
+        fidelidadeAtiva: true, linkGoogleAvaliacao: dadosBarbearia.linkGoogleAvaliacao,
+        tags: ['CORTE', 'BARBA'], emFolga: false, tipoFolga: 'NENHUMA'
       });
       renderizarTudo();
-      alert(`Barbeiro ${nome.trim()} adicionado à equipe.`);
+      alert(`Barbeiro ${nome.trim()} cadastrado com sucesso!`);
     }
 
     
@@ -2810,13 +2986,30 @@
       renderizarLojaCliente();
     }
 
-    function cadastrarProdutoEstoquePrompt() {
+    async function cadastrarProdutoEstoquePrompt() {
       const nome = prompt("Nome da Pomada / Produto:");
       if (!nome) return;
-      const preco = parseFloat(prompt("Preço de Venda (R$):", "45.00"));
-      estoqueDB.push({ id: 'p_' + Date.now(), nome: nome.trim(), preco: isNaN(preco) ? 45.00 : preco, estoque: 10, img: 'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=500&auto=format&fit=crop&q=80' });
+      const preco = parseFloat(prompt("Preço de Venda (R$):", "45.00")) || 45.00;
+      const qtd = parseInt(prompt("Quantidade inicial em estoque:", "10")) || 10;
+
+      const novoP = {
+        name: nome.trim(),
+        price: preco,
+        stock: qtd,
+        image_url: 'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=500&auto=format&fit=crop&q=80'
+      };
+
+      if (supabaseClient) {
+        try {
+          await supabaseClient.from('products').insert([novoP]);
+          console.log('✅ Produto gravado no Supabase!');
+        } catch(e) { console.warn('Erro ao salvar produto no banco:', e); }
+      }
+
+      estoqueDB.push({ id: 'p_' + Date.now(), nome: nome.trim(), preco, estoque: qtd, img: novoP.image_url });
       renderizarEstoqueGestao();
       renderizarLojaCliente();
+      alert(`Produto "${nome.trim()}" cadastrado com sucesso!`);
     }
 
     function salvarConfigSupabase() {
@@ -2828,6 +3021,9 @@
         if (window.supabase && url && key) {
           supabaseClient = window.supabase.createClient(url, key);
           sincronizarBarbeariasSupabase();
+      sincronizarBarbeirosSupabase();
+      sincronizarServicosSupabase();
+      sincronizarProdutosSupabase();
           alert('✅ Conexão com o Supabase estabelecida com sucesso!');
         } else {
           alert('Configuração salva! Insira a anon key para conectar em tempo real.');
