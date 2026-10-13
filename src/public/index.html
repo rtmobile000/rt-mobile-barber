@@ -45,7 +45,6 @@
       padding: 0;
     }
 
-    /* 1. SPLASH SCREEN */
     #splash-screen {
       position: fixed;
       inset: 0;
@@ -117,7 +116,6 @@
       z-index: 2;
     }
 
-    /* 2. TELA DE AUTENTICAÇÃO HÍBRIDA (LOGIN & CADASTRO) */
     #auth-screen-overlay {
       position: fixed;
       inset: 0;
@@ -202,29 +200,6 @@
       border: 1px solid var(--border);
     }
 
-    .sub-auth-mode-toggle {
-      display: flex;
-      justify-content: center;
-      gap: 16px;
-      margin-bottom: 18px;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 10px;
-    }
-    .sub-mode-btn {
-      background: none;
-      border: none;
-      font-size: 12px;
-      font-weight: 800;
-      color: var(--text-muted);
-      cursor: pointer;
-      padding-bottom: 4px;
-      transition: all 0.2s;
-    }
-    .sub-mode-btn.active {
-      color: var(--gold);
-      border-bottom: 2px solid var(--gold);
-    }
-
     .form-input-field {
       width: 100%;
       background: #141724;
@@ -259,7 +234,6 @@
     }
     .btn-submit-auth:hover { filter: brightness(1.07); transform: translateY(-1px); }
 
-    /* TOPBAR SAAS MASTER */
     .saas-status-bar {
       background: #090a0f;
       border-bottom: 1px solid var(--border);
@@ -284,7 +258,6 @@
       letter-spacing: 0.5px;
     }
     .badge-pill-status.vitalicio { background: rgba(168, 85, 247, 0.15); color: var(--purple); border: 1px solid rgba(168, 85, 247, 0.35); }
-    .badge-pill-status.trial { background: rgba(16, 185, 129, 0.15); color: var(--neon-green); border: 1px solid rgba(16, 185, 129, 0.35); }
 
     .btn-role-tab {
       background: #141622;
@@ -424,6 +397,8 @@
       padding: 28px;
       margin-bottom: 24px;
     }
+
+    /* ILHA FLUTUANTE / DOCK MOBILE */
     .floating-bottom-dock {
       position: fixed;
       bottom: 20px;
@@ -441,6 +416,7 @@
       align-items: center;
       padding: 0 12px;
       z-index: 1000;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.88);
     }
     @media (max-width: 768px) {
       .floating-bottom-dock { display: flex; }
@@ -462,6 +438,21 @@
     }
     .dock-tab-btn .lbl { font-size: 9px; font-weight: 800; text-transform: uppercase; margin-top: 3px; }
     .dock-tab-btn.active { color: var(--gold); }
+    .dock-center-scissor-btn {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: var(--gold);
+      color: #000;
+      border: 3px solid #090a0f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transform: translateY(-8px);
+      box-shadow: 0 8px 24px rgba(212, 163, 115, 0.5);
+      font-size: 22px;
+    }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -555,19 +546,32 @@
     <main class="main-viewport">
       <div class="workspace-inner">
 
-        <!-- 1. PORTAL DO CLIENTE -->
+        <!-- 1. PORTAL DO CLIENTE (MARKETPLACE) -->
         <section id="tab-cliente-portal-view" class="screen-tab-panel active">
           <div id="cliente-marketplace-barbearias">
             <div style="margin-bottom:24px;">
               <div style="font-size:11px; font-weight:900; color:var(--gold); letter-spacing:3px; text-transform:uppercase;">REDE RT MOBILE BARBER</div>
               <h2 style="font-size:26px; font-weight:900; text-transform:uppercase; margin:4px 0 6px;">Escolha sua Barbearia</h2>
-              <p style="font-size:13px; color:var(--text-muted);">Nenhuma barbearia ativa no momento. As barbearias aparecerão aqui assim que se cadastrarem na rede.</p>
+              <p style="font-size:13px; color:var(--text-muted);">Selecione o estabelecimento onde você deseja agendar seu horário hoje:</p>
             </div>
-            <div id="grid-barbearias-ativas-cliente"></div>
+            <!-- Lista limpa: exibe barbearias cadastradas. Caso nenhuma exista, exibe aviso elegante -->
+            <div id="grid-barbearias-ativas-cliente" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:18px;">
+              <div style="background:#111420; border:1px solid var(--border); border-radius:18px; padding:24px; text-align:center; color:var(--text-muted); font-size:13px;">
+                Nenhuma barbearia ativa no momento. As barbearias parceiras aparecerão aqui assim que realizarem o cadastro na rede.
+              </div>
+            </div>
           </div>
         </section>
 
-        <!-- 2. VISÃO GERAL (DONO) -->
+        <!-- 2. LOJA DE PRODUTOS (CLIENTE) -->
+        <section id="tab-cliente-loja-view" class="screen-tab-panel">
+          <div class="card-panel-dark">
+            <h3 style="font-size:16px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:12px;">Loja de Produtos & Pomadas</h3>
+            <p style="font-size:13px; color:var(--text-muted);">Compre com retirada rápida no balcão.</p>
+          </div>
+        </section>
+
+        <!-- 3. VISÃO GERAL (DONO) -->
         <section id="tab-visao-geral" class="screen-tab-panel">
           <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:18px; margin-bottom:24px;">
             <div class="card-panel-dark" style="margin-bottom:0;">
@@ -588,38 +592,54 @@
           </div>
         </section>
 
-        <!-- 3. CAIXA & COMANDAS -->
+        <!-- 4. CAIXA & COMANDAS -->
         <section id="tab-caixa-comandas" class="screen-tab-panel">
           <div class="card-panel-dark">
             <h3 style="font-size:16px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:12px;">Caixa & Comandas</h3>
           </div>
         </section>
 
-        <!-- 4. SERVIÇOS -->
+        <!-- 5. SERVIÇOS & PREÇOS -->
         <section id="tab-servicos-tabela" class="screen-tab-panel">
           <div class="card-panel-dark">
-            <h3 style="font-size:16px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:12px;">Catálogo de Serviços (Zerado)</h3>
+            <h3 style="font-size:16px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:12px;">Catálogo de Serviços & Preços</h3>
+            <p style="font-size:13px; color:var(--text-muted); margin-bottom:16px;">Cadastre seus procedimentos e defina os valores do zero:</p>
+            <div style="background:#151824; border:1px solid var(--border); border-radius:14px; padding:16px; display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <strong>Corte Degradê / Social</strong>
+                <div style="font-size:11px; color:var(--text-muted);">Duração: 30 min</div>
+              </div>
+              <div style="color:var(--gold); font-weight:900;">R$ 0,00 (Definir Valor)</div>
+            </div>
           </div>
         </section>
 
-        <!-- 5. BARBEIROS -->
+        <!-- 6. BARBEIROS -->
         <section id="tab-barbeiros-painel" class="screen-tab-panel">
           <div class="card-panel-dark">
-            <h3 style="font-size:16px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:12px;">Equipe (Nenhum cadastrado)</h3>
+            <h3 style="font-size:16px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:12px;">Equipe de Barbeiros</h3>
+            <p style="font-size:13px; color:var(--text-muted);">Nenhum profissional cadastrado. Clique para adicionar.</p>
           </div>
         </section>
 
-        <!-- 6. ESTOQUE -->
+        <!-- 7. ESTOQUE -->
         <section id="tab-estoque-geral" class="screen-tab-panel">
           <div class="card-panel-dark">
-            <h3 style="font-size:16px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:12px;">Estoque (Zerado)</h3>
+            <h3 style="font-size:16px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:12px;">Estoque de Produtos</h3>
+            <div style="background:#151824; border:1px solid var(--border); border-radius:14px; padding:16px; display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <strong>Pomada Modeladora Exemplo</strong>
+                <div style="font-size:11px; color:var(--text-muted);">Estoque Inicial</div>
+              </div>
+              <div style="color:var(--neon-green); font-weight:900;">0 un • R$ 0,00</div>
+            </div>
           </div>
         </section>
 
-        <!-- 7. CONFIGURAÇÕES -->
+        <!-- 8. CONFIGURAÇÕES -->
         <section id="tab-configuracoes-db" class="screen-tab-panel">
           <div class="card-panel-dark">
-            <h3 style="font-size:16px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:12px;">Configurações & Bio</h3>
+            <h3 style="font-size:16px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:12px;">Configurações & Link da Bio</h3>
           </div>
         </section>
 
@@ -627,8 +647,13 @@
     </main>
   </div>
 
+  <!-- ILHA FLUTUANTE (DOCK MOBILE) COM AS OPÇÕES DA REDE -->
   <nav class="floating-bottom-dock" id="dock-cliente-mobile">
     <button class="dock-tab-btn active" onclick="trocarAbaWorkspace('tab-cliente-portal-view', this)">🏠<span class="lbl">Início</span></button>
+    <button class="dock-tab-btn" onclick="trocarAbaWorkspace('tab-cliente-loja-view', this)">🛍️<span class="lbl">Loja</span></button>
+    <div class="dock-center-scissor-btn" onclick="trocarAbaWorkspace('tab-cliente-portal-view', this)">✂️</div>
+    <button class="dock-tab-btn" onclick="trocarAbaWorkspace('tab-barbeiros-painel', this)">💈<span class="lbl">Equipe</span></button>
+    <button class="dock-tab-btn" onclick="abrirModalTutorial()">📖<span class="lbl">Guia</span></button>
   </nav>
 
   <script>
@@ -648,9 +673,7 @@
       if (!senha || senha.length < 6) { alert('A senha deve ter pelo menos 6 caracteres.'); return; }
 
       const isAdmin = (email === 'roberthaelley75@gmail.com');
-      // Se for o seu e-mail de teste de cliente (ex: testedort00@gmail.com) ou qualquer outro cliente, abre na visão CLIENTE.
-      // Se for admin ou se selecionou a aba dono, abre no painel DONO.
-      const role = isAdmin ? 'SUPER_ADMIN' : (email.includes('teste') ? 'CLIENTE' : authUserType);
+      const role = isAdmin ? 'SUPER_ADMIN' : authUserType;
 
       let sessao = { email, role, loggedAt: Date.now() };
       localStorage.setItem('rt_auth_session', JSON.stringify(sessao));
@@ -715,10 +738,14 @@
       const target = document.getElementById(tabId);
       if (target) target.classList.add('active');
       if (btn) {
-        document.querySelectorAll('.side-nav-btn, .dock-tab-btn, .btn-role-tab').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.side-nav-btn, .dock-tab-btn, .btn-role-nav, .btn-role-tab').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
       }
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function abrirModalTutorial() {
+      alert('Guia de Ajuda do RT Mobile Barber • Sistema pronto para comercialização SaaS!');
     }
 
     window.addEventListener('load', () => {
