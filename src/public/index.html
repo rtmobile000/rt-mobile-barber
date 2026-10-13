@@ -900,7 +900,7 @@
         <!-- FORMULÁRIO DINÂMICO -->
         <div id="form-auth-container">
           <div id="campo-extra-nome" style="display:none;">
-            <label style="font-size:11px; font-weight:800; color:var(--text-muted); text-transform:uppercase; margin-bottom:6px; display:block;">Nome Completo / Barbearia:</label>
+            <label id="lbl-campo-nome-auth" style="font-size:11px; font-weight:800; color:var(--text-muted); text-transform:uppercase; margin-bottom:6px; display:block;">Seu Nome Completo:</label>
             <input type="text" id="auth-inp-nome" class="form-input-field" placeholder="Ex: Roberto Cruz ou Barbearia VIP">
           </div>
 
@@ -972,20 +972,45 @@
     <main class="main-viewport">
       <div class="workspace-inner">
 
-        <!-- 1. PORTAL DO CLIENTE -->
+        <!-- 1. PORTAL DO CLIENTE (MULTI-BARBEARIAS) -->
         <section id="tab-cliente-portal-view" class="screen-tab-panel active">
           
-          <div class="casa-brava-hero" id="banner-hero-establishment" style="background-image: url('https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=900');">
-            <div class="hero-casa-content">
-              <div class="hero-kicker-badge">BARBEARIA PREMIUM</div>
-              <h1 class="hero-casa-title" id="lbl-establishment-name">Sua rotina, refinada.</h1>
-              <p class="hero-casa-sub" id="lbl-establishment-address">Agende seu corte, escolha seu barbeiro e pague em segundos. Tudo na palma da mão.</p>
-              
-              <button class="btn-gold-primary" style="margin-top:18px; padding:15px 30px; font-size:12px;" onclick="rolarParaAgendamento()">
-                Toque para Agendar ➔
-              </button>
+          <!-- TELA A: SELEÇÃO DE BARBEARIAS ATIVAS (MARKETPLACE) -->
+          <div id="cliente-marketplace-barbearias">
+            <div style="margin-bottom:24px;">
+              <div style="font-size:11px; font-weight:900; color:var(--gold); letter-spacing:3px; text-transform:uppercase;">REDE RT MOBILE BARBER</div>
+              <h2 style="font-size:26px; font-weight:900; text-transform:uppercase; margin:4px 0 6px;">Escolha sua Barbearia</h2>
+              <p style="font-size:13px; color:var(--text-muted);">Selecione o estabelecimento onde você deseja agendar seu horário hoje:</p>
             </div>
+
+            <!-- GRID DE BARBEARIAS COM PLANOS ATIVOS -->
+            <div id="grid-barbearias-ativas-cliente" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:18px; margin-bottom:32px;"></div>
           </div>
+
+          <!-- TELA B: PAINEL DA BARBEARIA SELECIONADA -->
+          <div id="cliente-portal-barbearia-selecionada" style="display:none;">
+            
+            <!-- BARRA DE TOPO COM BOTÃO DE VOLTAR/TROCAR BARBEARIA -->
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; background:#121522; padding:10px 16px; border-radius:14px; border:1px solid var(--border);">
+              <button onclick="voltarParaMarketplaceBarbearias()" class="btn-dark-secondary" style="font-size:11px; padding:6px 12px; display:inline-flex; align-items:center; gap:6px;">
+                ← Escolher outra barbearia
+              </button>
+              <div style="font-size:11px; color:var(--gold); font-weight:800;">
+                <span id="lbl-badge-barbearia-atual">RT Mobile Barber</span> ✓
+              </div>
+            </div>
+
+            <div class="casa-brava-hero" id="banner-hero-establishment" style="background-image: url('https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=900');">
+              <div class="hero-casa-content">
+                <div class="hero-kicker-badge">BARBEARIA PREMIUM</div>
+                <h1 class="hero-casa-title" id="lbl-establishment-name">Sua rotina, refinada.</h1>
+                <p class="hero-casa-sub" id="lbl-establishment-address">Agende seu corte, escolha seu barbeiro e pague em segundos. Tudo na palma da mão.</p>
+                
+                <button class="btn-gold-primary" style="margin-top:18px; padding:15px 30px; font-size:12px;" onclick="rolarParaAgendamento()">
+                  Toque para Agendar ➔
+                </button>
+              </div>
+            </div>
 
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
             <h3 style="font-size:15px; font-weight:900; text-transform:uppercase; letter-spacing:1px; color:#fff;">Serviços em Destaque</h3>
@@ -1053,6 +1078,7 @@
               </div>
             </div>
           </div>
+          </div><!-- FIM DE #cliente-portal-barbearia-selecionada -->
         </section>
 
         <!-- 2. LOJA DE PRODUTOS -->
@@ -1562,9 +1588,9 @@
     // BASE DE DADOS MULTI-BARBEARIAS (SAAS PLATAFORMA)
     // =========================================================
     let barbeariasCadastradasSaaS = [
-      { id: 'bb1', nome: 'RT Mobile Barber - Unidade Centro', dono: 'Robert Haelley', email: 'roberthaelley75@gmail.com', whatsapp: '5591984551100', plano: 'Vitalício', status: 'Ativo', valorMensal: 0 },
-      { id: 'bb2', nome: 'Barbearia Dom Mustache', dono: 'Carlos Eduardo', email: 'carlos@dommustache.com', whatsapp: '5591981234567', plano: 'Mensal Pro', status: 'Ativo', valorMensal: 50.00 },
-      { id: 'bb3', nome: 'Navalha de Ouro Barber Shop', dono: 'Rodrigo Silva', email: 'rodrigo@navalhaouro.com', whatsapp: '5591982345678', plano: 'Teste 48h', status: 'Ativo', valorMensal: 50.00 }
+      { id: 'bb1', nome: 'RT Mobile Barber - Unidade Centro', dono: 'Robert Haelley', email: 'roberthaelley75@gmail.com', whatsapp: '5591984551100', plano: 'Vitalício', status: 'Ativo', valorMensal: 0, endereco: 'Av. Barão do Rio Branco, Centro, Santa Izabel do Pará - PA', foto: 'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=900' },
+      { id: 'bb2', nome: 'Barbearia Dom Mustache', dono: 'Carlos Eduardo', email: 'carlos@dommustache.com', whatsapp: '5591981234567', plano: 'Mensal Pro', status: 'Ativo', valorMensal: 50.00, endereco: 'Rua São Cristóvão, 142, Castanhal - PA', foto: 'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?q=80&w=900' },
+      { id: 'bb3', nome: 'Navalha de Ouro Barber Shop', dono: 'Rodrigo Silva', email: 'rodrigo@navalhaouro.com', whatsapp: '5591982345678', plano: 'Teste 48h', status: 'Ativo', valorMensal: 50.00, endereco: 'Travessa Mauriti, Marco, Belém - PA', foto: 'https://images.unsplash.com/photo-1621607512214-68297480165e?q=80&w=900' }
     ];
 
     function renderizarListaBarbeariasSaaS() {
@@ -1614,6 +1640,8 @@
     function alternarStatusSaaS(idx) {
       barbeariasCadastradasSaaS[idx].status = barbeariasCadastradasSaaS[idx].status === 'Ativo' ? 'Bloqueado' : 'Ativo';
       renderizarListaBarbeariasSaaS();
+      renderizarMarketplaceBarbearias();
+      verificarLinkDiretoBarbearia();
       alert(`Status da barbearia "${barbeariasCadastradasSaaS[idx].nome}" atualizado!`);
     }
 
@@ -1634,6 +1662,8 @@
         valorMensal: 50.00
       });
       renderizarListaBarbeariasSaaS();
+      renderizarMarketplaceBarbearias();
+      verificarLinkDiretoBarbearia();
       alert(`Barbearia "${nome}" cadastrada com sucesso!`);
     }
 
@@ -1685,8 +1715,113 @@
       alert("Sua folga foi registrada e sua agenda foi fechada para novos agendamentos!");
     }
 
+    
+    // =========================================================
+    // MARKETPLACE MULTI-BARBEARIAS (ÁREA DO CLIENTE)
+    // =========================================================
+    let barbeariaAtivaSelecionada = null;
+
+    function renderizarMarketplaceBarbearias() {
+      const grid = document.getElementById('grid-barbearias-ativas-cliente');
+      if (!grid) return;
+      grid.innerHTML = '';
+
+      // Filtra estritamente apenas as barbearias com status 'Ativo'
+      const ativas = barbeariasCadastradasSaaS.filter(b => b.status === 'Ativo');
+
+      if (ativas.length === 0) {
+        grid.innerHTML = '<div style="color:var(--text-muted); font-size:13px;">Nenhuma barbearia com plano ativo no momento.</div>';
+        return;
+      }
+
+      ativas.forEach(bb => {
+        const foto = bb.foto || 'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=900';
+        const endereco = bb.endereco || 'Centro, Santa Izabel do Pará - PA';
+
+        const card = document.createElement('div');
+        card.style.background = '#111420';
+        card.style.border = '1.5px solid var(--border)';
+        card.style.borderRadius = '22px';
+        card.style.overflow = 'hidden';
+        card.style.cursor = 'pointer';
+        card.style.transition = 'all 0.25s ease';
+        card.onclick = () => selecionarBarbeariaCliente(bb.id);
+
+        card.innerHTML = `
+          <div style="width:100%; height:160px; background:url('${foto}') center/cover no-repeat; position:relative;">
+            <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(10,12,18,0.95) 100%);"></div>
+            <span style="position:absolute; top:12px; left:12px; background:rgba(16,185,129,0.2); color:var(--neon-green); border:1px solid rgba(16,185,129,0.4); font-size:10px; font-weight:900; padding:4px 10px; border-radius:8px; text-transform:uppercase;">
+              ● Aberto Agora
+            </span>
+            <span style="position:absolute; top:12px; right:12px; background:rgba(0,0,0,0.6); color:var(--gold); border:1px solid var(--gold); font-size:10px; font-weight:900; padding:4px 8px; border-radius:8px;">
+              ★ 4.9 (140+)
+            </span>
+          </div>
+
+          <div style="padding:18px;">
+            <h3 style="font-size:16px; font-weight:900; color:#fff; text-transform:uppercase; margin-bottom:4px;">${bb.nome}</h3>
+            <p style="font-size:12px; color:var(--text-muted); margin-bottom:14px; line-height:1.4;">📍 ${endereco}</p>
+
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span style="font-size:11px; color:var(--gold); font-weight:800;">A partir de R$ 40,00</span>
+              <button class="btn-gold-primary" style="padding:8px 16px; font-size:11px;" onclick="event.stopPropagation(); selecionarBarbeariaCliente('${bb.id}')">
+                Acessar Barbearia ➔
+              </button>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function selecionarBarbeariaCliente(bbId) {
+      const bb = barbeariasCadastradasSaaS.find(b => b.id === bbId) || barbeariasCadastradasSaaS[0];
+      barbeariaAtivaSelecionada = bb;
+
+      // Atualiza os dados visuais da barbearia no portal do cliente
+      dadosBarbearia.nome = bb.nome;
+      dadosBarbearia.endereco = bb.endereco || 'Centro, Santa Izabel do Pará - PA';
+      dadosBarbearia.foto = bb.foto || 'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=900';
+      dadosBarbearia.whatsapp = bb.whatsapp || '5591984551100';
+
+      if (document.getElementById('lbl-establishment-name')) document.getElementById('lbl-establishment-name').innerText = bb.nome;
+      if (document.getElementById('lbl-establishment-address')) document.getElementById('lbl-establishment-address').innerText = dadosBarbearia.endereco;
+      if (document.getElementById('banner-hero-establishment')) document.getElementById('banner-hero-establishment').style.backgroundImage = `url('${dadosBarbearia.foto}')`;
+      if (document.getElementById('lbl-badge-barbearia-atual')) document.getElementById('lbl-badge-barbearia-atual').innerText = bb.nome;
+
+      // Esconde marketplace e exibe o portal da barbearia
+      document.getElementById('cliente-marketplace-barbearias').style.display = 'none';
+      document.getElementById('cliente-portal-barbearia-selecionada').style.display = 'block';
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function voltarParaMarketplaceBarbearias() {
+      barbeariaAtivaSelecionada = null;
+      document.getElementById('cliente-portal-barbearia-selecionada').style.display = 'none';
+      document.getElementById('cliente-marketplace-barbearias').style.display = 'block';
+      renderizarMarketplaceBarbearias();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Verificar se o cliente entrou com link direto de barbearia (ex: ?b=bb2 ou #barbearia=bb2)
+    function verificarLinkDiretoBarbearia() {
+      const params = new URLSearchParams(window.location.search);
+      const bbParam = params.get('b') || params.get('barbearia');
+      if (bbParam) {
+        const existe = barbeariasCadastradasSaaS.find(b => b.id === bbParam || b.nome.toLowerCase().includes(bbParam.toLowerCase()));
+        if (existe && existe.status === 'Ativo') {
+          selecionarBarbeariaCliente(existe.id);
+          return true;
+        }
+      }
+      return false;
+    }
+
     function renderizarTudo() {
       renderizarListaBarbeariasSaaS();
+      renderizarMarketplaceBarbearias();
+      verificarLinkDiretoBarbearia();
       renderizarGestaoClubeBarbeiros();
       renderizarModoTVTotem();
       renderizarCarrosselServicosCliente();
@@ -1728,6 +1863,19 @@
     function atualizarTextosAuth() {
       const btn = document.getElementById('btn-submit-action-auth');
       const feedback = document.getElementById('auth-feedback');
+      const lblNome = document.getElementById('lbl-campo-nome-auth');
+      const inpNome = document.getElementById('auth-inp-nome');
+
+      if (lblNome && inpNome) {
+        if (authUserType === 'CLIENTE') {
+          lblNome.innerText = 'Seu Nome Completo:';
+          inpNome.placeholder = 'Ex: Roberto Cruz';
+        } else {
+          lblNome.innerText = 'Nome da Barbearia (Estabelecimento):';
+          inpNome.placeholder = 'Ex: Barbearia Dom Mustache';
+        }
+      }
+
       if (authFormMode === 'LOGIN') {
         btn.innerText = 'Entrar com segurança →';
         feedback.innerText = authUserType === 'DONO' ? 'Acesso ao painel administrativo da barbearia.' : 'Entre para acompanhar seus horários e pontos.';
