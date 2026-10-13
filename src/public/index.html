@@ -1071,7 +1071,10 @@
         <section id="tab-caixa-comandas" class="screen-tab-panel">
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:22px;">
             <div class="card-panel-dark">
-              <h3 style="font-size:15px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:14px;">Comandas na Cadeira com Histórico de Corte</h3>
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:8px;">
+                <h3 style="font-size:15px; font-weight:900; color:var(--gold); text-transform:uppercase; margin:0;">Comandas na Cadeira & Atendimento</h3>
+                <button class="btn-gold-primary" style="padding:8px 14px; font-size:11px;" onclick="abrirModalBalcaoExpress()">+ Cliente de Balcão (Express) ⚡</button>
+              </div>
               <div id="lista-comandas-ativas"></div>
             </div>
 
@@ -1180,7 +1183,17 @@
               <input type="text" id="cfg-inp-endereco" class="form-input-field" value="Centro, Santa Izabel do Pará – PA">
               <input type="text" id="cfg-inp-foto" class="form-input-field" value="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=900">
               <input type="text" id="cfg-inp-pix" class="form-input-field" value="contato@rtmobilebarber.com.br">
-              <button class="btn-gold-primary" style="width:100%;" onclick="salvarConfiguracoesGerais()">Salvar Informações ↗</button>
+              
+              <h3 style="font-size:15px; font-weight:900; color:var(--gold); text-transform:uppercase; margin:16px 0 10px;">Fidelidade & Google Meu Negócio</h3>
+              <label style="font-size:11px; color:#cbd5e1; display:flex; align-items:center; gap:8px; margin-bottom:12px; cursor:pointer;">
+                <input type="checkbox" id="cfg-chk-fidelidade" checked style="width:18px; height:18px; accent-color:var(--gold);">
+                <strong>Ativar Programa de Fidelidade (10 Cortes = 1 Grátis)</strong>
+              </label>
+              
+              <label style="font-size:10px; color:var(--text-muted); text-transform:uppercase;">Link de Avaliação Google Meu Negócio:</label>
+              <input type="text" id="cfg-inp-google" class="form-input-field" value="https://g.page/r/exemplo-rt-barber/review" placeholder="Link curto de avaliação do Google">
+              
+              <button class="btn-gold-primary" style="width:100%;" onclick="salvarConfiguracoesGerais()">Salvar Todas as Configurações ↗</button>
             </div>
           </div>
         </section>
@@ -1321,7 +1334,9 @@
       endereco: 'Centro, Santa Izabel do Pará – PA',
       foto: 'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=900',
       chavePix: 'contato@rtmobilebarber.com.br',
-      whatsapp: '5591984551100'
+      whatsapp: '5591984551100',
+      fidelidadeAtiva: true,
+      linkGoogleAvaliacao: 'https://g.page/r/exemplo-rt-barber/review'
     };
 
     // 11 SERVIÇOS REAIS DE BARBEARIA
@@ -1341,10 +1356,18 @@
 
     // BARBEIROS COM CONTROLE DE FOLGA & CLUBE DE ASSINATURA INDIVIDUAL
     let barbeirosDB = [
-      { id: 'b1', nome: 'Vicente Cruz', rank: 'MASTER BARBER', nota: '4.9 (128)', foto: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=300', instagram: '@vicente.barber', whatsapp: '5591984551100', tags: ['CORTE CLÁSSICO', 'BARBA'], emFolga: false, tipoFolga: 'NENHUMA', aceitaClubeAssinatura: true, valorClube: 140.00 },
-      { id: 'b2', nome: 'Arthur Mendes', rank: 'SENIOR BARBER', nota: '4.8 (94)', foto: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=300', instagram: '@arthur.barber', whatsapp: '5591984551100', tags: ['DEGRADÊ', 'NAVALHADO'], emFolga: false, tipoFolga: 'NENHUMA', aceitaClubeAssinatura: false, valorClube: 130.00 },
-      { id: 'b3', nome: 'Rodrigo Fade', rank: 'STYLIST', nota: '4.9 (210)', foto: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?q=80&w=300', instagram: '@rodrigo.fade', whatsapp: '5591984551100', tags: ['PIGMENTAÇÃO', 'TESOURA'], emFolga: false, tipoFolga: 'NENHUMA', aceitaClubeAssinatura: true, valorClube: 150.00 },
-      { id: 'b4', nome: 'Matheus Alves', rank: 'BARBER', nota: '4.7 (76)', foto: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=300', instagram: '@matheus.cut', whatsapp: '5591984551100', tags: ['LUZES', 'NEVOU'], emFolga: true, tipoFolga: 'DIA TODO', aceitaClubeAssinatura: false, valorClube: 120.00 }
+      { id: 'b1', nome: 'Vicente Cruz', rank: 'MASTER BARBER', nota: '4.9 (128)', foto: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=300', instagram: '@vicente.barber', whatsapp: '5591984551100',
+      fidelidadeAtiva: true,
+      linkGoogleAvaliacao: 'https://g.page/r/exemplo-rt-barber/review', tags: ['CORTE CLÁSSICO', 'BARBA'], emFolga: false, tipoFolga: 'NENHUMA', aceitaClubeAssinatura: true, valorClube: 140.00 },
+      { id: 'b2', nome: 'Arthur Mendes', rank: 'SENIOR BARBER', nota: '4.8 (94)', foto: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=300', instagram: '@arthur.barber', whatsapp: '5591984551100',
+      fidelidadeAtiva: true,
+      linkGoogleAvaliacao: 'https://g.page/r/exemplo-rt-barber/review', tags: ['DEGRADÊ', 'NAVALHADO'], emFolga: false, tipoFolga: 'NENHUMA', aceitaClubeAssinatura: false, valorClube: 130.00 },
+      { id: 'b3', nome: 'Rodrigo Fade', rank: 'STYLIST', nota: '4.9 (210)', foto: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?q=80&w=300', instagram: '@rodrigo.fade', whatsapp: '5591984551100',
+      fidelidadeAtiva: true,
+      linkGoogleAvaliacao: 'https://g.page/r/exemplo-rt-barber/review', tags: ['PIGMENTAÇÃO', 'TESOURA'], emFolga: false, tipoFolga: 'NENHUMA', aceitaClubeAssinatura: true, valorClube: 150.00 },
+      { id: 'b4', nome: 'Matheus Alves', rank: 'BARBER', nota: '4.7 (76)', foto: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=300', instagram: '@matheus.cut', whatsapp: '5591984551100',
+      fidelidadeAtiva: true,
+      linkGoogleAvaliacao: 'https://g.page/r/exemplo-rt-barber/review', tags: ['LUZES', 'NEVOU'], emFolga: true, tipoFolga: 'DIA TODO', aceitaClubeAssinatura: false, valorClube: 120.00 }
     ];
 
     let estoqueDB = [
@@ -1748,18 +1771,26 @@
         div.style.flexWrap = 'wrap';
         div.style.gap = '10px';
 
+        const fidelidadeHtml = dadosBarbearia.fidelidadeAtiva ? `<div style="display:inline-block; margin-top:4px; padding:3px 8px; border-radius:6px; background:rgba(212,163,115,0.15); border:1px solid var(--gold); font-size:10px; font-weight:900; color:var(--gold);">⭐ Fidelidade: ${item.cortesFidelidade || 1}/10 Cortes</div>` : '';
         div.innerHTML = `
           <div>
             <div style="font-size:14px; font-weight:900; color:#fff;">${item.clienteNome} <span style="font-size:11px; color:var(--gold);">(${item.horario})</span></div>
             <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">${item.servico} • Barbeiro: <strong>${item.barbeiro}</strong></div>
-            <div style="font-size:11px; color:var(--neon-green); font-weight:800; margin-top:4px;">✂️ Pente usado: ${item.penteHistorico}</div>
+            <div style="font-size:11px; color:var(--neon-green); font-weight:800; margin-top:4px;">✂️ Pente: ${item.penteHistorico}</div>
+            ${fidelidadeHtml}
           </div>
           <div style="display:flex; gap:8px; flex-wrap:wrap;">
-            <button class="btn-dark-secondary" style="font-size:11px; padding:9px 14px; border-color:var(--gold); color:var(--gold);" onclick="enviarLembrete1HoraAntes(${idx})">
-              Lembrete 1h Antes ⏰
+            <button class="btn-dark-secondary" style="font-size:11px; padding:8px 12px; border-color:var(--gold); color:var(--gold);" onclick="enviarLembrete1HoraAntes(${idx})">
+              Lembrete 1h ⏰
             </button>
-            <button class="btn-gold-primary" style="background:#25d366; color:#000; font-size:11px; padding:9px 14px;" onclick="chamarClienteNaVez(${idx})">
-              Sua vez na cadeira! 💺
+            <button class="btn-gold-primary" style="background:#25d366; color:#000; font-size:11px; padding:8px 12px;" onclick="chamarClienteNaVez(${idx})">
+              Na Cadeira! 💺
+            </button>
+            <button class="btn-dark-secondary" style="font-size:11px; padding:8px 12px; border-color:var(--neon-green); color:var(--neon-green);" onclick="finalizarComandaComFidelidade(${idx})">
+              Concluir & Fidelidade ✓
+            </button>
+            <button class="btn-dark-secondary" style="font-size:11px; padding:8px 12px; border-color:#3b82f6; color:#3b82f6;" onclick="enviarAvaliacaoGoogleWhatsApp(${idx})">
+              Google 5★ ⭐
             </button>
           </div>
         `;
@@ -2068,7 +2099,9 @@
       barbeirosDB.push({
         id: 'b_' + Date.now(), nome: nome.trim(), rank: 'BARBER', nota: '5.0 (0)',
         foto: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=300',
-        instagram: '@barber.rt', whatsapp: '5591984551100', tags: ['CORTE', 'BARBA'], emFolga: false, tipoFolga: 'NENHUMA'
+        instagram: '@barber.rt', whatsapp: '5591984551100',
+      fidelidadeAtiva: true,
+      linkGoogleAvaliacao: 'https://g.page/r/exemplo-rt-barber/review', tags: ['CORTE', 'BARBA'], emFolga: false, tipoFolga: 'NENHUMA'
       });
       renderizarTudo();
       alert(`Barbeiro ${nome.trim()} adicionado à equipe.`);
@@ -2278,6 +2311,8 @@
       dadosBarbearia.endereco = document.getElementById('cfg-inp-endereco').value;
       dadosBarbearia.foto = document.getElementById('cfg-inp-foto').value;
       dadosBarbearia.chavePix = document.getElementById('cfg-inp-pix').value;
+      dadosBarbearia.fidelidadeAtiva = document.getElementById('cfg-chk-fidelidade').checked;
+      dadosBarbearia.linkGoogleAvaliacao = document.getElementById('cfg-inp-google').value;
       document.getElementById('lbl-establishment-name').innerText = dadosBarbearia.nome;
       document.getElementById('lbl-establishment-address').innerText = dadosBarbearia.endereco;
       document.getElementById('side-nome-barbearia').innerText = dadosBarbearia.nome;
@@ -2296,9 +2331,144 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    
+    // =========================================================
+    // 1. COMANDA DE BALCÃO EXPRESS (WALK-IN)
+    // =========================================================
+    function abrirModalBalcaoExpress() {
+      const selBarbeiro = document.getElementById('express-sel-barbeiro');
+      const selServico = document.getElementById('express-sel-servico');
+      
+      if (selBarbeiro) {
+        selBarbeiro.innerHTML = '';
+        barbeirosDB.forEach(b => {
+          if (!b.emFolga) {
+            const opt = document.createElement('option');
+            opt.value = b.nome;
+            opt.innerText = b.nome + ' (' + b.rank + ')';
+            selBarbeiro.appendChild(opt);
+          }
+        });
+      }
+
+      if (selServico) {
+        selServico.innerHTML = '';
+        servicosDB.filter(s => s.ativo).forEach(s => {
+          const opt = document.createElement('option');
+          opt.value = s.id;
+          opt.innerText = `${s.nome} - R$ ${s.preco.toFixed(2)}`;
+          selServico.appendChild(opt);
+        });
+      }
+
+      document.getElementById('modal-balcao-express').style.display = 'flex';
+    }
+
+    function fecharModalBalcaoExpress() {
+      document.getElementById('modal-balcao-express').style.display = 'none';
+    }
+
+    function lancarClienteBalcaoExpress() {
+      const nome = document.getElementById('express-inp-nome').value.trim() || 'Cliente Balcão';
+      const telefone = document.getElementById('express-inp-telefone').value.trim() || dadosBarbearia.whatsapp;
+      const barbeiroNome = document.getElementById('express-sel-barbeiro').value;
+      const servicoId = document.getElementById('express-sel-servico').value;
+      const servicoObj = servicosDB.find(s => s.id === servicoId) || servicosDB[0];
+      const formaPag = document.getElementById('express-sel-pagamento').value;
+      const horaAtual = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+
+      // Adiciona na fila e na comanda ativa
+      filaAtendimentos.unshift({
+        id: 'f_' + Date.now(),
+        clienteNome: nome,
+        telefone: telefone,
+        servico: servicoObj.nome,
+        barbeiro: barbeiroNome,
+        horario: horaAtual,
+        penteHistorico: 'Atendimento de balcão express - padrão',
+        cortesFidelidade: 3 // Exemplo de histórico
+      });
+
+      // Atualiza valores no caixa
+      if (formaPag === 'DINHEIRO') {
+        const inp = document.getElementById('inp-fech-dinheiro');
+        if (inp) inp.value = (parseFloat(inp.value || 0) + servicoObj.preco).toFixed(2);
+      } else if (formaPag === 'PIX') {
+        const inp = document.getElementById('inp-fech-pix');
+        if (inp) inp.value = (parseFloat(inp.value || 0) + servicoObj.preco).toFixed(2);
+      } else {
+        const inp = document.getElementById('inp-fech-cartao');
+        if (inp) inp.value = (parseFloat(inp.value || 0) + servicoObj.preco).toFixed(2);
+      }
+
+      fecharModalBalcaoExpress();
+      renderizarTudo();
+      alert(`Cliente "${nome}" lançado com sucesso na cadeira de ${barbeiroNome} e somado ao caixa!`);
+    }
+
+    // =========================================================
+    // 2. PROGRAMA DE FIDELIDADE & GOOGLE MEU NEGÓCIO
+    // =========================================================
+    function finalizarComandaComFidelidade(idx) {
+      const item = filaAtendimentos[idx];
+      item.cortesFidelidade = (item.cortesFidelidade || 0) + 1;
+
+      if (dadosBarbearia.fidelidadeAtiva && item.cortesFidelidade >= 10) {
+        alert(`🎉 PARABÉNS! ${item.clienteNome} completou 10 cortes! O próximo corte deste cliente é 100% GRÁTIS por conta da casa!`);
+        item.cortesFidelidade = 0; // Reinicia ciclo
+      } else if (dadosBarbearia.fidelidadeAtiva) {
+        alert(`Corte registrado! ${item.clienteNome} tem agora ${item.cortesFidelidade}/10 cortes no Cartão Fidelidade.`);
+      }
+
+      // Oferecer envio da avaliação Google Meu Negócio
+      if (confirm(`Deseja enviar o link de avaliação 5 estrelas do Google Meu Negócio para ${item.clienteNome} no WhatsApp?`)) {
+        enviarAvaliacaoGoogleWhatsApp(idx);
+      }
+
+      renderizarTudo();
+    }
+
+    function enviarAvaliacaoGoogleWhatsApp(idx) {
+      const item = filaAtendimentos[idx];
+      const link = dadosBarbearia.linkGoogleAvaliacao || 'https://g.page/r/exemplo-rt-barber/review';
+      const msg = `Fala ${item.clienteNome}, beleza? Valeu demais pela preferência hoje no seu corte com o barbeiro ${item.barbeiro} no RT Mobile Barber! 💈✂️\n\nSe curtiu o resultado, poderia nos dar uma força avaliando com 5 estrelas no Google? Leva só 20 segundos e ajuda muito nosso trabalho: ${link}\n\nTamo junto e até a próxima!`;
+      window.open(`https://wa.me/${item.telefone}?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
     function trocarAbaMobileCliente(tabId, btn) {
       trocarAbaWorkspace(tabId, btn);
     }
   </script>
+  <!-- MODAL COMANDA DE BALCÃO EXPRESS (WALK-IN) -->
+  <div id="modal-balcao-express" style="position:fixed; inset:0; background:rgba(0,0,0,0.92); backdrop-filter:blur(14px); z-index:999995; display:none; align-items:center; justify-content:center; padding:16px;">
+    <div style="background:#11131c; border:1.5px solid var(--gold); border-radius:24px; max-width:440px; width:100%; padding:26px; box-shadow:0 24px 60px rgba(0,0,0,0.95);">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:12px; margin-bottom:16px;">
+        <h3 style="font-size:16px; font-weight:900; color:var(--gold); text-transform:uppercase;">+ Cliente de Balcão (Express) ⚡</h3>
+        <button onclick="fecharModalBalcaoExpress()" style="background:#1e2333; border:none; color:#fff; width:30px; height:30px; border-radius:50%; cursor:pointer;">✕</button>
+      </div>
+      
+      <label style="font-size:11px; font-weight:800; color:var(--text-muted); text-transform:uppercase; margin-bottom:6px; display:block;">Nome do Cliente:</label>
+      <input type="text" id="express-inp-nome" class="form-input-field" placeholder="Ex: Felipe (sem agendamento)">
+
+      <label style="font-size:11px; font-weight:800; color:var(--text-muted); text-transform:uppercase; margin-bottom:6px; display:block;">WhatsApp (Opcional):</label>
+      <input type="text" id="express-inp-telefone" class="form-input-field" placeholder="55919..." value="5591984551100">
+
+      <label style="font-size:11px; font-weight:800; color:var(--text-muted); text-transform:uppercase; margin-bottom:6px; display:block;">Barbeiro da Cadeira:</label>
+      <select id="express-sel-barbeiro" class="form-input-field" style="background:#141724; color:#fff;"></select>
+
+      <label style="font-size:11px; font-weight:800; color:var(--text-muted); text-transform:uppercase; margin-bottom:6px; display:block;">Procedimento Realizado:</label>
+      <select id="express-sel-servico" class="form-input-field" style="background:#141724; color:#fff;"></select>
+
+      <label style="font-size:11px; font-weight:800; color:var(--text-muted); text-transform:uppercase; margin-bottom:6px; display:block;">Forma de Pagamento:</label>
+      <select id="express-sel-pagamento" class="form-input-field" style="background:#141724; color:#fff;">
+        <option value="DINHEIRO">Dinheiro</option>
+        <option value="PIX">Pix</option>
+        <option value="CARTAO">Cartão de Débito / Crédito</option>
+      </select>
+
+      <button class="btn-gold-primary" style="width:100%; padding:14px; margin-top:8px;" onclick="lancarClienteBalcaoExpress()">Lançar na Cadeira & Caixa ➔</button>
+    </div>
+  </div>
+
 </body>
 </html>
