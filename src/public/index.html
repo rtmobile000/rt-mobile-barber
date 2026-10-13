@@ -45,6 +45,7 @@
       padding: 0;
     }
 
+    /* 1. SPLASH SCREEN */
     #splash-screen {
       position: fixed;
       inset: 0;
@@ -116,6 +117,7 @@
       z-index: 2;
     }
 
+    /* 2. TELA DE AUTENTICAÇÃO HÍBRIDA (LOGIN & CADASTRO COM FOTO) */
     #auth-screen-overlay {
       position: fixed;
       inset: 0;
@@ -200,6 +202,29 @@
       border: 1px solid var(--border);
     }
 
+    .sub-auth-mode-toggle {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 18px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 10px;
+    }
+    .sub-mode-btn {
+      background: none;
+      border: none;
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding-bottom: 4px;
+      transition: all 0.2s;
+    }
+    .sub-mode-btn.active {
+      color: var(--gold);
+      border-bottom: 2px solid var(--gold);
+    }
+
     .form-input-field {
       width: 100%;
       background: #141724;
@@ -234,6 +259,7 @@
     }
     .btn-submit-auth:hover { filter: brightness(1.07); transform: translateY(-1px); }
 
+    /* TOPBAR MASTER */
     .saas-status-bar {
       background: #090a0f;
       border-bottom: 1px solid var(--border);
@@ -467,7 +493,7 @@
     <div class="splash-tagline">SISTEMA DE GESTÃO PROFISSIONAL</div>
   </div>
 
-  <!-- AUTH SCREEN -->
+  <!-- AUTH SCREEN (LOGIN & CADASTRO COM FOTO) -->
   <div id="auth-screen-overlay">
     <div class="auth-split-wrapper">
       <div class="auth-hero-side">
@@ -492,7 +518,22 @@
           <button class="auth-tab-btn" id="btn-tab-auth-dono" onclick="alternarAbaTipoUsuario('DONO')">Painel Barbearia</button>
         </div>
 
+        <div class="sub-auth-mode-toggle" style="display:flex; justify-content:center; gap:16px; margin-bottom:18px; border-bottom:1px solid var(--border); padding-bottom:10px;">
+          <button class="sub-mode-btn active" id="sub-btn-login" onclick="alternarModoFormulario('LOGIN')">Já tenho conta (Entrar)</button>
+          <button class="sub-mode-btn" id="sub-btn-cadastro" onclick="alternarModoFormulario('CADASTRO')">Criar nova conta</button>
+        </div>
+
         <div class="form-auth-container">
+          <div id="campo-extra-nome" style="display:none;">
+            <label style="font-size:11px; font-weight:800; color:var(--text-muted); text-transform:uppercase; margin-bottom:6px; display:block;">Seu Nome Completo:</label>
+            <input type="text" id="auth-inp-nome" class="form-input-field" placeholder="Ex: Roberto Cruz">
+          </div>
+
+          <div id="campo-extra-foto" style="display:none;">
+            <label style="font-size:11px; font-weight:800; color:var(--text-muted); text-transform:uppercase; margin-bottom:6px; display:block;">Foto de Perfil (URL da Imagem):</label>
+            <input type="text" id="auth-inp-foto" class="form-input-field" placeholder="https://exemplo.com/sua-foto.jpg">
+          </div>
+
           <label style="font-size:11px; font-weight:800; color:var(--text-muted); text-transform:uppercase; margin-bottom:6px; display:block;">Seu E-mail:</label>
           <input type="email" id="auth-inp-email" class="form-input-field" placeholder="seu@email.com">
 
@@ -534,10 +575,11 @@
 
       <nav class="sidebar-nav-list" style="display:flex; flex-direction:column; gap:6px;">
         <button class="side-nav-btn active" onclick="trocarAbaWorkspace('tab-visao-geral', this)">Visão Geral</button>
-        <button class="side-nav-btn" onclick="trocarAbaWorkspace('tab-caixa-comandas', this)">Caixa & Comandas</button>
+        <button class="side-nav-btn" onclick="trocarAbaWorkspace('tab-matriz-equipe', this)">Grade & Folgas</button>
         <button class="side-nav-btn" onclick="trocarAbaWorkspace('tab-servicos-tabela', this)">Serviços & Preços</button>
         <button class="side-nav-btn" onclick="trocarAbaWorkspace('tab-barbeiros-painel', this)">Equipe de Barbeiros</button>
         <button class="side-nav-btn" onclick="trocarAbaWorkspace('tab-estoque-geral', this)">Estoque de Produtos</button>
+        <button class="side-nav-btn" onclick="trocarAbaWorkspace('tab-caixa-comandas', this)">Caixa & Cupom Térmico</button>
         <button class="side-nav-btn" onclick="trocarAbaWorkspace('tab-configuracoes-db', this)">Configurações & Bio</button>
       </nav>
     </aside>
@@ -552,14 +594,9 @@
             <div style="margin-bottom:24px;">
               <div style="font-size:11px; font-weight:900; color:var(--gold); letter-spacing:3px; text-transform:uppercase;">REDE RT MOBILE BARBER</div>
               <h2 style="font-size:26px; font-weight:900; text-transform:uppercase; margin:4px 0 6px;">Escolha sua Barbearia</h2>
-              <p style="font-size:13px; color:var(--text-muted);">Selecione o estabelecimento onde você deseja agendar seu horário hoje:</p>
+              <p style="font-size:13px; color:var(--text-muted);">Nenhuma barbearia ativa no momento. As barbearias parceiras aparecerão aqui assim que realizarem o cadastro na rede.</p>
             </div>
-            <!-- Lista limpa: exibe barbearias cadastradas. Caso nenhuma exista, exibe aviso elegante -->
-            <div id="grid-barbearias-ativas-cliente" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:18px;">
-              <div style="background:#111420; border:1px solid var(--border); border-radius:18px; padding:24px; text-align:center; color:var(--text-muted); font-size:13px;">
-                Nenhuma barbearia ativa no momento. As barbearias parceiras aparecerão aqui assim que realizarem o cadastro na rede.
-              </div>
-            </div>
+            <div id="grid-barbearias-ativas-cliente"></div>
           </div>
         </section>
 
@@ -592,19 +629,19 @@
           </div>
         </section>
 
-        <!-- 4. CAIXA & COMANDAS -->
-        <section id="tab-caixa-comandas" class="screen-tab-panel">
+        <!-- 4. GRADE & FOLGAS -->
+        <section id="tab-matriz-equipe" class="screen-tab-panel">
           <div class="card-panel-dark">
-            <h3 style="font-size:16px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:12px;">Caixa & Comandas</h3>
+            <h3 style="font-size:16px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:12px;">Grade Semanal & Gestão de Folgas</h3>
           </div>
         </section>
 
-        <!-- 5. SERVIÇOS & PREÇOS -->
+        <!-- 5. SERVIÇOS & PREÇOS ZERADOS -->
         <section id="tab-servicos-tabela" class="screen-tab-panel">
           <div class="card-panel-dark">
             <h3 style="font-size:16px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:12px;">Catálogo de Serviços & Preços</h3>
-            <p style="font-size:13px; color:var(--text-muted); margin-bottom:16px;">Cadastre seus procedimentos e defina os valores do zero:</p>
-            <div style="background:#151824; border:1px solid var(--border); border-radius:14px; padding:16px; display:flex; justify-content:space-between; align-items:center;">
+            <p style="font-size:13px; color:var(--text-muted); margin-bottom:16px;">Exemplos de serviços com valores zerados para você definir:</p>
+            <div style="background:#151824; border:1px solid var(--border); border-radius:14px; padding:16px; display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
               <div>
                 <strong>Corte Degradê / Social</strong>
                 <div style="font-size:11px; color:var(--text-muted);">Duração: 30 min</div>
@@ -618,11 +655,10 @@
         <section id="tab-barbeiros-painel" class="screen-tab-panel">
           <div class="card-panel-dark">
             <h3 style="font-size:16px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:12px;">Equipe de Barbeiros</h3>
-            <p style="font-size:13px; color:var(--text-muted);">Nenhum profissional cadastrado. Clique para adicionar.</p>
           </div>
         </section>
 
-        <!-- 7. ESTOQUE -->
+        <!-- 7. ESTOQUE ZERADO -->
         <section id="tab-estoque-geral" class="screen-tab-panel">
           <div class="card-panel-dark">
             <h3 style="font-size:16px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:12px;">Estoque de Produtos</h3>
@@ -636,7 +672,14 @@
           </div>
         </section>
 
-        <!-- 8. CONFIGURAÇÕES -->
+        <!-- 8. CAIXA & CUPOM TÉRMICO -->
+        <section id="tab-caixa-comandas" class="screen-tab-panel">
+          <div class="card-panel-dark">
+            <h3 style="font-size:16px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:12px;">Caixa & Fechamento Térmico</h3>
+          </div>
+        </section>
+
+        <!-- 9. CONFIGURAÇÕES -->
         <section id="tab-configuracoes-db" class="screen-tab-panel">
           <div class="card-panel-dark">
             <h3 style="font-size:16px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:12px;">Configurações & Link da Bio</h3>
@@ -647,7 +690,7 @@
     </main>
   </div>
 
-  <!-- ILHA FLUTUANTE (DOCK MOBILE) COM AS OPÇÕES DA REDE -->
+  <!-- ILHA FLUTUANTE (DOCK MOBILE) COMPLETA -->
   <nav class="floating-bottom-dock" id="dock-cliente-mobile">
     <button class="dock-tab-btn active" onclick="trocarAbaWorkspace('tab-cliente-portal-view', this)">🏠<span class="lbl">Início</span></button>
     <button class="dock-tab-btn" onclick="trocarAbaWorkspace('tab-cliente-loja-view', this)">🛍️<span class="lbl">Loja</span></button>
@@ -658,6 +701,7 @@
 
   <script>
     let authUserType = 'CLIENTE';
+    let authFormMode = 'LOGIN';
 
     function alternarAbaTipoUsuario(tipo) {
       authUserType = tipo;
@@ -665,9 +709,26 @@
       document.getElementById('btn-tab-auth-dono').className = 'auth-tab-btn' + (tipo === 'DONO' ? ' active' : '');
     }
 
+    function alternarModoFormulario(modo) {
+      authFormMode = modo;
+      document.getElementById('sub-btn-login').className = 'sub-mode-btn' + (modo === 'LOGIN' ? ' active' : '');
+      document.getElementById('sub-btn-cadastro').className = 'sub-mode-btn' + (modo === 'CADASTRO' ? ' active' : '');
+      
+      const campoNome = document.getElementById('campo-extra-nome');
+      const campoFoto = document.getElementById('campo-extra-foto');
+      if (modo === 'CADASTRO') {
+        if (campoNome) campoNome.style.display = 'block';
+        if (campoFoto) campoFoto.style.display = authUserType === 'CLIENTE' ? 'block' : 'none';
+      } else {
+        if (campoNome) campoNome.style.display = 'none';
+        if (campoFoto) campoFoto.style.display = 'none';
+      }
+    }
+
     function submeterAutenticacao() {
       const email = document.getElementById('auth-inp-email').value.trim().toLowerCase();
       const senha = document.getElementById('auth-inp-senha').value;
+      const nome = document.getElementById('auth-inp-nome') ? document.getElementById('auth-inp-nome').value.trim() : '';
 
       if (!email || !email.includes('@')) { alert('Digite um e-mail válido.'); return; }
       if (!senha || senha.length < 6) { alert('A senha deve ter pelo menos 6 caracteres.'); return; }
@@ -675,13 +736,13 @@
       const isAdmin = (email === 'roberthaelley75@gmail.com');
       const role = isAdmin ? 'SUPER_ADMIN' : authUserType;
 
-      let sessao = { email, role, loggedAt: Date.now() };
+      let sessao = { email, role, nome: nome || (isAdmin ? 'Robert Haelley' : 'Cliente'), loggedAt: Date.now() };
       localStorage.setItem('rt_auth_session', JSON.stringify(sessao));
 
-      aplicarSessao(email, role);
+      aplicarSessao(email, role, sessao.nome);
     }
 
-    function aplicarSessao(email, role) {
+    function aplicarSessao(email, role, nomeUser) {
       document.getElementById('lbl-logged-email').innerText = email;
       const overlay = document.getElementById('auth-screen-overlay');
       if (overlay) {
@@ -731,6 +792,7 @@
       document.getElementById('lbl-logged-email').innerText = 'Não autenticado';
       document.getElementById('auth-inp-email').value = '';
       document.getElementById('auth-inp-senha').value = '';
+      if (document.getElementById('auth-inp-nome')) document.getElementById('auth-inp-nome').value = '';
     }
 
     function trocarAbaWorkspace(tabId, btn) {
@@ -760,7 +822,7 @@
         try {
           const dados = JSON.parse(salva);
           if (dados && dados.email) {
-            aplicarSessao(dados.email, dados.role);
+            aplicarSessao(dados.email, dados.role, dados.nome);
           }
         } catch(e) {}
       }
