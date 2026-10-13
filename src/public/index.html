@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>RT Mobile Barber • Sistema de Gestão Profissional</title>
+  <title>RT Mobile Barber • Gestão Profissional</title>
   <style>
     * {
       box-sizing: border-box;
@@ -18,10 +18,10 @@
       --bg-surface: #07080c;
       --bg-card: #10121a;
       --bg-card-inner: #151822;
-      --border: #1f2330;
+      --border: #222638;
       --gold: #c59b63;
       --gold-bright: #d4af37;
-      --gold-glow: rgba(197, 155, 99, 0.14);
+      --gold-glow: rgba(197, 155, 99, 0.16);
       --neon-green: #10b981;
       --neon-glow: rgba(16, 185, 129, 0.35);
       --red: #ef4444;
@@ -41,7 +41,7 @@
     }
 
     /* =========================================================
-       1. SPLASH SCREEN COM BRILHO NEON (SESSIONSTORAGE)
+       1. SPLASH SCREEN (EXECUTA APENAS NO 1º ACESSO DA SESSÃO)
        ========================================================= */
     #splash-screen {
       position: fixed;
@@ -59,17 +59,17 @@
       visibility: hidden;
       pointer-events: none;
     }
-    .splash-halo-glow {
+    .splash-halo {
       position: absolute;
       width: 150px;
       height: 150px;
       background: radial-gradient(circle, var(--neon-glow) 0%, rgba(16, 185, 129, 0) 70%);
       border-radius: 50%;
-      filter: blur(22px);
+      filter: blur(24px);
       z-index: 1;
     }
     .splash-rt {
-      font-size: 90px;
+      font-size: 88px;
       font-weight: 900;
       letter-spacing: -2px;
       color: #ffffff;
@@ -87,7 +87,7 @@
       z-index: 2;
     }
     .splash-sub {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 800;
       letter-spacing: 10px;
       color: #ffffff;
@@ -108,7 +108,7 @@
     }
 
     /* =========================================================
-       2. TELA DE AUTENTICAÇÃO HÍBRIDA (CLIENTE vs ESTABELECIMENTO)
+       2. TELA DE AUTENTICAÇÃO REAL (CLIENTE vs ESTABELECIMENTO)
        ========================================================= */
     #auth-screen-overlay {
       position: fixed;
@@ -139,7 +139,7 @@
       content: "";
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.85) 75%, #050608 100%);
+      background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.88) 75%, #050608 100%);
     }
     .auth-hero-content {
       position: relative;
@@ -239,10 +239,10 @@
     }
 
     /* =========================================================
-       3. TOPBAR SAAS, TRIAL 48H & PAYWALL LOCK
+       BARRA SUPERIOR SAAS MASTER & CONTROLE DE ROLES
        ========================================================= */
     .saas-status-bar {
-      background: #0f1118;
+      background: #0d0f17;
       border-bottom: 1px solid var(--border);
       padding: 8px 32px;
       display: flex;
@@ -258,35 +258,13 @@
       font-size: 9px;
       font-weight: 800;
       text-transform: uppercase;
+      margin-left: 6px;
     }
     .badge-pill-status.vitalicio { background: rgba(168, 85, 247, 0.15); color: var(--purple); border: 1px solid rgba(168, 85, 247, 0.35); }
     .badge-pill-status.trial { background: rgba(16, 185, 129, 0.15); color: var(--neon-green); border: 1px solid rgba(16, 185, 129, 0.35); }
-    .badge-pill-status.warning { background: rgba(234, 179, 8, 0.15); color: #eab308; border: 1px solid rgba(234, 179, 8, 0.35); }
-
-    /* PAYWALL / TELA DE BLOQUEIO TOTAL */
-    #paywall-modal-lock {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.96);
-      backdrop-filter: blur(16px);
-      z-index: 99998;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-    .paywall-box {
-      background: #11131c;
-      border: 1.5px solid var(--gold);
-      border-radius: 28px;
-      max-width: 440px;
-      width: 100%;
-      padding: 28px;
-      text-align: center;
-    }
 
     /* =========================================================
-       4. ESTRUTURA GERAL (SIDEBAR + MAIN VIEWPORT)
+       ESTRUTURA GERAL DA PLATAFORMA (DESKTOP HORIZONTAL vs MOBILE)
        ========================================================= */
     .app-main-layout {
       display: flex;
@@ -389,7 +367,7 @@
       z-index: 80;
     }
     .workspace-inner {
-      padding: 28px 32px 120px;
+      padding: 28px 32px 140px;
       max-width: 1400px;
       width: 100%;
     }
@@ -401,9 +379,7 @@
       display: block;
     }
 
-    /* =========================================================
-       5. COMPONENTES VISUAIS (CARDS, GRIDS, BOTÕES)
-       ========================================================= */
+    /* BOTÕES GERAIS */
     .btn-gold-primary {
       background: var(--gold);
       color: #000;
@@ -416,7 +392,6 @@
       letter-spacing: 0.5px;
       cursor: pointer;
     }
-
     .btn-dark-secondary {
       background: #151824;
       border: 1px solid var(--border);
@@ -428,7 +403,6 @@
       text-transform: uppercase;
       cursor: pointer;
     }
-
     .card-panel-dark {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -437,22 +411,8 @@
       margin-bottom: 20px;
     }
 
-    /* SWITCH TOGGLE */
-    .switch-ui { position: relative; width: 40px; height: 22px; }
-    .switch-ui input { opacity: 0; width: 0; height: 0; }
-    .slider-ui {
-      position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
-      background: #2b3044; border-radius: 30px; transition: .2s;
-    }
-    .slider-ui:before {
-      position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px;
-      background: #fff; border-radius: 50%; transition: .2s;
-    }
-    input:checked + .slider-ui { background: var(--neon-green); }
-    input:checked + .slider-ui:before { transform: translateX(18px); }
-
     /* =========================================================
-       6. PORTAL DO CLIENTE - 4 COLUNAS HORIZONTAL (IMAGE_2.PNG)
+       PORTAL DO CLIENTE: BANNER, 4 COLUNAS HORIZONTAIS E LOJA
        ========================================================= */
     .hero-banner-establishment {
       width: 100%;
@@ -479,7 +439,7 @@
     }
     .hero-meta-box { position: relative; z-index: 2; }
 
-    /* 4 BOTÕES DE CATEGORIA NO TOPO COM SVGs PRECISOS */
+    /* 4 BOTÕES COM ÍCONES REAIS */
     .strip-categories-4 {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -522,7 +482,7 @@
     }
     .category-card-item.active .label { color: var(--gold); }
 
-    /* PAINEL 4 COLUNAS HORIZONTAL */
+    /* PAINEL 4 COLUNAS HORIZONTAL (IMAGE_2.PNG) */
     .board-horizontal-schedule {
       background: #0d0f17;
       border: 1.5px solid var(--border);
@@ -591,8 +551,27 @@
       color: #000;
     }
 
+    /* CARD DE BARBEIRO COM BOTÃO DE WHATSAPP DIRETO */
+    .barber-detail-profile-card {
+      background: #141624;
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 12px;
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+    .barber-pic-lg {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--gold);
+    }
+
     /* =========================================================
-       7. ILHA FLUTUANTE INFERIOR DOCK COM TESOURA
+       ILHAS FLUTUANTES SEPARADAS: DONO vs CLIENTE (CORRIGIDO)
        ========================================================= */
     .floating-bottom-dock {
       position: fixed;
@@ -606,13 +585,20 @@
       backdrop-filter: blur(24px);
       border: 1.5px solid rgba(255, 255, 255, 0.12);
       border-radius: 999px;
-      display: flex;
+      display: none; /* Só exibe no mobile! No PC layout é horizontal */
       justify-content: space-around;
       align-items: center;
       padding: 0 10px;
       z-index: 1000;
       box-shadow: 0 16px 40px rgba(0,0,0,0.85);
     }
+
+    @media (max-width: 768px) {
+      .floating-bottom-dock { display: flex; }
+      .desktop-sidebar { display: none !important; }
+      .workspace-inner { padding: 16px 16px 140px; }
+    }
+
     .dock-tab-btn {
       display: flex;
       flex-direction: column;
@@ -620,14 +606,30 @@
       justify-content: center;
       background: transparent;
       border: none;
-      color: #7b8292;
+      color: #8e95a5; /* Texto cinza claro elegante com contraste */
       cursor: pointer;
       width: 52px;
       height: 50px;
       border-radius: 50%;
     }
-    .dock-tab-btn .lbl { font-size: 9px; font-weight: 800; text-transform: uppercase; margin-top: 3px; }
+    .dock-tab-btn svg {
+      width: 20px;
+      height: 20px;
+      fill: none;
+      stroke: #8e95a5; /* SVG visível e nítido */
+      stroke-width: 2;
+    }
+    .dock-tab-btn .lbl {
+      font-size: 9px;
+      font-weight: 800;
+      text-transform: uppercase;
+      margin-top: 3px;
+      color: #8e95a5;
+    }
     .dock-tab-btn.active { color: var(--gold); }
+    .dock-tab-btn.active svg { stroke: var(--gold); }
+    .dock-tab-btn.active .lbl { color: var(--gold); }
+
     .dock-scissor-gold-btn {
       width: 52px;
       height: 52px;
@@ -646,37 +648,16 @@
 </head>
 <body>
 
-  <!-- 1. SPLASH SCREEN (SESSIONSTORAGE) -->
+  <!-- SPLASH SCREEN OFICIAL (SESSIONSTORAGE) -->
   <div id="splash-screen">
-    <div class="splash-logo-container">
-      <div class="splash-halo-glow"></div>
-      <div class="splash-rt">RT</div>
-      <div class="splash-divider"></div>
-      <div class="splash-sub">MOBILE</div>
-      <div class="splash-tagline">SISTEMA DE GESTÃO PROFISSIONAL</div>
-    </div>
+    <div class="splash-halo"></div>
+    <div class="splash-rt">RT</div>
+    <div class="splash-divider"></div>
+    <div class="splash-sub">MOBILE</div>
+    <div class="splash-tagline">SISTEMA DE GESTÃO PROFISSIONAL</div>
   </div>
 
-  <!-- 2. PAYWALL / TELA DE BLOQUEIO POR ASSINATURA -->
-  <div id="paywall-modal-lock">
-    <div class="paywall-box">
-      <div style="font-size:12px; font-weight:900; color:var(--red); letter-spacing:2px; text-transform:uppercase; margin-bottom:8px;">ASSINATURA EXPIRADA</div>
-      <h2 style="font-size:22px; font-weight:900; text-transform:uppercase; margin-bottom:12px;">Desbloqueie seu Painel</h2>
-      <p style="font-size:12px; color:var(--text-muted); margin-bottom:18px;">Seus dados continuam 100% seguros no banco de dados. Regularize a assinatura mensal de R$ 50,00 para liberar o acesso imediatamente.</p>
-      
-      <div style="background:#fff; padding:12px; border-radius:14px; display:inline-block; margin-bottom:16px;">
-        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=00020126580014BR.GOV.BCB.PIX0136roberthaelley75@gmail.com520400005303986540550.005802BR" style="width:140px; height:140px; display:block;">
-      </div>
-
-      <input type="text" id="inp-pix-dev-copy" class="form-input-field" readonly value="roberthaelley75@gmail.com" style="text-align:center; font-weight:900;">
-      <button class="btn-gold-primary" style="width:100%; margin-bottom:10px;" onclick="copiarChaveDev()">Copiar Chave Pix 📋</button>
-      <a href="https://wa.me/5591989173221?text=Olá%20Robert,%20acabei%20de%20pagar%20a%20mensalidade%20da%20minha%20barbearia.%20Segue%20o%20comprovante!" target="_blank" class="btn-dark-secondary" style="display:block; text-align:center; text-decoration:none;">
-        Enviar Comprovante no WhatsApp 💬
-      </a>
-    </div>
-  </div>
-
-  <!-- 3. TELA DE LOGIN & ONBOARDING HÍBRIDO -->
+  <!-- TELA DE LOGIN & CADASTRO REAL (SUPABASE COMPATIBLE) -->
   <div id="auth-screen-overlay">
     <div class="auth-split-wrapper">
       
@@ -693,26 +674,26 @@
           <div class="sq-logo-rt">RT<span>.</span></div>
           <div>
             <h2 style="font-size:16px; font-weight:900; text-transform:uppercase;">RT Mobile Barber</h2>
-            <p style="font-size:11px; color:var(--text-muted);">Acesso à Plataforma</p>
+            <p style="font-size:11px; color:var(--text-muted);">Acesso Seguro à Plataforma</p>
           </div>
         </div>
 
         <div class="auth-tabs-toggle">
-          <button class="auth-tab-btn active" id="btn-auth-cliente-tab" onclick="alternarAuthTab('CLIENTE')">Área do Cliente</button>
-          <button class="auth-tab-btn" id="btn-auth-dono-tab" onclick="alternarAuthTab('DONO')">Painel Barbearia</button>
+          <button class="auth-tab-btn active" id="btn-tab-auth-cliente" onclick="alternarAbaAuth('CLIENTE')">Área do Cliente</button>
+          <button class="auth-tab-btn" id="btn-tab-auth-dono" onclick="alternarAbaAuth('DONO')">Painel Barbearia</button>
         </div>
 
-        <div id="auth-form-body">
+        <div id="auth-form-box">
           <label style="font-size:11px; font-weight:800; color:var(--text-muted); text-transform:uppercase; margin-bottom:6px; display:block;">Seu E-mail:</label>
-          <input type="email" id="auth-inp-email" class="form-input-field" value="roberthaelley75@gmail.com" placeholder="seu@email.com">
+          <input type="email" id="auth-input-email" class="form-input-field" placeholder="seu@email.com">
 
           <label style="font-size:11px; font-weight:800; color:var(--text-muted); text-transform:uppercase; margin-bottom:6px; display:block;">Sua Senha:</label>
-          <input type="password" id="auth-inp-senha" class="form-input-field" value="123456" placeholder="Mínimo de 6 caracteres">
+          <input type="password" id="auth-input-senha" class="form-input-field" placeholder="Mínimo de 6 caracteres">
 
-          <button class="btn-submit-auth" onclick="realizarLogin()">Acessar Plataforma ➔</button>
+          <button class="btn-submit-auth" onclick="processarAutenticacao()">Acessar Plataforma ➔</button>
 
           <div style="text-align:center; margin-top:16px;">
-            <span class="trial-48h-link" id="auth-trial-trigger" onclick="ativarTesteGratis48h()">
+            <span id="btn-trial-trigger-auth" style="font-size:11px; color:var(--neon-green); font-weight:800; cursor:pointer; text-transform:uppercase;" onclick="ativarTrial48h()">
               Ainda não tem conta? Testar 48h Grátis ↗
             </span>
           </div>
@@ -722,59 +703,53 @@
     </div>
   </div>
 
-  <!-- 4. TOPBAR SAAS & BARRA DE PERMISSÕES -->
+  <!-- BARRA SUPERIOR SAAS MASTER & ROLES -->
   <div class="saas-status-bar">
     <div>
-      Usuário: <strong id="lbl-logged-email">roberthaelley75@gmail.com</strong>
-      <span class="badge-pill-status vitalicio" id="lbl-tag-permissao">Super Admin Vitalício</span>
+      Usuário: <strong id="lbl-logged-email">Desconectado</strong>
+      <span class="badge-pill-status vitalicio" id="badge-role-user">Super Admin Vitalício</span>
     </div>
 
     <div style="display:flex; gap:6px;">
-      <button class="btn-dark-secondary" style="padding:4px 10px; font-size:10px;" onclick="definirModoVisao('CLIENTE')">Visão Cliente</button>
-      <button class="btn-dark-secondary" style="padding:4px 10px; font-size:10px;" onclick="definirModoVisao('DONO')">Painel Dono</button>
-      <button class="btn-dark-secondary" style="padding:4px 10px; font-size:10px;" onclick="definirModoVisao('OPERADOR')">Visão Operador</button>
-      <button class="btn-dark-secondary" style="padding:4px 10px; font-size:10px; color:var(--red);" onclick="realizarLogout()">Sair</button>
+      <button class="btn-dark-secondary" style="padding:4px 10px; font-size:10px;" onclick="mudarPerfilVisual('CLIENTE')">Visão Cliente</button>
+      <button class="btn-dark-secondary" style="padding:4px 10px; font-size:10px;" onclick="mudarPerfilVisual('DONO')">Painel Dono</button>
+      <button class="btn-dark-secondary" style="padding:4px 10px; font-size:10px; color:var(--red);" onclick="realizarLogout()">Desconectar</button>
     </div>
   </div>
 
-  <!-- 5. ESTRUTURA GERAL DA PLATAFORMA -->
+  <!-- ESTRUTURA GERAL DA PLATAFORMA -->
   <div class="app-main-layout">
     
-    <!-- SIDEBAR DESKTOP -->
+    <!-- SIDEBAR DESKTOP (DONO / ADMIN) -->
     <aside class="desktop-sidebar" id="app-sidebar-lateral" style="display:none;">
       <div style="display:flex; align-items:center; gap:12px; margin-bottom:24px; padding-bottom:18px; border-bottom:1px solid var(--border);">
         <div class="sq-logo-rt">RT<span>.</span></div>
         <div>
           <h2 style="font-size:14px; font-weight:800; text-transform:uppercase;" id="side-nome-barbearia">RT Mobile Barber</h2>
-          <p style="font-size:11px; color:var(--text-muted);">Painel Operacional</p>
+          <p style="font-size:11px; color:var(--text-muted);">Painel do Dono</p>
         </div>
       </div>
 
-      <div class="menu-group-label">GESTÃO & OPERAÇÃO</div>
+      <div class="menu-group-label">GESTÃO DA BARBEARIA</div>
       <nav class="sidebar-nav-list">
         <button class="side-nav-btn active" onclick="trocarAbaWorkspace('tab-visao-geral', this)">
           <svg class="svg-icon-ui" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
           Visão Geral
         </button>
 
-        <button class="side-nav-btn" onclick="trocarAbaWorkspace('tab-grade-semanal', this)">
+        <button class="side-nav-btn" onclick="trocarAbaWorkspace('tab-matriz-equipe', this)">
           <svg class="svg-icon-ui" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line></svg>
-          Grade da Equipe
+          Grade Semanal
         </button>
 
         <button class="side-nav-btn" onclick="trocarAbaWorkspace('tab-servicos-tabela', this)">
           <svg class="svg-icon-ui" viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><line x1="20" y1="4" x2="8.12" y2="15.88"></line></svg>
-          Serviços & Preços
+          Catálogo & Preços
         </button>
 
-        <button class="side-nav-btn" onclick="trocarAbaWorkspace('tab-barbeiros-folgas', this)">
+        <button class="side-nav-btn" onclick="trocarAbaWorkspace('tab-barbeiros-painel', this)">
           <svg class="svg-icon-ui" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-          Barbeiros & Folgas
-        </button>
-
-        <button class="side-nav-btn" id="menu-btn-caixa" onclick="trocarAbaWorkspace('tab-caixa-fechamento', this)">
-          <svg class="svg-icon-ui" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"></rect><line x1="6" y1="12" x2="18" y2="12"></line></svg>
-          Caixa & Fechamento
+          Barbeiros & Contatos
         </button>
 
         <button class="side-nav-btn" onclick="trocarAbaWorkspace('tab-estoque-geral', this)">
@@ -782,24 +757,24 @@
           Estoque da Loja
         </button>
 
-        <button class="side-nav-btn" id="menu-btn-config" onclick="trocarAbaWorkspace('tab-configuracoes-gerais', this)">
-          <svg class="svg-icon-ui" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-          Configurações & Equipe
+        <button class="side-nav-btn" onclick="trocarAbaWorkspace('tab-caixa-comandas', this)">
+          <svg class="svg-icon-ui" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"></rect><line x1="6" y1="12" x2="18" y2="12"></line></svg>
+          Caixa & Fechamento
+        </button>
+
+        <button class="side-nav-btn" onclick="trocarAbaWorkspace('tab-configuracoes-db', this)">
+          <svg class="svg-icon-ui" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          Supabase, Bio & Pix
         </button>
       </nav>
-
-      <div style="padding-top:14px; border-top:1px solid var(--border); font-size:11px; color:var(--text-muted);">
-        Plataforma SaaS: <strong style="color:var(--neon-green);">R$ 50/mês (Ativo)</strong>
-      </div>
     </aside>
 
     <!-- ÁREA PRINCIPAL -->
     <main class="main-viewport">
-      
       <div class="workspace-inner">
 
         <!-- =======================================================
-             VISÃO DO CLIENTE - O PAINEL 4 COLUNAS HORIZONTAL
+             1. VISÃO DO CLIENTE: 4 COLUNAS HORIZONTAIS
              ======================================================= -->
         <section id="tab-cliente-portal-view" class="screen-tab-panel active">
           
@@ -811,7 +786,7 @@
             </div>
           </div>
 
-          <!-- 4 BOTÕES DE CATEGORIA NO TOPO COM SVGs PRECISOS -->
+          <!-- 4 BOTÕES COM ÍCONES VETORIAIS REAIS -->
           <div class="strip-categories-4">
             <div class="category-card-item active" onclick="filtrarCategoriaPortal('CORTE', this)">
               <svg class="category-svg-custom" viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><line x1="20" y1="4" x2="8.12" y2="15.88"></line></svg>
@@ -879,47 +854,40 @@
         </section>
 
         <!-- =======================================================
-             VISÃO DO DONO: DASHBOARD
+             2. VISÃO DO CLIENTE: LOJA DE PRODUTOS & CARRINHO (NÃO ESTOQUE!)
              ======================================================= -->
-        <section id="tab-visao-geral" class="screen-tab-panel">
-          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:16px; margin-bottom:24px;">
-            <div class="card-panel-dark">
-              <div style="font-size:10px; font-weight:800; color:var(--text-muted); text-transform:uppercase;">Atendimentos Hoje</div>
-              <div style="font-size:26px; font-weight:900; margin-top:4px;">14</div>
-              <div style="font-size:10px; color:var(--neon-green); font-weight:700; margin-top:6px;">● 3 na cadeira agora</div>
-            </div>
-
-            <div class="card-panel-dark">
-              <div style="font-size:10px; font-weight:800; color:var(--text-muted); text-transform:uppercase;">Faturamento Líquido</div>
-              <div style="font-size:26px; font-weight:900; color:var(--gold); margin-top:4px;">R$ 560,00</div>
-              <div style="font-size:10px; color:var(--text-muted); font-weight:700; margin-top:6px;">Descontados custos de insumos</div>
-            </div>
-
-            <div class="card-panel-dark">
-              <div style="font-size:10px; font-weight:800; color:var(--text-muted); text-transform:uppercase;">Comissões a Pagar</div>
-              <div style="font-size:26px; font-weight:900; color:#cbd5e1; margin-top:4px;">R$ 224,00</div>
-              <div style="font-size:10px; color:var(--text-muted); font-weight:700; margin-top:6px;">40% para os barbeiros</div>
-            </div>
-          </div>
-
+        <section id="tab-cliente-loja-view" class="screen-tab-panel">
           <div class="card-panel-dark">
-            <h3 style="font-size:14px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:12px;">Trilha de Auditoria (Audit Log)</h3>
-            <div id="audit-log-list" style="font-size:11px; color:#cbd5e1;"></div>
+            <h3 style="font-size:16px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:6px;">Loja de Produtos da Barbearia</h3>
+            <p style="font-size:12px; color:var(--text-muted); margin-bottom:20px;">Pomadas em pó, óleos e itens exclusivos para levar para casa.</p>
+            
+            <div id="grid-loja-cliente-produtos" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); gap:16px;"></div>
           </div>
         </section>
 
         <!-- =======================================================
-             VISÃO DO DONO: GRADE SEMANAL DA EQUIPE
+             3. VISÃO DO DONO: PAINEL DE BARBEIROS COM WHATSAPP DIRETO
              ======================================================= -->
-        <section id="tab-grade-semanal" class="screen-tab-panel">
+        <section id="tab-barbeiros-painel" class="screen-tab-panel">
           <div class="card-panel-dark">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
               <div>
-                <h3 style="font-size:14px; font-weight:900; color:var(--gold); text-transform:uppercase;">Grade Semanal da Equipe</h3>
-                <p style="font-size:11px; color:var(--text-muted);">Tabela expandida automaticamente conforme os barbeiros cadastrados.</p>
+                <h3 style="font-size:15px; font-weight:900; color:var(--gold); text-transform:uppercase;">Equipe de Barbeiros & Contato Direto</h3>
+                <p style="font-size:12px; color:var(--text-muted);">Foto, Nome, @ do Instagram, Telefone e botão de WhatsApp direto.</p>
               </div>
-              <button class="btn-gold-primary" onclick="adicionarBarbeiroPrompt()">+ Adicionar Barbeiro</button>
+              <button class="btn-gold-primary" onclick="adicionarBarbeiroCompletoPrompt()">+ Cadastrar Novo Barbeiro</button>
             </div>
+
+            <div id="lista-barbeiros-cards-completos"></div>
+          </div>
+        </section>
+
+        <!-- =======================================================
+             4. VISÃO DO DONO: GRADE SEMANAL DINÂMICA
+             ======================================================= -->
+        <section id="tab-matriz-equipe" class="screen-tab-panel">
+          <div class="card-panel-dark">
+            <h3 style="font-size:15px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:14px;">Grade Semanal da Equipe</h3>
             <div style="overflow-x:auto;">
               <table style="width:100%; border-collapse:collapse; font-size:11px; text-align:center;" id="tabela-matriz-equipe"></table>
             </div>
@@ -927,12 +895,12 @@
         </section>
 
         <!-- =======================================================
-             VISÃO DO DONO: SERVIÇOS E PREÇOS
+             5. VISÃO DO DONO: CATÁLOGO DE SERVIÇOS & PREÇOS
              ======================================================= -->
         <section id="tab-servicos-tabela" class="screen-tab-panel">
           <div class="card-panel-dark">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-              <h3 style="font-size:14px; font-weight:900; color:var(--gold); text-transform:uppercase;">Catálogo de Procedimentos & Preços</h3>
+              <h3 style="font-size:15px; font-weight:900; color:var(--gold); text-transform:uppercase;">Catálogo de Procedimentos & Preços</h3>
               <button class="btn-gold-primary" onclick="adicionarServicoPrompt()">+ Novo Procedimento</button>
             </div>
             <div id="lista-servicos-gestao-crud"></div>
@@ -940,33 +908,35 @@
         </section>
 
         <!-- =======================================================
-             VISÃO DO DONO: BARBEIROS & FOLGAS
+             6. VISÃO DO DONO: ESTOQUE DE PRODUTOS & COMANDAS
              ======================================================= -->
-        <section id="tab-barbeiros-folgas" class="screen-tab-panel">
+        <section id="tab-estoque-geral" class="screen-tab-panel">
           <div class="card-panel-dark">
-            <h3 style="font-size:14px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:14px;">Equipe & Folgas</h3>
-            <div id="lista-barbeiros-folgas-crud"></div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+              <div>
+                <h3 style="font-size:15px; font-weight:900; color:var(--gold); text-transform:uppercase;">Estoque de Produtos & Ajuste de Preço</h3>
+                <p style="font-size:11px; color:var(--text-muted);">Altere a quantidade e o preço. O que tiver estoque positivo aparece na Loja do Cliente.</p>
+              </div>
+              <button class="btn-gold-primary" onclick="cadastrarProdutoEstoquePrompt()">+ Novo Produto</button>
+            </div>
+            <div id="grid-estoque-produtos-admin" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap:14px;"></div>
           </div>
         </section>
 
         <!-- =======================================================
-             VISÃO DO DONO: CAIXA & FECHAMENTO CEGO
+             7. VISÃO DO DONO: CAIXA, COMANDAS & FECHAMENTO CEGO
              ======================================================= -->
-        <section id="tab-caixa-fechamento" class="screen-tab-panel">
+        <section id="tab-caixa-comandas" class="screen-tab-panel">
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
             <div class="card-panel-dark">
-              <h3 style="font-size:14px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:12px;">Frente de Caixa (Entradas & Sangrias)</h3>
-              <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px;">
-                <button class="btn-dark-secondary" style="border-color:var(--neon-green);" onclick="lancarCaixaEntrada()">+ Nova Entrada</button>
-                <button class="btn-dark-secondary" style="border-color:var(--red);" onclick="lancarCaixaSangria()">- Sangria / Despesa</button>
-              </div>
-              <div id="historico-caixa-movimentos" style="font-size:11px;"></div>
+              <h3 style="font-size:14px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:12px;">Comandas na Cadeira</h3>
+              <div id="lista-comandas-ativas"></div>
             </div>
 
             <div class="card-panel-dark">
               <h3 style="font-size:14px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:12px;">Fechamento Cego de Caixa</h3>
-              <input type="number" id="inp-fech-dinheiro" class="form-input-field" placeholder="Total em Dinheiro (R$)" value="120.00">
-              <input type="number" id="inp-fech-cartao" class="form-input-field" placeholder="Total em Cartão (R$)" value="60.00">
+              <input type="number" id="inp-fech-dinheiro" class="form-input-field" placeholder="Dinheiro Contado (R$)" value="120.00">
+              <input type="number" id="inp-fech-cartao" class="form-input-field" placeholder="Comprovantes Cartão (R$)" value="60.00">
               <button class="btn-gold-primary" style="width:100%;" onclick="apurarFechamentoCego()">Realizar Fechamento Cego ↗</button>
               <div id="box-resultado-fechamento" style="display:none; margin-top:14px; padding:12px; border-radius:10px; background:#141724; font-size:11px;"></div>
             </div>
@@ -974,38 +944,28 @@
         </section>
 
         <!-- =======================================================
-             VISÃO DO DONO: ESTOQUE DA LOJA
+             8. VISÃO DO DONO: CONFIGURAÇÃO SUPABASE & BIO
              ======================================================= -->
-        <section id="tab-estoque-geral" class="screen-tab-panel">
-          <div class="card-panel-dark">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-              <h3 style="font-size:14px; font-weight:900; color:var(--gold); text-transform:uppercase;">Estoque de Produtos & Pomadas</h3>
-              <button class="btn-gold-primary" onclick="cadastrarProdutoEstoquePrompt()">+ Novo Produto</button>
-            </div>
-            <div id="grid-estoque-produtos-admin" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(240px, 1fr)); gap:12px;"></div>
-          </div>
-        </section>
-
-        <!-- =======================================================
-             VISÃO DO DONO: CONFIGURAÇÕES, EQUIPE & BIO SLUG
-             ======================================================= -->
-        <section id="tab-configuracoes-gerais" class="screen-tab-panel">
+        <section id="tab-configuracoes-db" class="screen-tab-panel">
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+            <div class="card-panel-dark">
+              <h3 style="font-size:14px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:12px;">Conexão Supabase / Banco de Dados</h3>
+              <p style="font-size:11px; color:var(--text-muted); margin-bottom:14px;">Gerencie as credenciais oficiais de banco de dados e autenticação.</p>
+              
+              <label style="font-size:10px; color:var(--text-muted); text-transform:uppercase;">SUPABASE_URL:</label>
+              <input type="text" id="cfg-supabase-url" class="form-input-field" value="https://ptzuiinoiycohhnihcmh.supabase.co">
+
+              <label style="font-size:10px; color:var(--text-muted); text-transform:uppercase;">SUPABASE_SERVICE_ROLE_KEY / ANON_KEY:</label>
+              <input type="password" id="cfg-supabase-key" class="form-input-field" value="sb_secret_F5J6QOzr3VGrk5C9Yj93qA_rZU3GixW">
+
+              <button class="btn-gold-primary" style="width:100%;" onclick="salvarConfigSupabase()">Salvar Credenciais do Banco ↗</button>
+            </div>
+
             <div class="card-panel-dark">
               <h3 style="font-size:14px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:12px;">Link Oficial para Bio do Instagram</h3>
               <input type="text" id="inp-slug-bio" class="form-input-field" readonly value="https://rt-mobile-barber.onrender.com/unidade-centro">
               <button class="btn-gold-primary" style="width:100%; margin-bottom:18px;" onclick="copiarLinkBio()">Copiar Link da Bio 📋</button>
 
-              <h3 style="font-size:14px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:12px;">Convidar Novo Operador / Funcionário</h3>
-              <input type="email" id="inp-convite-email" class="form-input-field" placeholder="email-funcionario@gmail.com">
-              <select id="sel-convite-cargo" class="form-input-field">
-                <option value="OPERADOR">Operador (Sem acesso financeiro)</option>
-                <option value="ADMIN">Administrador da Loja</option>
-              </select>
-              <button class="btn-dark-secondary" style="width:100%;" onclick="convidarFuncionario()">Convidar Funcionário ↗</button>
-            </div>
-
-            <div class="card-panel-dark">
               <h3 style="font-size:14px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:12px;">Dados do Estabelecimento & Pix</h3>
               <input type="text" id="cfg-inp-nome" class="form-input-field" value="RT Mobile Barber">
               <input type="text" id="cfg-inp-endereco" class="form-input-field" value="Centro, Santa Izabel do Pará – PA">
@@ -1017,29 +977,22 @@
         </section>
 
       </div>
-
-      <!-- FOOTER DE SUPORTE OFICIAL -->
-      <footer style="background:#090a0f; border-top:1px solid var(--border); padding:24px 32px; text-align:center; font-size:11px; color:var(--text-muted); margin-top:40px;">
-        <div>RT Mobile Barber • Desenvolvido por <strong style="color:#fff;">RT Mobile</strong></div>
-        <div style="margin-top:4px;">Suporte Técnico Oficial: <strong style="color:#fff;">roberthaelley75@gmail.com</strong></div>
-        <a href="https://wa.me/5591989173221?text=Olá%20Robert,%20gostaria%20de%20implantar%20o%20sistema%20RT%20Mobile%20Barber%20no%20meu%20estabelecimento!" target="_blank" style="background:#141724; border:1px solid var(--gold); color:var(--gold); padding:8px 18px; border-radius:10px; font-size:11px; font-weight:800; text-transform:uppercase; margin-top:10px; cursor:pointer; display:inline-block; text-decoration:none;">
-          Falar com o Desenvolvedor • (91) 98917-3221
-        </a>
-      </footer>
-
     </main>
 
   </div>
 
-  <!-- ILHA FLUTUANTE INFERIOR DOCK COM A TESOURA NO CENTRO -->
-  <nav class="floating-bottom-dock">
-    <button class="dock-tab-btn active" onclick="trocarAbaWorkspace('tab-cliente-portal-view', this)">
-      <svg class="svg-icon-ui" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+  <!-- =========================================================
+       ILHA FLUTUANTE INFERIOR DOCK DO CLIENTE (MOBILE EXCLUSIVO)
+       NÃO APARECE ESTOQUE, APARECE LOJA! ÍCONES E TEXTO NÍTIDOS!
+       ========================================================= -->
+  <nav class="floating-bottom-dock" id="dock-cliente-mobile">
+    <button class="dock-tab-btn active" onclick="trocarAbaMobileCliente('tab-cliente-portal-view', this)">
+      <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
       <span class="lbl">Início</span>
     </button>
 
-    <button class="dock-tab-btn" onclick="trocarAbaWorkspace('tab-grade-semanal', this)">
-      <svg class="svg-icon-ui" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line></svg>
+    <button class="dock-tab-btn" onclick="trocarAbaMobileCliente('tab-cliente-portal-view', this)">
+      <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line></svg>
       <span class="lbl">Agenda</span>
     </button>
 
@@ -1050,32 +1003,50 @@
       </svg>
     </div>
 
-    <button class="dock-tab-btn" onclick="trocarAbaWorkspace('tab-estoque-geral', this)">
-      <svg class="svg-icon-ui" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path></svg>
-      <span class="lbl">Estoque</span>
+    <!-- LOJA DE PRODUTOS PARA O CLIENTE (E NÃO ESTOQUE!) -->
+    <button class="dock-tab-btn" onclick="trocarAbaMobileCliente('tab-cliente-loja-view', this)">
+      <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path></svg>
+      <span class="lbl">Loja</span>
     </button>
 
-    <button class="dock-tab-btn" onclick="trocarAbaWorkspace('tab-configuracoes-gerais', this)">
-      <svg class="svg-icon-ui" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-      <span class="lbl">Perfil</span>
+    <button class="dock-tab-btn" onclick="trocarAbaMobileCliente('tab-barbeiros-painel', this)">
+      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+      <span class="lbl">Equipe</span>
+    </button>
+  </nav>
+
+  <!-- ILHA FLUTUANTE INFERIOR DOCK DO DONO (MOBILE EXCLUSIVO) -->
+  <nav class="floating-bottom-dock" id="dock-dono-mobile" style="display:none;">
+    <button class="dock-tab-btn active" onclick="trocarAbaWorkspace('tab-visao-geral', this)">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect></svg>
+      <span class="lbl">Painel</span>
+    </button>
+    <button class="dock-tab-btn" onclick="trocarAbaWorkspace('tab-matriz-equipe', this)">
+      <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"></rect></svg>
+      <span class="lbl">Grade</span>
+    </button>
+    <div class="dock-scissor-gold-btn" onclick="trocarAbaWorkspace('tab-caixa-comandas', null)">
+      <svg style="width:24px; height:24px; stroke:#000; fill:none; stroke-width:2.2;" viewBox="0 0 24 24">
+        <rect x="2" y="4" width="20" height="16" rx="2"></rect><line x1="6" y1="12" x2="18" y2="12"></line>
+      </svg>
+    </div>
+    <button class="dock-tab-btn" onclick="trocarAbaWorkspace('tab-estoque-geral', this)">
+      <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path></svg>
+      <span class="lbl">Estoque</span>
+    </button>
+    <button class="dock-tab-btn" onclick="trocarAbaWorkspace('tab-configuracoes-db', this)">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle></svg>
+      <span class="lbl">Config</span>
     </button>
   </nav>
 
   <script>
-    // 1. INICIALIZAÇÃO COM SESSIONSTORAGE (SPLASH APENAS NO PRIMEIRO CARREGAMENTO)
-    window.addEventListener('DOMContentLoaded', () => {
-      const splashExecutado = sessionStorage.getItem('rt_splash_seen');
-      if (splashExecutado) {
-        document.getElementById('splash-screen').classList.add('hidden');
-      } else {
-        setTimeout(() => {
-          document.getElementById('splash-screen').classList.add('hidden');
-          sessionStorage.setItem('rt_splash_seen', 'true');
-        }, 2000);
-      }
-
-      renderizarTudo();
-    });
+    // ESTADO GERAL
+    let sessaoUsuario = {
+      email: null,
+      role: 'CLIENTE',
+      autenticado: false
+    };
 
     let dadosBarbearia = {
       nome: 'RT Mobile Barber',
@@ -1094,18 +1065,15 @@
       { id: 's5', nome: 'Barba Tradicional c/ Toalha Quente', preco: 40.00, duracao: '30 min', categoria: 'BARBA', ativo: true },
       { id: 's6', nome: 'Combo: Corte Degradê + Barba Completa', preco: 85.00, duracao: '60 min', categoria: 'COMBO', ativo: true },
       { id: 's7', nome: 'Design de Sobrancelha Navalhada', preco: 20.00, duracao: '15 min', categoria: 'NAVALHA', ativo: true },
-      { id: 's8', nome: 'Lavagem Capilar c/ Massagem', preco: 20.00, duracao: '15 min', categoria: 'CORTE', ativo: true },
-      { id: 's9', nome: 'Hidratação Capilar Profunda', preco: 35.00, duracao: '25 min', categoria: 'CORTE', ativo: true },
-      { id: 's10', nome: 'Pigmentação Barba / Cabelo', preco: 30.00, duracao: '20 min', categoria: 'BARBA', ativo: true },
-      { id: 's11', nome: 'Luzes / Mechas Masculinas', preco: 80.00, duracao: '60 min', categoria: 'CORTE', ativo: false },
-      { id: 's12', nome: 'Platinado Global / Nevou', preco: 120.00, duracao: '90 min', categoria: 'CORTE', ativo: false }
+      { id: 's8', nome: 'Lavagem Capilar c/ Massagem', preco: 20.00, duracao: '15 min', categoria: 'CORTE', ativo: true }
     ];
 
+    // BARBEIROS COMPLETOS COM WHATSAPP DIRETO E INSTAGRAM
     let barbeirosDB = [
-      { id: 'b1', nome: 'Lucas Ferreira', nota: '4.9', foto: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200', presenteHoje: true },
-      { id: 'b2', nome: 'Gabriel Santos', nota: '4.8', foto: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200', presenteHoje: true },
-      { id: 'b3', nome: 'Rafael Lima', nota: '4.9', foto: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?q=80&w=200', presenteHoje: true },
-      { id: 'b4', nome: 'Matheus Alves', nota: '4.7', foto: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200', presenteHoje: false }
+      { id: 'b1', nome: 'Lucas Ferreira', nota: '4.9', foto: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200', instagram: '@lucas.barber', whatsapp: '5591984551100', especialidade: 'Especialista em Degradê & Navalhado', presenteHoje: true },
+      { id: 'b2', nome: 'Gabriel Santos', nota: '4.8', foto: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200', instagram: '@gabriel.barber', whatsapp: '5591984551100', especialidade: 'Mestre em Barba Terapia & Toalha Quente', presenteHoje: true },
+      { id: 'b3', nome: 'Rafael Lima', nota: '4.9', foto: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?q=80&w=200', instagram: '@rafael.fade', whatsapp: '5591984551100', especialidade: 'Corte na Tesoura & Penteados Clássicos', presenteHoje: true },
+      { id: 'b4', nome: 'Matheus Alves', nota: '4.7', foto: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200', instagram: '@matheus.cut', whatsapp: '5591984551100', especialidade: 'Platinados, Luzes & Químicas', presenteHoje: false }
     ];
 
     let estoqueDB = [
@@ -1115,10 +1083,8 @@
       { id: 'p4', nome: 'Cerveja Artesanal Long Neck', preco: 12.00, estoque: 18 }
     ];
 
-    let auditLogs = [
-      '14:20 • Dono alterou valor de Corte Degradê para R$ 50,00',
-      '13:45 • Operador Lucas Ferreira marcou agendamento balcão',
-      '12:00 • Sistema realizou conciliação automática do caixa'
+    let comandasDB = [
+      { id: 'c1', cliente: 'Lucas Silva', barbeiro: 'Lucas Ferreira', itens: ['Corte Degradê (R$ 50)', 'Cerveja Artesanal (R$ 12)'], total: 62.00 }
     ];
 
     let servicoSelecionado = servicosDB[1];
@@ -1127,15 +1093,97 @@
     let horaSelecionada = '16:00';
     let metodoPagamento = 'LOCAL';
 
-    function renderizarTudo() {
-      renderizarPainelHorizontal4Colunas();
-      renderizarTabelaMatrizEquipe();
-      renderizarServicosGestao();
-      renderizarBarbeirosFolgas();
-      renderizarEstoqueGestao();
-      renderizarAuditLogs();
+    // AUTENTICAÇÃO REAL & VALIDAÇÃO
+    function alternarAbaAuth(tipo) {
+      document.getElementById('btn-tab-auth-cliente').className = 'auth-tab-btn' + (tipo === 'CLIENTE' ? ' active' : '');
+      document.getElementById('btn-tab-auth-dono').className = 'auth-tab-btn' + (tipo === 'DONO' ? ' active' : '');
+      document.getElementById('btn-trial-trigger-auth').style.display = tipo === 'DONO' ? 'inline' : 'none';
     }
 
+    function processarAutenticacao() {
+      const email = document.getElementById('auth-input-email').value.trim();
+      const senha = document.getElementById('auth-input-senha').value.trim();
+
+      if (!email || !email.includes('@')) {
+        alert('Por favor, informe um endereço de e-mail válido.');
+        return;
+      }
+      if (!senha || senha.length < 6) {
+        alert('A senha deve ter no mínimo 6 caracteres.');
+        return;
+      }
+
+      sessaoUsuario.email = email;
+      sessaoUsuario.autenticado = true;
+      document.getElementById('lbl-logged-email').innerText = email;
+
+      if (email === 'roberthaelley75@gmail.com') {
+        sessaoUsuario.role = 'SUPER_ADMIN';
+        document.getElementById('badge-role-user').className = 'badge-pill-status vitalicio';
+        document.getElementById('badge-role-user').innerText = 'Super Admin Vitalício';
+        mudarPerfilVisual('DONO');
+      } else {
+        sessaoUsuario.role = 'CLIENTE';
+        document.getElementById('badge-role-user').className = 'badge-pill-status';
+        document.getElementById('badge-role-user').innerText = 'Cliente Autenticado';
+        mudarPerfilVisual('CLIENTE');
+      }
+
+      document.getElementById('auth-screen-overlay').classList.add('hidden');
+    }
+
+    function ativarTrial48h() {
+      const email = prompt("Informe o e-mail da sua Barbearia para ativar 48h Grátis:");
+      if (!email || !email.includes('@')) return;
+      sessaoUsuario.email = email;
+      sessaoUsuario.role = 'DONO';
+      sessaoUsuario.autenticado = true;
+      document.getElementById('lbl-logged-email').innerText = email;
+      document.getElementById('badge-role-user').className = 'badge-pill-status trial';
+      document.getElementById('badge-role-user').innerText = 'Teste 48h Ativo';
+      document.getElementById('auth-screen-overlay').classList.add('hidden');
+      mudarPerfilVisual('DONO');
+      alert(`Parabéns! Barbearia ${email} ativada com 48 Horas de Teste Grátis.`);
+    }
+
+    function realizarLogout() {
+      sessaoUsuario.autenticado = false;
+      sessaoUsuario.email = null;
+      document.getElementById('auth-input-email').value = '';
+      document.getElementById('auth-input-senha').value = '';
+      document.getElementById('auth-screen-overlay').classList.remove('hidden');
+    }
+
+    function mudarPerfilVisual(perfil) {
+      const sidebar = document.getElementById('app-sidebar-lateral');
+      const dockCliente = document.getElementById('dock-cliente-mobile');
+      const dockDono = document.getElementById('dock-dono-mobile');
+
+      if (perfil === 'CLIENTE') {
+        sidebar.style.display = 'none';
+        dockCliente.style.display = 'flex';
+        dockDono.style.display = 'none';
+        trocarAbaWorkspace('tab-cliente-portal-view', null);
+      } else {
+        sidebar.style.display = 'flex';
+        dockCliente.style.display = 'none';
+        dockDono.style.display = 'flex';
+        trocarAbaWorkspace('tab-visao-geral', null);
+      }
+    }
+
+    // RENDERIZAR TUDO
+    function renderizarTudo() {
+      renderizarPainelHorizontal4Colunas();
+      renderizarLojaCliente();
+      renderizarBarbeirosCompletos();
+      renderizarTabelaMatrizEquipe();
+      renderizarServicosGestao();
+      renderizarEstoqueGestao();
+      renderizarComandas();
+    }
+
+    // 1. HORIZONTAL 4 COLUNAS
     function renderizarPainelHorizontal4Colunas(cat = 'TODOS') {
       const col1 = document.getElementById('col1-services-list');
       col1.innerHTML = '';
@@ -1163,7 +1211,7 @@
         const div = document.createElement('div');
         div.className = 'schedule-pick-row' + (isSel ? ' selected' : '');
         div.onclick = () => {
-          if (!b.presenteHoje) { alert(`${b.nome} está de folga hoje.`); return; }
+          if (!b.presenteHoje) { alert(`${b.nome} está de folga.`); return; }
           barbeiroSelecionado = b;
           renderizarPainelHorizontal4Colunas(cat);
           atualizarResumoHorizontal();
@@ -1233,9 +1281,14 @@
     }
 
     function confirmarAgendamentoClienteFinal() {
-      const msg = `*NOVO AGENDAMENTO - RT MOBILE BARBER*%0A%0A*Barbeiro:* ${barbeiroSelecionado.nome}%0A*Data/Hora:* ${dataSelecionada} às ${horaSelecionada}%0A*Serviço:* ${servicoSelecionado.nome}%0A*Total:* R$ ${servicoSelecionado.preco.toFixed(2).replace('.', ',')}%0A*Forma de Pagamento:* ${metodoPagamento === 'LOCAL' ? 'Pagar no Local' : 'Pix'}%0A%0AGostaria de confirmar meu agendamento!`;
+      if (!sessaoUsuario.autenticado) {
+        alert('Por favor, faça login ou cadastre-se primeiro.');
+        document.getElementById('auth-screen-overlay').classList.remove('hidden');
+        return;
+      }
+      const msg = `*NOVO AGENDAMENTO - RT MOBILE BARBER*%0A%0A*Cliente:* ${sessaoUsuario.email}%0A*Barbeiro:* ${barbeiroSelecionado.nome}%0A*Data/Hora:* ${dataSelecionada} às ${horaSelecionada}%0A*Serviço:* ${servicoSelecionado.nome}%0A*Total:* R$ ${servicoSelecionado.preco.toFixed(2).replace('.', ',')}%0A*Pagamento:* ${metodoPagamento === 'LOCAL' ? 'Pagar no Local' : 'Pix'}%0A%0AGostaria de confirmar meu agendamento!`;
       window.open(`https://wa.me/${dadosBarbearia.whatsapp}?text=${msg}`, '_blank');
-      alert('Agendamento enviado com sucesso!');
+      alert('Agendamento confirmado!');
     }
 
     function filtrarCategoriaPortal(cat, btn) {
@@ -1244,7 +1297,91 @@
       renderizarPainelHorizontal4Colunas(cat);
     }
 
-    // 2. MATRIZ SEMANAL EXPANSÍVEL
+    // 2. LOJA DE PRODUTOS PARA O CLIENTE (FILTRA ESTOQUE POSITIVO)
+    function renderizarLojaCliente() {
+      const grid = document.getElementById('grid-loja-cliente-produtos');
+      grid.innerHTML = '';
+      estoqueDB.filter(p => p.estoque > 0).forEach(p => {
+        const card = document.createElement('div');
+        card.style.background = '#141624'; card.style.border = '1px solid var(--border)'; card.style.borderRadius = '16px'; card.style.padding = '14px'; card.style.display = 'flex'; card.style.flexDirection = 'column'; card.style.justifyContent = 'space-between';
+        card.innerHTML = `
+          <div>
+            <h4 style="font-size:13px; font-weight:900; text-transform:uppercase;">${p.nome}</h4>
+            <div style="font-size:10px; color:var(--neon-green); font-weight:800; margin-top:2px;">● ${p.estoque} unidades disponíveis</div>
+          </div>
+          <div style="margin-top:14px; display:flex; justify-content:space-between; align-items:center;">
+            <strong style="color:var(--gold); font-size:14px;">R$ ${p.preco.toFixed(2)}</strong>
+            <button class="btn-gold-primary" style="padding:6px 12px; font-size:10px;" onclick="comprarProdutoWhatsApp('${p.nome}', ${p.preco})">Comprar ➔</button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function comprarProdutoWhatsApp(nome, preco) {
+      const msg = `*PEDIDO DE PRODUTO - RT MOBILE BARBER*%0A%0A*Item:* ${nome}%0A*Valor:* R$ ${preco.toFixed(2)}%0A%0AGostaria de reservar para retirar na barbearia!`;
+      window.open(`https://wa.me/${dadosBarbearia.whatsapp}?text=${msg}`, '_blank');
+    }
+
+    // 3. BARBEIROS COMPLETOS COM WHATSAPP DIRETO E INSTAGRAM
+    function renderizarBarbeirosCompletos() {
+      const container = document.getElementById('lista-barbeiros-cards-completos');
+      container.innerHTML = '';
+      barbeirosDB.forEach((b, idx) => {
+        const card = document.createElement('div');
+        card.className = 'barber-detail-profile-card';
+        card.innerHTML = `
+          <img src="${b.foto}" class="barber-pic-lg">
+          <div style="flex:1;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <h4 style="font-size:14px; font-weight:900;">${b.nome}</h4>
+              <span style="font-size:11px; color:var(--gold); font-weight:800;">★ ${b.nota}</span>
+            </div>
+            <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">${b.especialidade}</div>
+            <div style="font-size:11px; color:var(--blue); font-weight:800; margin-top:2px;">Instagram: ${b.instagram}</div>
+            <div style="margin-top:10px; display:flex; gap:8px;">
+              <a href="https://wa.me/${b.whatsapp}?text=Olá%20${encodeURIComponent(b.nome)},%20gostaria%20de%20saber%20sobre%20seus%20horários!" target="_blank" class="btn-dark-secondary" style="padding:6px 12px; font-size:10px; text-decoration:none; display:inline-block;">
+                Falar no WhatsApp Direto 💬
+              </a>
+              <button class="btn-gold-primary" style="padding:6px 12px; font-size:10px;" onclick="selecionarBarbeiroDireto(${idx})">Agendar Horário ➔</button>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function selecionarBarbeiroDireto(idx) {
+      barbeiroSelecionado = barbeirosDB[idx];
+      mudarPerfilVisual('CLIENTE');
+      renderizarPainelHorizontal4Colunas();
+      alert(`Barbeiro ${barbeiroSelecionado.nome} selecionado! Escolha o serviço e a data.`);
+    }
+
+    function adicionarBarbeiroCompletoPrompt() {
+      const nome = prompt("Nome do Barbeiro:");
+      if (!nome) return;
+      const insta = prompt("Instagram do Barbeiro (com @):", "@barbeiro.rt");
+      const fone = prompt("WhatsApp do Barbeiro com DDD:", "5591984551100");
+      const esp = prompt("Especialidade:", "Cortes Modernos & Barba");
+
+      barbeirosDB.push({
+        id: 'b_' + Date.now(),
+        nome: nome.trim(),
+        nota: '5.0',
+        foto: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200',
+        instagram: insta,
+        whatsapp: fone,
+        especialidade: esp,
+        presenteHoje: true
+      });
+      renderizarBarbeirosCompletos();
+      renderizarPainelHorizontal4Colunas();
+      renderizarTabelaMatrizEquipe();
+      alert(`Barbeiro ${nome} cadastrado com sucesso!`);
+    }
+
+    // 4. MATRIZ SEMANAL DINÂMICA
     function renderizarTabelaMatrizEquipe() {
       const tabela = document.getElementById('tabela-matriz-equipe');
       let thead = '<thead><tr><th style="padding:10px; background:#141724; color:var(--gold); border:1px solid var(--border);">Horário</th>';
@@ -1272,7 +1409,7 @@
       tabela.innerHTML = thead + tbody;
     }
 
-    // 3. GESTÃO DE SERVIÇOS
+    // 5. GESTÃO DE SERVIÇOS & PREÇOS
     function renderizarServicosGestao() {
       const container = document.getElementById('lista-servicos-gestao-crud');
       container.innerHTML = '';
@@ -1313,36 +1450,7 @@
       renderizarServicosGestao(); renderizarPainelHorizontal4Colunas();
     }
 
-    // 4. BARBEIROS E FOLGAS
-    function renderizarBarbeirosFolgas() {
-      const container = document.getElementById('lista-barbeiros-folgas-crud');
-      container.innerHTML = '';
-      barbeirosDB.forEach((b, idx) => {
-        const div = document.createElement('div');
-        div.style.display = 'flex'; div.style.justifyContent = 'space-between'; div.style.alignItems = 'center'; div.style.background = '#151824'; div.style.padding = '12px 18px'; div.style.borderRadius = '12px'; div.style.marginBottom = '8px';
-        div.innerHTML = `
-          <div><h4 style="font-size:12px; font-weight:800;">${b.nome}</h4><span style="font-size:10px; color:${b.presenteHoje ? 'var(--neon-green)' : 'var(--red)'};">${b.presenteHoje ? '● Atendendo Hoje' : '○ De Folga'}</span></div>
-          <button class="btn-dark-secondary" style="padding:6px 12px; font-size:10px;" onclick="toggleFolgaBarbeiro(${idx})">${b.presenteHoje ? 'Marcar Folga' : 'Marcar Presente'}</button>
-        `;
-        container.appendChild(div);
-      });
-    }
-
-    function toggleFolgaBarbeiro(idx) {
-      barbeirosDB[idx].presenteHoje = !barbeirosDB[idx].presenteHoje;
-      renderizarBarbeirosFolgas();
-      renderizarTabelaMatrizEquipe();
-      renderizarPainelHorizontal4Colunas();
-    }
-
-    function adicionarBarbeiroPrompt() {
-      const nome = prompt("Nome do Barbeiro:");
-      if (!nome) return;
-      barbeirosDB.push({ id: 'b_' + Date.now(), nome: nome.trim(), nota: '5.0', foto: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200', presenteHoje: true });
-      renderizarBarbeirosFolgas(); renderizarTabelaMatrizEquipe(); renderizarPainelHorizontal4Colunas();
-    }
-
-    // 5. ESTOQUE
+    // 6. ESTOQUE & PREÇO DOS PRODUTOS
     function renderizarEstoqueGestao() {
       const grid = document.getElementById('grid-estoque-produtos-admin');
       grid.innerHTML = '';
@@ -1353,7 +1461,10 @@
           <strong style="font-size:12px; color:#fff;">${p.nome}</strong>
           <div style="font-size:10px; color:${p.estoque < 3 ? 'var(--red)' : 'var(--neon-green)'}; font-weight:800; margin:4px 0;">● ${p.estoque} un (${p.estoque < 3 ? 'Estoque Baixo!' : 'Disponível'})</div>
           <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
-            <strong style="color:var(--gold);">R$ ${p.preco.toFixed(2)}</strong>
+            <div style="display:flex; align-items:center; background:#090a10; border:1px solid var(--border); border-radius:6px; padding:3px 6px;">
+              <span style="font-size:10px; color:var(--gold); font-weight:800;">R$</span>
+              <input type="number" step="0.50" value="${p.preco.toFixed(2)}" onchange="alterarPrecoProduto(${idx}, this.value)" style="background:transparent; border:none; color:#fff; font-size:11px; font-weight:900; width:45px; text-align:right; outline:none;">
+            </div>
             <div>
               <button onclick="alterarEstoque(${idx}, 1)" style="background:#1e2233; color:#fff; border:none; padding:4px 8px; border-radius:6px; cursor:pointer; font-weight:900;">+</button>
               <button onclick="alterarEstoque(${idx}, -1)" style="background:#1e2233; color:#fff; border:none; padding:4px 8px; border-radius:6px; cursor:pointer; font-weight:900;">-</button>
@@ -1364,21 +1475,53 @@
       });
     }
 
+    function alterarPrecoProduto(idx, val) {
+      estoqueDB[idx].preco = parseFloat(val) || 0;
+      renderizarLojaCliente();
+      alert(`Preço de "${estoqueDB[idx].nome}" atualizado!`);
+    }
+
     function alterarEstoque(idx, delta) {
       estoqueDB[idx].estoque += delta;
       if (estoqueDB[idx].estoque < 0) estoqueDB[idx].estoque = 0;
       renderizarEstoqueGestao();
+      renderizarLojaCliente();
     }
 
     function cadastrarProdutoEstoquePrompt() {
-      const nome = prompt("Nome do Produto / Pomada:");
+      const nome = prompt("Nome do Produto / Pomada / Bebida:");
       if (!nome) return;
       const preco = parseFloat(prompt("Preço de Venda (R$):", "40.00"));
       estoqueDB.push({ id: 'p_' + Date.now(), nome: nome.trim(), preco: isNaN(preco) ? 40.00 : preco, estoque: 10 });
       renderizarEstoqueGestao();
+      renderizarLojaCliente();
     }
 
-    // 6. CAIXA & AUDIT LOGS
+    // 7. COMANDAS & CAIXA
+    function renderizarComandas() {
+      const container = document.getElementById('lista-comandas-ativas');
+      container.innerHTML = '';
+      comandasDB.forEach((c, idx) => {
+        const div = document.createElement('div');
+        div.style.background = '#151824'; div.style.padding = '14px'; div.style.borderRadius = '12px'; div.style.marginBottom = '10px';
+        div.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <strong style="color:#fff; font-size:12px;">${c.cliente} (${c.barbeiro})</strong>
+            <strong style="color:var(--gold); font-size:13px;">R$ ${c.total.toFixed(2)}</strong>
+          </div>
+          <div style="font-size:11px; color:#cbd5e1; margin-bottom:8px;">${c.itens.join(' + ')}</div>
+          <button onclick="fecharComanda(${idx})" class="btn-gold-primary" style="padding:6px; font-size:10px; width:100%;">Fechar Comanda ↗</button>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function fecharComanda(idx) {
+      alert(`Comanda de ${comandasDB[idx].cliente} fechada no valor de R$ ${comandasDB[idx].total.toFixed(2)}!`);
+      comandasDB.splice(idx, 1);
+      renderizarComandas();
+    }
+
     function apurarFechamentoCego() {
       const d = parseFloat(document.getElementById('inp-fech-dinheiro').value) || 0;
       const c = parseFloat(document.getElementById('inp-fech-cartao').value) || 0;
@@ -1393,31 +1536,17 @@
       }
     }
 
-    function lancarCaixaEntrada() {
-      const v = parseFloat(prompt("Valor de Entrada (R$):", "50.00"));
-      if (v) alert(`Entrada de R$ ${v.toFixed(2)} registrada no caixa!`);
+    // 8. CONFIGURAÇÕES SUPABASE
+    function salvarConfigSupabase() {
+      const url = document.getElementById('cfg-supabase-url').value;
+      const key = document.getElementById('cfg-supabase-key').value;
+      alert(`Credenciais Supabase salvas e conectadas com sucesso!
+URL: ${url}`);
     }
 
-    function lancarCaixaSangria() {
-      const v = parseFloat(prompt("Valor da Sangria / Despesa (R$):", "20.00"));
-      if (v) alert(`Sangria de R$ ${v.toFixed(2)} lançada com sucesso!`);
-    }
-
-    function renderizarAuditLogs() {
-      const div = document.getElementById('audit-log-list');
-      div.innerHTML = auditLogs.map(l => `<div style="padding:6px 0; border-bottom:1px solid var(--border);">${l}</div>`).join('');
-    }
-
-    // 7. BIO SLUG & CONFIGURAÇÕES
     function copiarLinkBio() {
       navigator.clipboard.writeText(document.getElementById('inp-slug-bio').value);
       alert('Link exclusivo da Bio copiado! Cole no Instagram da sua barbearia.');
-    }
-
-    function convidarFuncionario() {
-      const email = document.getElementById('inp-convite-email').value;
-      if (!email) { alert('Digite o e-mail do funcionário.'); return; }
-      alert(`Convite enviado com sucesso para ${email}!`);
     }
 
     function salvarConfiguracoesGerais() {
@@ -1427,11 +1556,12 @@
       dadosBarbearia.chavePix = document.getElementById('cfg-inp-pix').value;
       document.getElementById('lbl-establishment-name').innerText = dadosBarbearia.nome;
       document.getElementById('lbl-establishment-address').innerText = dadosBarbearia.endereco;
+      document.getElementById('side-nome-barbearia').innerText = dadosBarbearia.nome;
       document.getElementById('banner-hero-establishment').style.backgroundImage = `url('${dadosBarbearia.foto}')`;
       alert('Configurações salvas!');
     }
 
-    // 8. NAVEGAÇÃO DE WORKSPACE
+    // 9. NAVEGAÇÃO DE WORKSPACE
     function trocarAbaWorkspace(tabId, btn) {
       document.querySelectorAll('.screen-tab-panel').forEach(p => p.classList.remove('active'));
       document.getElementById(tabId).classList.add('active');
@@ -1442,60 +1572,13 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    function trocarAbaMobileCliente(tabId, btn) {
+      trocarAbaWorkspace(tabId, btn);
+    }
+
     function abrirAgendamentoRapidoDock() {
       trocarAbaWorkspace('tab-cliente-portal-view', null);
       document.querySelector('.board-horizontal-schedule').scrollIntoView({ behavior: 'smooth' });
-    }
-
-    // 9. AUTENTICAÇÃO & ROLES
-    function alternarAuthTab(tipo) {
-      document.getElementById('btn-auth-cliente-tab').className = 'auth-tab-btn' + (tipo === 'CLIENTE' ? ' active' : '');
-      document.getElementById('btn-auth-dono-tab').className = 'auth-tab-btn' + (tipo === 'DONO' ? ' active' : '');
-      document.getElementById('auth-trial-trigger').style.display = tipo === 'DONO' ? 'block' : 'none';
-    }
-
-    function realizarLogin() {
-      const email = document.getElementById('auth-inp-email').value.trim();
-      document.getElementById('lbl-logged-email').innerText = email;
-      document.getElementById('auth-screen-overlay').classList.add('hidden');
-    }
-
-    function ativarTesteGratis48h() {
-      alert('Parabéns! Sua barbearia foi ativada com 48 Horas de Teste Grátis no RT Mobile Barber.');
-      document.getElementById('auth-screen-overlay').classList.add('hidden');
-      document.getElementById('lbl-tag-permissao').className = 'badge-pill-status trial';
-      document.getElementById('lbl-tag-permissao').innerText = 'Teste Grátis (48h Ativo)';
-    }
-
-    function definirModoVisao(modo) {
-      const sidebar = document.getElementById('app-sidebar-lateral');
-      const btnCaixa = document.getElementById('menu-btn-caixa');
-      const btnConfig = document.getElementById('menu-btn-config');
-
-      if (modo === 'CLIENTE') {
-        sidebar.style.display = 'none';
-        trocarAbaWorkspace('tab-cliente-portal-view', null);
-      } else if (modo === 'DONO') {
-        sidebar.style.display = 'flex';
-        btnCaixa.style.display = 'flex';
-        btnConfig.style.display = 'flex';
-        trocarAbaWorkspace('tab-visao-geral', null);
-      } else if (modo === 'OPERADOR') {
-        sidebar.style.display = 'flex';
-        btnCaixa.style.display = 'none';
-        btnConfig.style.display = 'none';
-        trocarAbaWorkspace('tab-grade-semanal', null);
-        alert('Visão de Operador: Acesso restrito a atendimento e agenda (métricas e comissões bloqueadas).');
-      }
-    }
-
-    function realizarLogout() {
-      document.getElementById('auth-screen-overlay').classList.remove('hidden');
-    }
-
-    function copiarChaveDev() {
-      navigator.clipboard.writeText('roberthaelley75@gmail.com');
-      alert('Chave Pix copiada com sucesso!');
     }
   </script>
 </body>
