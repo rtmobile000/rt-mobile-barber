@@ -3,31 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>RT Mobile Barber • Barbearia Premium</title>
+  <title>RT Mobile Barber • Experiência Premium</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      -webkit-tap-highlight-color: transparent;
-      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    }
-
     :root {
       --bg-black: #050608;
-      --bg-surface: #0b0d13;
+      --bg-surface: #0a0c12;
       --bg-card: #121520;
-      --bg-card-hover: #171b28;
-      --bg-input: #151824;
-      --border: #232838;
-      --border-light: #2d3448;
+      --bg-card-inner: #161a28;
+      --border: #202536;
+      --border-focus: #c59b63;
       --gold: #d4a373;
-      --gold-light: #e5b98f;
-      --gold-dark: #b68252;
-      --gold-glow: rgba(212, 163, 115, 0.22);
+      --gold-bright: #e7bc8f;
+      --gold-dark: #b88251;
+      --gold-glow: rgba(212, 163, 115, 0.16);
       --neon-green: #10b981;
       --neon-glow: rgba(16, 185, 129, 0.35);
       --red: #ef4444;
@@ -35,6 +26,14 @@
       --purple: #a855f7;
       --text-white: #ffffff;
       --text-muted: #8e95a5;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
 
     body {
@@ -47,11 +46,11 @@
     }
 
     /* =========================================================
-       1. SPLASH SCREEN (EFEITO LUXO COM SUMIÇO IMEDIATO)
+       1. SPLASH SCREEN (AUTORREMOÇÃO INCONDICIONAL)
        ========================================================= */
     #splash-screen {
       position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
+      inset: 0;
       background: #000000;
       display: flex;
       flex-direction: column;
@@ -109,21 +108,19 @@
     }
 
     /* =========================================================
-       2. TELA DE AUTENTICAÇÃO HÍBRIDA 100% BLINDADA
+       2. TELA DE AUTENTICAÇÃO HÍBRIDA (ISOLADA)
        ========================================================= */
     #auth-screen-overlay {
       position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
+      inset: 0;
       background: #050608;
-      z-index: 999999;
+      z-index: 888888;
       display: flex;
       flex-direction: column;
       overflow-y: auto;
     }
     #auth-screen-overlay.hidden {
       display: none !important;
-      visibility: hidden !important;
-      pointer-events: none !important;
     }
     .auth-split-wrapper {
       display: flex;
@@ -143,7 +140,7 @@
     .auth-hero-side::after {
       content: "";
       position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
+      inset: 0;
       background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(5,6,8,0.92) 80%, #050608 100%);
     }
     .auth-hero-content {
@@ -219,7 +216,7 @@
 
     .form-input-field {
       width: 100%;
-      background: var(--bg-input);
+      background: #141724;
       border: 1.5px solid var(--border);
       border-radius: 12px;
       padding: 14px 16px;
@@ -249,9 +246,35 @@
       box-shadow: 0 8px 24px rgba(212, 163, 115, 0.3);
       transition: all 0.2s;
     }
-    .btn-submit-auth:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 28px rgba(212, 163, 115, 0.4);
+
+    /* Refinamento premium e correções de responsividade */
+    html { scroll-behavior: smooth; }
+    button, a, input { -webkit-tap-highlight-color: transparent; }
+    button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid var(--gold-bright); outline-offset: 3px; }
+    .auth-split-wrapper { background: radial-gradient(ellipse at 75% 20%, rgba(212,163,115,.07), transparent 42%); }
+    .auth-hero-side { isolation: isolate; }
+    .auth-hero-side::after { background: linear-gradient(90deg, rgba(0,0,0,.22), rgba(5,6,8,.30)), linear-gradient(0deg, #050608 0%, rgba(5,6,8,.70) 35%, rgba(5,6,8,.05) 100%); }
+    .auth-form-side { border-left: 1px solid rgba(212,163,115,.12); }
+    .btn-submit-auth:hover { filter: brightness(1.07); transform: translateY(-1px); }
+    .service-bubble-card, .barber-pro-card { transition: border-color .2s ease, transform .2s ease, background .2s ease; }
+    .service-bubble-card:hover, .barber-pro-card:hover { transform: translateY(-2px); border-color: rgba(212,163,115,.55); }
+    .floating-bottom-dock { padding-bottom: max(8px, env(safe-area-inset-bottom)); }
+    .screen-tab-panel { min-width: 0; }
+    .main-viewport, .workspace-inner { min-width: 0; max-width: 100%; }
+    .matrix-table { min-width: 640px; }
+    @media (min-width: 901px) {
+      .auth-split-wrapper { min-height: 100vh; }
+      .auth-hero-side { min-height: 100vh; }
+      .auth-form-side { max-width: 520px; }
+    }
+    @media (max-width: 600px) {
+      .saas-status-bar { padding: 10px 14px; }
+      .saas-status-bar > div:first-child { display:flex; flex-wrap:wrap; align-items:center; gap:6px; }
+      .saas-status-bar > div:last-child { width:100%; display:grid !important; grid-template-columns:1fr 1fr auto; }
+      .btn-role-tab { padding:9px 8px; font-size:10px; }
+      .auth-hero-side { min-height: 235px; }
+      .auth-hero-title { max-width: 320px; }
+      .auth-hero-sub { max-width: 340px; }
     }
 
     /* =========================================================
@@ -295,10 +318,7 @@
       cursor: pointer;
       transition: all 0.2s;
     }
-    .btn-role-tab:hover {
-      background: #1c2030;
-      color: #fff;
-    }
+    .btn-role-tab:hover { background: #1c2030; color: #fff; }
     .btn-role-tab.active {
       border-color: var(--gold);
       color: var(--gold);
@@ -306,7 +326,7 @@
     }
 
     /* =========================================================
-       4. ESTRUTURA GERAL (DESKTOP HORIZONTAL vs MOBILE)
+       4. ESTRUTURA GERAL (LAYOUT RESPONSIVO)
        ========================================================= */
     .app-main-layout {
       display: flex;
@@ -314,7 +334,6 @@
       min-height: calc(100vh - 54px);
     }
 
-    /* SIDEBAR DO DONO NO PC */
     .desktop-sidebar {
       width: 280px;
       background: #08090d;
@@ -446,7 +465,7 @@
     }
 
     /* =========================================================
-       5. VISÃO DO CLIENTE: EXPERIÊNCIA "CASA BRAVA" DEFINITIVA
+       5. DESIGN CASA BRAVA DO VÍDEO (CLIENTE)
        ========================================================= */
     .casa-brava-hero {
       width: 100%;
@@ -466,7 +485,7 @@
     .casa-brava-hero::after {
       content: "";
       position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
+      inset: 0;
       background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(5,6,8,0.88) 75%, #07080c 100%);
       border-radius: 28px;
       z-index: 1;
@@ -497,7 +516,6 @@
       line-height: 1.6;
     }
 
-    /* CARROSSEL HORIZONTAL DE SERVIÇOS (ESTILO CASA BRAVA 00:01) */
     .services-carousel-strip {
       display: flex;
       gap: 16px;
@@ -547,7 +565,6 @@
       color: var(--gold);
     }
 
-    /* CARDS LUXUOSOS DOS BARBEIROS (ESTILO CASA BRAVA 00:02) */
     .barber-pro-card {
       background: #11141e;
       border: 1.5px solid var(--border);
@@ -615,7 +632,7 @@
       text-transform: uppercase;
     }
 
-    /* PAINEL HORIZONTAL 4 COLUNAS (IMAGE_2.PNG + CASA BRAVA) */
+    /* PAINEL HORIZONTAL 4 COLUNAS */
     .schedule-board-horizontal {
       background: #0d0f17;
       border: 1.5px solid var(--border);
@@ -684,7 +701,6 @@
       color: #000;
     }
 
-    /* PÍLULAS DE DIAS (ESTILO CASA BRAVA 00:04) */
     .calendar-pills-row {
       display: flex;
       gap: 8px;
@@ -712,7 +728,6 @@
     .day-pill-card .weekday { font-size: 10px; font-weight: 800; text-transform: uppercase; }
     .day-pill-card .daynum { font-size: 18px; font-weight: 900; margin-top: 2px; }
 
-    /* GRADE DE HORÁRIOS ESTILO CASA BRAVA (00:05) */
     .time-grid-casa-brava {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -763,9 +778,44 @@
     }
     .receipt-row.total strong { color: var(--gold); }
 
-    /* =========================================================
-       6. LOJA DO CLIENTE COM CARRINHO MULTIPLO & CHECKOUT
-       ========================================================= */
+    /* MODAL DE CONVERSÃO / SUCESSO DO AGENDAMENTO */
+    #modal-sucesso-agendamento {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.92);
+      backdrop-filter: blur(14px);
+      z-index: 999995;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .sucesso-box-container {
+      background: #11131c;
+      border: 1.5px solid var(--gold);
+      border-radius: 28px;
+      max-width: 440px;
+      width: 100%;
+      padding: 32px 28px;
+      text-align: center;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.95);
+    }
+    .selo-check-gold {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--gold);
+      color: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      font-weight: 900;
+      margin: 0 auto 16px;
+      box-shadow: 0 0 30px rgba(212, 163, 115, 0.4);
+    }
+
+    /* LOJA DE PRODUTOS & CARRINHO */
     .product-shop-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
@@ -790,7 +840,7 @@
 
     #cart-slide-modal {
       position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
+      inset: 0;
       background: rgba(0,0,0,0.92);
       backdrop-filter: blur(14px);
       z-index: 999990;
@@ -811,9 +861,7 @@
       box-shadow: 0 24px 60px rgba(0,0,0,0.9);
     }
 
-    /* =========================================================
-       7. MATRIZ SEMANAL EXPANSÍVEL (DONO)
-       ========================================================= */
+    /* MATRIZ SEMANAL EXPANSÍVEL */
     .matrix-board-container {
       width: 100%;
       overflow-x: auto;
@@ -851,9 +899,7 @@
       padding: 5px;
     }
 
-    /* =========================================================
-       8. ILHAS FLUTUANTES SEPARADAS (MOBILE EXCLUSIVO COM EMOJIS)
-       ========================================================= */
+    /* DOCKS FLUTUANTES (MOBILE EXCLUSIVO) */
     .floating-bottom-dock {
       position: fixed;
       bottom: 20px;
@@ -923,7 +969,7 @@
 </head>
 <body>
 
-  <!-- 1. SPLASH SCREEN (EFEITO LUXO COM SUMIÇO INCONDICIONAL) -->
+  <!-- 1. SPLASH SCREEN (AUTORREMOÇÃO INCONDICIONAL) -->
   <div id="splash-screen">
     <div class="splash-halo"></div>
     <div class="splash-rt">RT</div>
@@ -932,10 +978,9 @@
     <div class="splash-tagline">SISTEMA DE GESTÃO PROFISSIONAL</div>
   </div>
 
-  <!-- 2. TELA DE AUTENTICAÇÃO HÍBRIDA (100% BLINDADA) -->
+  <!-- 2. TELA DE AUTENTICAÇÃO HÍBRIDA REAL -->
   <div id="auth-screen-overlay">
     <div class="auth-split-wrapper">
-      
       <div class="auth-hero-side">
         <div class="auth-hero-content">
           <div class="auth-hero-tag">EXPERIÊNCIA EXCLUSIVA</div>
@@ -960,12 +1005,13 @@
 
         <div>
           <label style="font-size:11px; font-weight:800; color:var(--text-muted); text-transform:uppercase; margin-bottom:6px; display:block;">Seu E-mail:</label>
-          <input type="email" id="auth-inp-email" class="form-input-field" placeholder="seu@email.com" value="roberthaelley75@gmail.com">
+          <input type="email" id="auth-inp-email" class="form-input-field" placeholder="seu@email.com" value="">
 
           <label style="font-size:11px; font-weight:800; color:var(--text-muted); text-transform:uppercase; margin-bottom:6px; display:block;">Sua Senha:</label>
-          <input type="password" id="auth-inp-senha" class="form-input-field" placeholder="Mínimo de 6 caracteres" value="123456">
+          <input type="password" id="auth-inp-senha" class="form-input-field" placeholder="Mínimo de 6 caracteres" value="">
 
-          <button class="btn-submit-auth" onclick="realizarLogin()">Acessar Plataforma ➔</button>
+          <button class="btn-submit-auth" onclick="realizarLogin()">Entrar com segurança&nbsp; →</button>
+          <p id="auth-feedback" role="status" style="font-size:12px; line-height:1.5; color:var(--text-muted); margin-top:12px; text-align:center;">Entre com seus dados ou crie uma conta para testar a área da barbearia.</p>
 
           <div style="text-align:center; margin-top:18px;">
             <span id="btn-trial-trigger-auth" style="font-size:11px; color:var(--neon-green); font-weight:800; cursor:pointer; text-transform:uppercase; display:none;" onclick="ativarTrial48h()">
@@ -974,14 +1020,13 @@
           </div>
         </div>
       </div>
-
     </div>
   </div>
 
   <!-- 3. TOPBAR SAAS PROFISSIONAL & CONTROLE MASTER -->
   <div class="saas-status-bar">
     <div>
-      Usuário: <strong id="lbl-logged-email">roberthaelley75@gmail.com</strong>
+      Usuário: <strong id="lbl-logged-email">Não autenticado</strong>
       <span class="badge-pill-status vitalicio" id="badge-role-user">Super Admin Vitalício</span>
     </div>
 
@@ -992,7 +1037,7 @@
     </div>
   </div>
 
-  <!-- 4. ESTRUTURA GERAL (DESKTOP HORIZONTAL vs MOBILE) -->
+  <!-- 4. ESTRUTURA GERAL DA APLICAÇÃO -->
   <div class="app-main-layout">
     
     <!-- SIDEBAR DO DONO NO PC -->
@@ -1007,33 +1052,13 @@
 
       <div class="menu-group-label">GESTÃO OPERACIONAL</div>
       <nav class="sidebar-nav-list">
-        <button class="side-nav-btn active" onclick="trocarAbaWorkspace('tab-visao-geral', this)">
-          Visão Geral
-        </button>
-
-        <button class="side-nav-btn" onclick="trocarAbaWorkspace('tab-matriz-equipe', this)">
-          Grade Semanal da Equipe
-        </button>
-
-        <button class="side-nav-btn" onclick="trocarAbaWorkspace('tab-servicos-tabela', this)">
-          Catálogo & Preços
-        </button>
-
-        <button class="side-nav-btn" onclick="trocarAbaWorkspace('tab-barbeiros-painel', this)">
-          Barbeiros & Contatos
-        </button>
-
-        <button class="side-nav-btn" onclick="trocarAbaWorkspace('tab-estoque-geral', this)">
-          Estoque da Loja
-        </button>
-
-        <button class="side-nav-btn" onclick="trocarAbaWorkspace('tab-caixa-comandas', this)">
-          Caixa & Fechamento Cego
-        </button>
-
-        <button class="side-nav-btn" onclick="trocarAbaWorkspace('tab-configuracoes-db', this)">
-          Supabase, Bio & Pix
-        </button>
+        <button class="side-nav-btn active" onclick="trocarAbaWorkspace('tab-visao-geral', this)">Visão Geral</button>
+        <button class="side-nav-btn" onclick="trocarAbaWorkspace('tab-matriz-equipe', this)">Grade Semanal da Equipe</button>
+        <button class="side-nav-btn" onclick="trocarAbaWorkspace('tab-servicos-tabela', this)">Catálogo & Preços</button>
+        <button class="side-nav-btn" onclick="trocarAbaWorkspace('tab-barbeiros-painel', this)">Barbeiros & Contatos</button>
+        <button class="side-nav-btn" onclick="trocarAbaWorkspace('tab-estoque-geral', this)">Estoque da Loja</button>
+        <button class="side-nav-btn" onclick="trocarAbaWorkspace('tab-caixa-comandas', this)">Caixa & Fechamento Cego</button>
+        <button class="side-nav-btn" onclick="trocarAbaWorkspace('tab-configuracoes-db', this)">Supabase, Bio & Pix</button>
       </nav>
 
       <div style="padding-top:14px; border-top:1px solid var(--border); font-size:11px; color:var(--text-muted);">
@@ -1046,11 +1071,10 @@
       <div class="workspace-inner">
 
         <!-- =======================================================
-             5. VISÃO DO CLIENTE: O PADRÃO "CASA BRAVA" (EXATO AO VÍDEO)
+             5. VISÃO DO CLIENTE: EXPERIÊNCIA "CASA BRAVA" DEFINITIVA
              ======================================================= -->
         <section id="tab-cliente-portal-view" class="screen-tab-panel active">
           
-          <!-- BANNER HERO CASA BRAVA (FOTO ESPAÇO FÍSICO RESTAURADA) -->
           <div class="casa-brava-hero" id="banner-hero-establishment" style="background-image: url('https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=900');">
             <div class="hero-casa-content">
               <div class="hero-kicker-badge">BARBEARIA PREMIUM</div>
@@ -1063,21 +1087,19 @@
             </div>
           </div>
 
-          <!-- CARROSSEL DE SERVIÇOS (ESTILO CASA BRAVA 00:01) -->
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
             <h3 style="font-size:15px; font-weight:900; text-transform:uppercase; letter-spacing:1px; color:#fff;">Serviços em Destaque</h3>
             <span style="font-size:11px; color:var(--gold); font-weight:800; cursor:pointer;" onclick="rolarParaAgendamento()">Ver Tudo ➔</span>
           </div>
           <div class="services-carousel-strip" id="carousel-servicos-cliente"></div>
 
-          <!-- SEÇÃO "NOSSOS BARBEIROS" (ESTILO CASA BRAVA 00:02) -->
           <div style="display:flex; justify-content:space-between; align-items:center; margin:28px 0 16px;">
             <h3 style="font-size:15px; font-weight:900; text-transform:uppercase; letter-spacing:1px; color:#fff;">Nossos Barbeiros Especialistas</h3>
             <span style="font-size:11px; color:var(--gold); font-weight:800; cursor:pointer;" onclick="trocarAbaMobileCliente('tab-barbeiros-painel', null)">Equipe Completa ➔</span>
           </div>
           <div id="lista-barbeiros-casa-brava"></div>
 
-          <!-- PAINEL HORIZONTAL 4 COLUNAS (IMAGE_2.PNG + CASA BRAVA) -->
+          <!-- PAINEL HORIZONTAL 4 COLUNAS -->
           <div class="schedule-board-horizontal" id="bloco-agendamento-completo" style="margin-top:36px;">
             <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:20px; margin-bottom:24px;">
               <div>
@@ -1088,8 +1110,6 @@
             </div>
 
             <div class="board-grid-4-cols">
-              
-              <!-- COLUNA 1: SERVIÇO -->
               <div class="schedule-column-box">
                 <h3>1. Escolha o serviço</h3>
                 <div id="col1-services-list"></div>
@@ -1098,25 +1118,20 @@
                 </div>
               </div>
 
-              <!-- COLUNA 2: BARBEIRO -->
               <div class="schedule-column-box">
                 <h3>2. Escolha o barbeiro</h3>
                 <div id="col2-barbers-list"></div>
               </div>
 
-              <!-- COLUNA 3: DATA & HORÁRIO (ESTILO CASA BRAVA 00:04) -->
               <div class="schedule-column-box">
                 <h3>3. Escolha a data</h3>
                 <div class="calendar-pills-row" id="col3-days-pills"></div>
-
                 <h3 style="margin-top:14px;">Horários Disponíveis</h3>
                 <div class="time-grid-casa-brava" id="col3-time-slots"></div>
               </div>
 
-              <!-- COLUNA 4: RESUMO & CONFIRMAÇÃO (ESTILO CASA BRAVA 00:06) -->
               <div class="schedule-column-box">
                 <h3>4. Confirme seu pedido</h3>
-                
                 <div class="ticket-receipt-card">
                   <div class="receipt-row"><span>Barbeiro:</span><strong id="sum-col4-barbeiro" style="color:#fff;">Lucas Ferreira</strong></div>
                   <div class="receipt-row"><span>Serviço:</span><strong id="sum-col4-servico" style="color:#fff;">Combo Corte + Barba</strong></div>
@@ -1138,14 +1153,12 @@
                   GARANTIR MEU HORÁRIO ➔
                 </button>
               </div>
-
             </div>
           </div>
-
         </section>
 
         <!-- =======================================================
-             6. LOJA DO CLIENTE: COM CARRINHO MULTIPLO & CHECKOUT
+             6. LOJA DO CLIENTE COM CARRINHO MÚLTIPLO
              ======================================================= -->
         <section id="tab-cliente-loja-view" class="screen-tab-panel">
           <div class="card-panel-dark">
@@ -1158,13 +1171,12 @@
                 Ver Sacola (<span id="lbl-cart-count-badge">0</span>) 🛍️
               </button>
             </div>
-
             <div class="product-shop-grid" id="grid-loja-cliente-produtos"></div>
           </div>
         </section>
 
         <!-- =======================================================
-             7. VISÃO DO DONO: VISÃO GERAL & MÉTRICAS
+             7. VISÃO DO DONO: VISÃO GERAL
              ======================================================= -->
         <section id="tab-visao-geral" class="screen-tab-panel">
           <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:18px; margin-bottom:24px;">
@@ -1173,13 +1185,11 @@
               <div style="font-size:28px; font-weight:900; margin-top:6px;">14</div>
               <div style="font-size:11px; color:var(--neon-green); font-weight:800; margin-top:8px;">● 3 na cadeira agora</div>
             </div>
-
             <div class="card-panel-dark" style="margin-bottom:0;">
               <div style="font-size:11px; font-weight:800; color:var(--text-muted); text-transform:uppercase;">Faturamento Líquido</div>
               <div style="font-size:28px; font-weight:900; color:var(--gold); margin-top:6px;">R$ 560,00</div>
               <div style="font-size:11px; color:var(--text-muted); font-weight:700; margin-top:8px;">Descontados insumos</div>
             </div>
-
             <div class="card-panel-dark" style="margin-bottom:0;">
               <div style="font-size:11px; font-weight:800; color:var(--text-muted); text-transform:uppercase;">Comissões a Pagar</div>
               <div style="font-size:28px; font-weight:900; color:#cbd5e1; margin-top:6px;">R$ 224,00</div>
@@ -1209,7 +1219,6 @@
               </div>
               <button class="btn-gold-primary" onclick="adicionarBarbeiroPrompt()">+ Adicionar Barbeiro</button>
             </div>
-
             <div class="matrix-board-container">
               <table class="matrix-table" id="tabela-matriz-equipe"></table>
             </div>
@@ -1308,32 +1317,27 @@
 
       </div>
     </main>
-
   </div>
 
   <!-- =========================================================
-       ILHAS FLUTUANTES SEPARADAS (MOBILE EXCLUSIVO COM EMOJIS)
+       DOCKS FLUTUANTES MOBILE EXCLUSIVAS
        ========================================================= -->
   <nav class="floating-bottom-dock" id="dock-cliente-mobile">
     <button class="dock-tab-btn active" onclick="trocarAbaMobileCliente('tab-cliente-portal-view', this)">
       🏠
       <span class="lbl">Início</span>
     </button>
-
     <button class="dock-tab-btn" onclick="trocarAbaMobileCliente('tab-cliente-portal-view', this); rolarParaAgendamento();">
       📅
       <span class="lbl">Agenda</span>
     </button>
-
     <div class="dock-center-scissor-btn" onclick="rolarParaAgendamento()">
       ✂️
     </div>
-
     <button class="dock-tab-btn" onclick="trocarAbaMobileCliente('tab-cliente-loja-view', this)">
       🛍️
       <span class="lbl">Loja</span>
     </button>
-
     <button class="dock-tab-btn" onclick="trocarAbaMobileCliente('tab-barbeiros-painel', this)">
       💈
       <span class="lbl">Equipe</span>
@@ -1341,7 +1345,7 @@
   </nav>
 
   <nav class="floating-bottom-dock" id="dock-dono-mobile" style="display:none;">
-    <button class="dock-tab-btn active" onclick="trocarAbaWorkspace('tab-matriz-equipe', this)">
+    <button class="dock-tab-btn active" onclick="trocarAbaWorkspace('tab-visao-geral', this)">
       📊
       <span class="lbl">Painel</span>
     </button>
@@ -1392,7 +1396,6 @@
         </div>
       </div>
 
-      <!-- PIX DA BARBEARIA COM QR CODE E COPIAR E COLAR -->
       <div style="background:#090a10; padding:16px; border-radius:16px; border:1px solid #333; text-align:center; margin-bottom:18px;">
         <div style="background:#fff; padding:10px; border-radius:12px; display:inline-block; margin-bottom:10px;">
           <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=00020126580014BR.GOV.BCB.PIX0136contato@rtmobilebarber.com.br520400005303986540545.005802BR" style="width:110px; height:110px; display:block;">
@@ -1406,6 +1409,33 @@
       <button class="btn-gold-primary" style="width:100%; padding:15px; background:#25d366; color:#000;" onclick="finalizarPedidoProdutosWhatsApp()">
         Enviar Comprovante no WhatsApp 💬
       </button>
+    </div>
+  </div>
+
+  <!-- MODAL DE CONVERSÃO / SUCESSO DO AGENDAMENTO (FECHA A TELA E MOSTRA TICKET) -->
+  <div id="modal-sucesso-agendamento">
+    <div class="sucesso-box-container">
+      <div class="selo-check-gold">✓</div>
+      <div style="font-size:11px; font-weight:900; color:var(--gold); letter-spacing:2px; text-transform:uppercase; margin-bottom:6px;">CONFIRMADO</div>
+      <h2 style="font-size:24px; font-weight:900; margin-bottom:8px;">Tudo certo!</h2>
+      <p style="font-size:13px; color:var(--text-muted); margin-bottom:20px;">Seu horário está garantido e agendado com sucesso.</p>
+
+      <div class="ticket-receipt-card" style="text-align:left;">
+        <div class="receipt-row"><span>Código da Reserva:</span><strong id="suc-cod-reserva" style="color:var(--gold);">#RT-8492</strong></div>
+        <div class="receipt-row"><span>Barbeiro:</span><strong id="suc-barbeiro-nome" style="color:#fff;">Lucas Ferreira</strong></div>
+        <div class="receipt-row"><span>Serviço:</span><strong id="suc-servico-nome" style="color:#fff;">Combo Corte + Barba</strong></div>
+        <div class="receipt-row"><span>Data & Hora:</span><strong id="suc-datahora" style="color:#fff;">Segunda-Feira às 11:30</strong></div>
+        <div class="receipt-row total"><span>Total:</span><strong id="suc-total-valor">R$ 95,00</strong></div>
+      </div>
+
+      <div style="display:flex; gap:10px;">
+        <button class="btn-gold-primary" style="flex:1; background:#25d366; color:#000;" onclick="abrirWhatsAppComprovante()">
+          Ver no WhatsApp 💬
+        </button>
+        <button class="btn-dark-secondary" style="flex:1;" onclick="fecharModalSucesso()">
+          Fechar Janela
+        </button>
+      </div>
     </div>
   </div>
 
@@ -1428,6 +1458,8 @@
     })();
 
     let sessaoUsuario = { email: null, role: 'CLIENTE', autenticado: false };
+    let authModeAtual = 'CLIENTE';
+    let trialTimerInterval = null;
     let cartItens = [];
     let tipoRetirada = 'EU';
 
@@ -1478,7 +1510,7 @@
     let horaSelecionada = '11:30';
     let metodoPagamento = 'LOCAL';
 
-    // RENDERIZAÇÃO & PERSISTÊNCIA REAL
+    // INICIALIZAÇÃO & PERSISTÊNCIA REAL
     window.addEventListener('load', () => {
       renderizarTudo();
       verificarSessaoPersistida();
@@ -1495,40 +1527,74 @@
       renderizarEstoqueGestao();
     }
 
-    // APLICAÇÃO DE SESSÃO & PERSISTÊNCIA EM LOCALSTORAGE
-    function aplicarSessao(email, role) {
+    function mostrarAuthFeedback(mensagem, tipo = 'info') {
+      const el = document.getElementById('auth-feedback');
+      if (!el) return;
+      el.textContent = mensagem;
+      el.style.color = tipo === 'erro' ? 'var(--red)' : tipo === 'sucesso' ? 'var(--neon-green)' : 'var(--text-muted)';
+    }
+
+    function aplicarSessao(email, role, dadosExtras = {}) {
       sessaoUsuario.email = email;
       sessaoUsuario.role = role;
       sessaoUsuario.autenticado = true;
+      sessaoUsuario.trialStartedAt = dadosExtras.trialStartedAt || null;
+      sessaoUsuario.trialExpiresAt = dadosExtras.trialExpiresAt || null;
       document.getElementById('lbl-logged-email').innerText = email;
 
-      if (email.toLowerCase() === 'roberthaelley75@gmail.com' || role === 'SUPER_ADMIN') {
-        sessaoUsuario.role = 'SUPER_ADMIN';
-        document.getElementById('badge-role-user').className = 'badge-pill-status vitalicio';
-        document.getElementById('badge-role-user').innerText = 'Super Admin Vitalício';
+      const isAdmin = email.toLowerCase() === 'roberthaelley75@gmail.com' && role === 'SUPER_ADMIN';
+      const isOwner = role === 'DONO' || isAdmin;
+      const badge = document.getElementById('badge-role-user');
+      const btnCliente = document.getElementById('btn-role-nav-cliente');
+      const btnDono = document.getElementById('btn-role-nav-dono');
+      btnCliente.style.display = isAdmin ? '' : 'none';
+      btnDono.style.display = isAdmin ? '' : 'none';
+
+      if (isAdmin) {
+        badge.className = 'badge-pill-status vitalicio';
+        badge.innerText = 'Super Admin Vitalício';
         definirModoVisao('DONO');
-      } else if (role === 'DONO') {
-        document.getElementById('badge-role-user').className = 'badge-pill-status trial';
-        document.getElementById('badge-role-user').innerText = 'Painel Barbearia';
+      } else if (isOwner) {
+        badge.className = 'badge-pill-status trial';
+        badge.innerText = 'Barbearia • teste';
         definirModoVisao('DONO');
+        iniciarMonitorTrial();
       } else {
-        document.getElementById('badge-role-user').className = 'badge-pill-status';
-        document.getElementById('badge-role-user').innerText = 'Cliente Autenticado';
+        badge.className = 'badge-pill-status';
+        badge.innerText = 'Área do Cliente';
         definirModoVisao('CLIENTE');
       }
-
       document.getElementById('auth-screen-overlay').classList.add('hidden');
+      atualizarBarraPlano();
     }
 
     function realizarLogin() {
-      const email = document.getElementById('auth-inp-email').value.trim();
-      const senha = document.getElementById('auth-inp-senha').value.trim();
-      if (!email || !email.includes('@')) { alert('Por favor, digite um e-mail válido.'); return; }
-      if (!senha || senha.length < 6) { alert('A senha deve conter no mínimo 6 caracteres.'); return; }
+      const email = document.getElementById('auth-inp-email').value.trim().toLowerCase();
+      const senha = document.getElementById('auth-inp-senha').value;
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { mostrarAuthFeedback('Digite um e-mail válido.', 'erro'); return; }
+      if (!senha || senha.length < 6) { mostrarAuthFeedback('A senha precisa ter pelo menos 6 caracteres.', 'erro'); return; }
 
-      const role = (email.toLowerCase() === 'roberthaelley75@gmail.com') ? 'SUPER_ADMIN' : (document.getElementById('btn-tab-auth-dono').classList.contains('active') ? 'DONO' : 'CLIENTE');
+      const isAdminEmail = email === 'roberthaelley75@gmail.com';
+      const tipoSelecionado = document.getElementById('btn-tab-auth-dono').classList.contains('active') ? 'DONO' : 'CLIENTE';
+      const existente = (() => { try { return JSON.parse(localStorage.getItem('rt_auth_session') || 'null'); } catch (_) { return null; } })();
 
-      localStorage.setItem('rt_auth_session', JSON.stringify({ email: email.toLowerCase(), role: role, loggedAt: Date.now() }));
+      // Este HTML funciona como protótipo local. O e-mail administrativo só deve ser
+      // liberado após autenticação real no Supabase antes de publicar em produção.
+      if (isAdminEmail) {
+        const role = 'SUPER_ADMIN';
+        const sessao = { email, role, loggedAt: Date.now(), demoMode: true };
+        localStorage.setItem('rt_auth_session', JSON.stringify(sessao));
+        mostrarAuthFeedback('Acesso de demonstração. Antes de publicar, conecte esta conta ao Supabase Auth.', 'info');
+        aplicarSessao(email, role, sessao);
+        return;
+      }
+      if (tipoSelecionado === 'DONO') {
+        mostrarAuthFeedback('Para começar como barbearia, use “Testar 48h grátis” e crie a sessão de avaliação.', 'info');
+        return;
+      }
+      const role = 'CLIENTE';
+      localStorage.setItem('rt_auth_session', JSON.stringify({ email, role, loggedAt: Date.now() }));
+      mostrarAuthFeedback('Acesso local iniciado.', 'sucesso');
       aplicarSessao(email, role);
     }
 
@@ -1537,36 +1603,91 @@
         const salva = localStorage.getItem('rt_auth_session');
         if (salva) {
           const dados = JSON.parse(salva);
-          if (dados && dados.email) {
-            aplicarSessao(dados.email, dados.role);
-            return true;
+          if (!dados || !dados.email || !dados.role) return false;
+          if (dados.role === 'DONO' && dados.trialExpiresAt && Date.now() >= dados.trialExpiresAt) {
+            mostrarTelaExpirada();
+            return false;
           }
+          aplicarSessao(dados.email, dados.role, dados);
+          return true;
         }
-      } catch (e) {
-        console.error('Erro ao ler sessão salva', e);
-      }
+      } catch (e) { console.error('Erro ao ler sessão salva', e); }
       return false;
     }
 
     function realizarLogout() {
-      sessaoUsuario.autenticado = false;
-      sessaoUsuario.email = null;
+      sessaoUsuario = { email: null, role: 'CLIENTE', autenticado: false };
+      if (trialTimerInterval) clearInterval(trialTimerInterval);
       localStorage.removeItem('rt_auth_session');
       document.getElementById('auth-inp-senha').value = '';
       document.getElementById('auth-screen-overlay').classList.remove('hidden');
+      document.getElementById('lbl-logged-email').innerText = 'Não autenticado';
+      document.getElementById('btn-role-nav-cliente').style.display = '';
+      document.getElementById('btn-role-nav-dono').style.display = '';
+      alternarAbaAuth('CLIENTE');
     }
 
     function alternarAbaAuth(tipo) {
+      authModeAtual = tipo;
       document.getElementById('btn-tab-auth-cliente').className = 'auth-tab-btn' + (tipo === 'CLIENTE' ? ' active' : '');
       document.getElementById('btn-tab-auth-dono').className = 'auth-tab-btn' + (tipo === 'DONO' ? ' active' : '');
-      document.getElementById('btn-trial-trigger-auth').style.display = tipo === 'DONO' ? 'inline' : 'none';
+      document.getElementById('btn-trial-trigger-auth').style.display = tipo === 'DONO' ? 'inline-block' : 'none';
+      mostrarAuthFeedback(tipo === 'DONO' ? 'Teste gratuito de 48 horas exclusivo para estabelecimentos de barbearia.' : 'Acesso gratuito para clientes: agendamento, equipe e loja.');
     }
 
     function ativarTrial48h() {
-      const email = prompt("Informe o e-mail da sua Barbearia para ativar 48h Grátis:");
-      if (!email || !email.includes('@')) return;
-      localStorage.setItem('rt_auth_session', JSON.stringify({ email: email.toLowerCase(), role: 'DONO', loggedAt: Date.now() }));
-      aplicarSessao(email, 'DONO');
+      const email = document.getElementById('auth-inp-email').value.trim().toLowerCase();
+      const senha = document.getElementById('auth-inp-senha').value;
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { mostrarAuthFeedback('Informe o e-mail da barbearia antes de iniciar o teste.', 'erro'); return; }
+      if (!senha || senha.length < 6) { mostrarAuthFeedback('Crie uma senha com pelo menos 6 caracteres antes de iniciar o teste.', 'erro'); return; }
+      if (email === 'roberthaelley75@gmail.com') { mostrarAuthFeedback('O e-mail de Super Admin não deve iniciar um teste de barbearia.', 'erro'); return; }
+      const existentes = (() => { try { return JSON.parse(localStorage.getItem('rt_trials') || '{}'); } catch (_) { return {}; } })();
+      const trial = existentes[email];
+      if (trial && Date.now() >= trial.expiresAt) { mostrarTelaExpirada(); return; }
+      const startedAt = trial ? trial.startedAt : Date.now();
+      const expiresAt = trial ? trial.expiresAt : startedAt + 48 * 60 * 60 * 1000;
+      existentes[email] = { startedAt, expiresAt };
+      localStorage.setItem('rt_trials', JSON.stringify(existentes));
+      const sessao = { email, role: 'DONO', loggedAt: Date.now(), trialStartedAt: startedAt, trialExpiresAt: expiresAt };
+      localStorage.setItem('rt_auth_session', JSON.stringify(sessao));
+      mostrarAuthFeedback('Teste iniciado. O prazo fica salvo neste navegador; autenticação e cobrança reais exigem Supabase no backend.', 'sucesso');
+      aplicarSessao(email, 'DONO', sessao);
+    }
+
+    function iniciarMonitorTrial() {
+      if (trialTimerInterval) clearInterval(trialTimerInterval);
+      const salva = (() => { try { return JSON.parse(localStorage.getItem('rt_auth_session') || 'null'); } catch (_) { return null; } })();
+      if (!salva || salva.role !== 'DONO' || !salva.trialExpiresAt) return;
+      atualizarBarraPlano();
+      trialTimerInterval = setInterval(() => {
+        if (Date.now() >= salva.trialExpiresAt) { clearInterval(trialTimerInterval); mostrarTelaExpirada(); }
+        else atualizarBarraPlano();
+      }, 60000);
+    }
+
+    function atualizarBarraPlano() {
+      const salva = (() => { try { return JSON.parse(localStorage.getItem('rt_auth_session') || 'null'); } catch (_) { return null; } })();
+      let bar = document.getElementById('rt-plan-notice');
+      if (!salva || salva.role !== 'DONO' || !salva.trialExpiresAt) { if (bar) bar.remove(); return; }
+      const ms = Math.max(0, salva.trialExpiresAt - Date.now());
+      const horas = Math.floor(ms / 3600000);
+      const minutos = Math.floor((ms % 3600000) / 60000);
+      if (!bar) {
+        bar = document.createElement('div'); bar.id = 'rt-plan-notice';
+        bar.style.cssText = 'position:sticky;top:0;z-index:7900;padding:9px 16px;text-align:center;background:#10231d;color:#a7f3d0;border-bottom:1px solid rgba(16,185,129,.25);font-size:12px;font-weight:800;';
+        document.querySelector('.saas-status-bar').insertAdjacentElement('afterend', bar);
+      }
+      bar.textContent = `TESTE GRÁTIS • ${horas}h ${minutos}min restantes • Plano profissional R$ 50/mês após a avaliação`;
+    }
+
+    function mostrarTelaExpirada() {
+      let paywall = document.getElementById('rt-paywall');
+      if (!paywall) {
+        paywall = document.createElement('div'); paywall.id = 'rt-paywall';
+        paywall.style.cssText = 'position:fixed;inset:0;z-index:999999;background:rgba(3,4,7,.98);display:flex;align-items:center;justify-content:center;padding:24px;text-align:center;';
+        paywall.innerHTML = `<div style="max-width:460px;border:1px solid rgba(212,163,115,.35);background:#10121a;padding:32px;border-radius:24px;box-shadow:0 24px 90px #000"><div style="font-size:40px;margin-bottom:14px">🔒</div><p style="font-size:10px;letter-spacing:3px;color:var(--gold);font-weight:900">RT MOBILE BARBER</p><h2 style="font-size:26px;margin:12px 0">Seu período de teste terminou</h2><p style="color:#a6adbb;font-size:13px;line-height:1.7;margin-bottom:20px">Seus dados permanecem neste navegador. Para ativar o plano profissional de R$ 50/mês, fale com o suporte e envie o comprovante após o pagamento.</p><button class="btn-submit-auth" onclick="window.open('https://wa.me/5591989117332?text='+encodeURIComponent('Olá! Quero ativar o plano RT Mobile Barber de R$ 50/mês.'),'_blank')">Falar com suporte no WhatsApp</button><button class="btn-dark-secondary" style="width:100%;margin-top:10px" onclick="realizarLogout()">Sair da conta</button><p style="font-size:10px;color:#7f8796;margin-top:14px">A cobrança e a liberação automáticas precisam ser conectadas ao backend antes de produção.</p></div>`;
+        document.body.appendChild(paywall);
+      }
     }
 
     function definirModoVisao(modo) {
@@ -1576,6 +1697,8 @@
       const btnCliente = document.getElementById('btn-role-nav-cliente');
       const btnDono = document.getElementById('btn-role-nav-dono');
 
+      const isAdmin = sessaoUsuario.role === 'SUPER_ADMIN';
+      if (modo === 'DONO' && !isAdmin && sessaoUsuario.role !== 'DONO') modo = 'CLIENTE';
       if (modo === 'CLIENTE') {
         sidebar.style.display = 'none';
         dockCliente.style.display = 'flex';
@@ -1589,11 +1712,11 @@
         dockDono.style.display = 'flex';
         btnDono.classList.add('active');
         btnCliente.classList.remove('active');
-        trocarAbaWorkspace('tab-matriz-equipe', null);
+        trocarAbaWorkspace('tab-visao-geral', null);
       }
     }
 
-    // CARROSSEL DE SERVIÇOS (CASA BRAVA)
+    // CARROSSEL DE SERVIÇOS
     function renderizarCarrosselServicosCliente() {
       const c = document.getElementById('carousel-servicos-cliente');
       if (!c) return;
@@ -1616,7 +1739,7 @@
       });
     }
 
-    // LISTA DE BARBEIROS (CASA BRAVA)
+    // LISTA DE BARBEIROS
     function renderizarBarbeirosCasaBrava() {
       const container = document.getElementById('lista-barbeiros-casa-brava');
       if (!container) return;
@@ -1644,7 +1767,10 @@
               </div>
             </div>
           </div>
-          <div style="font-size:18px; color:var(--gold);">➔</div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:10px;">
+            <span style="font-size:18px;color:var(--gold);">➔</span>
+            <a href="https://wa.me/${String(b.whatsapp || '').replace(/\D/g, '')}?text=${encodeURIComponent('Olá ' + b.nome + ', gostaria de consultar seus horários na barbearia.') }" target="_blank" rel="noopener" onclick="event.stopPropagation()" style="font-size:10px;font-weight:900;color:#08100d;background:#10b981;border-radius:9px;padding:8px 10px;text-decoration:none;white-space:nowrap;">WhatsApp</a>
+          </div>
         `;
         container.appendChild(card);
       });
@@ -1762,10 +1888,28 @@
       document.getElementById('btn-pay-pix-choice').className = 'time-slot-btn' + (m === 'PIX' ? ' selected' : '');
     }
 
+    // CONVERSÃO DO AGENDAMENTO (FECHA A TELA E ABRE O TICKET COMPLETO)
     function confirmarAgendamentoClienteFinal() {
-      const msg = `*CONFIRMAÇÃO DE AGENDAMENTO - RT MOBILE BARBER*%0A%0A*Barbeiro:* ${barbeiroSelecionado.nome}%0A*Serviço:* ${servicoSelecionado.nome}%0A*Data/Hora:* ${diaSelecionadoTxt} às ${horaSelecionada}%0A*Total:* R$ ${servicoSelecionado.preco.toFixed(2)}%0A*Pagamento:* ${metodoPagamento === 'LOCAL' ? 'No Local' : 'Pix'}%0A%0AHorário reservado com sucesso!`;
+      const codigoReserva = '#RT-' + Math.floor(1000 + Math.random() * 9000);
+      document.getElementById('suc-cod-reserva').innerText = codigoReserva;
+      document.getElementById('suc-barbeiro-nome').innerText = barbeiroSelecionado.nome;
+      document.getElementById('suc-servico-nome').innerText = servicoSelecionado.nome;
+      document.getElementById('suc-datahora').innerText = `${diaSelecionadoTxt} às ${horaSelecionada}`;
+      document.getElementById('suc-total-valor').innerText = `R$ ${servicoSelecionado.preco.toFixed(2)}`;
+
+      document.getElementById('modal-sucesso-agendamento').style.display = 'flex';
+    }
+
+    function abrirWhatsAppComprovante() {
+      const cod = document.getElementById('suc-cod-reserva').innerText;
+      const msg = `*COMPROVANTE DE AGENDAMENTO - RT MOBILE BARBER*%0A%0A*Código:* ${cod}%0A*Barbeiro:* ${barbeiroSelecionado.nome}%0A*Serviço:* ${servicoSelecionado.nome}%0A*Data/Hora:* ${diaSelecionadoTxt} às ${horaSelecionada}%0A*Total:* R$ ${servicoSelecionado.preco.toFixed(2)}%0A*Pagamento:* ${metodoPagamento === 'LOCAL' ? 'No Local' : 'Pix'}%0A%0AHorário reservado com sucesso!`;
       window.open(`https://wa.me/${dadosBarbearia.whatsapp}?text=${msg}`, '_blank');
-      alert('Tudo certo! Seu horário está garantido.');
+      fecharModalSucesso();
+    }
+
+    function fecharModalSucesso() {
+      document.getElementById('modal-sucesso-agendamento').style.display = 'none';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function rolarParaAgendamento() {
@@ -1936,21 +2080,22 @@
     }
 
     function adicionarBarbeiroPrompt() {
-      const nome = prompt("Nome do Barbeiro:");
-      if (!nome) return;
+      const nome = prompt('Nome completo do barbeiro:');
+      if (!nome || !nome.trim()) return;
+      const instagram = prompt('Instagram do barbeiro (ex.: @nome):', '@');
+      if (instagram === null) return;
+      const whatsappRaw = prompt('WhatsApp com DDI e DDD (somente números):', '5591');
+      if (whatsappRaw === null) return;
+      const foto = prompt('URL de uma foto profissional do barbeiro:', 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=300');
+      const whatsapp = (whatsappRaw || '').replace(/\D/g, '');
+      if (whatsapp.length < 10) { alert('Informe um WhatsApp válido com DDD.'); return; }
       barbeirosDB.push({
-        id: 'b_' + Date.now(),
-        nome: nome.trim(),
-        rank: 'STYLIST',
-        nota: '5.0 (0)',
-        foto: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=300',
-        instagram: '@barber.rt',
-        whatsapp: '5591984551100',
-        tags: ['CORTE', 'BARBA'],
-        presenteHoje: true
+        id: 'b_' + Date.now(), nome: nome.trim(), rank: 'BARBER', nota: 'Novo profissional',
+        foto: foto || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=300',
+        instagram: instagram.trim(), whatsapp, tags: ['CORTE', 'BARBA'], presenteHoje: true
       });
       renderizarTudo();
-      alert(`Barbeiro "${nome}" adicionado à grade!`);
+      alert(`Perfil de ${nome.trim()} criado. Instagram e WhatsApp foram adicionados à equipe.`);
     }
 
     function adicionarBarbeiroCompletoPrompt() {
@@ -2047,21 +2192,22 @@
     function apurarFechamentoCego() {
       const d = parseFloat(document.getElementById('inp-fech-dinheiro').value) || 0;
       const c = parseFloat(document.getElementById('inp-fech-cartao').value) || 0;
-      const total = d + c + 380.00;
-      const diff = total - 560.00;
+      const esperado = Number((window.rtCashExpected || 0));
+      const total = d + c;
+      const diff = total - esperado;
       const box = document.getElementById('box-resultado-fechamento-cego');
       box.style.display = 'block';
       if (diff === 0) {
-        box.innerHTML = '<strong style="color:var(--neon-green);">CAIXA CONCILIADO EXATO!</strong><br>R$ 560,00 conferidos sem nenhuma quebra.';
+        box.innerHTML = '<strong style="color:var(--neon-green);">CAIXA CONCILIADO EXATO!</strong><br>Contagem igual ao valor esperado configurado.';
       } else {
-        box.innerHTML = `<strong style="color:${diff > 0 ? 'var(--gold)' : 'var(--red)'};">DIFERENÇA: R$ ${diff.toFixed(2)}</strong><br>Apurado: R$ ${total.toFixed(2)} | Esperado: R$ 560,00`;
+        box.innerHTML = `<strong style="color:${diff > 0 ? 'var(--gold)' : 'var(--red)'};">DIFERENÇA: R$ ${diff.toFixed(2)}</strong><br>Apurado: R$ ${total.toFixed(2)} | Esperado: R$ ${esperado.toFixed(2)}`;
       }
     }
 
     function salvarConfigSupabase() {
       const url = document.getElementById('cfg-supabase-url').value;
-      alert(`Credenciais Supabase salvas!
-URL: ${url}`);
+      localStorage.setItem('rt_supabase_url', url.trim());
+      alert('URL salva neste navegador. Atenção: para autenticação, banco e sincronização reais, também é necessário configurar a chave anon pública e conectar as tabelas/políticas RLS no Supabase. Não coloque service_role no navegador.');
     }
 
     function copiarLinkBio() {
