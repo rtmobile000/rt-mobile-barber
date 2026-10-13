@@ -1536,14 +1536,13 @@
       }
     }
 
-    async function salvarAgendamentoSupabase(agendamento) {
+    async function salvarAgendamentoSupabase() {
       if (!supabaseClient) {
-        console.warn('⚠️ Supabase ainda não inicializado. Verifique a chave nas configurações.');
-        return;
+        console.warn('⚠️ Supabase ainda não inicializado. Verifique a URL e a Key.');
+        return false;
       }
       try {
-        const estabId = barbeariaAtivaSelecionada ? barbeariaAtivaSelecionada.id : null;
-        const payloadPrincipal = {
+        const payload = {
           client_name: (sessaoUsuario && sessaoUsuario.nome) ? sessaoUsuario.nome : 'Cliente Balcão',
           client_phone: dadosBarbearia.whatsapp || '5591984551100',
           appointment_date: new Date().toISOString().split('T')[0],
@@ -1555,27 +1554,18 @@
           payment_status: metodoPagamento === 'PIX' ? 'PAGO' : 'PENDENTE'
         };
 
-        // Tenta salvar com tenant_id (conforme o schema exibido na tabela appointments)
-        let payload = { ...payloadPrincipal };
-        if (estabId && estabId.length === 36) {
-          payload.tenant_id = estabId;
-        }
-
-        let res = await supabaseClient.from('appointments').insert([payload]);
+        const res = await supabaseClient.from('appointments').insert([payload]);
         if (res.error) {
-          console.warn('Tentando fallback de colunas para appointments:', res.error.message);
-          // Fallback sem chaves estrangeiras rígidas caso o ID não seja UUID
-          delete payload.tenant_id;
-          res = await supabaseClient.from('appointments').insert([payload]);
-        }
-
-        if (res.error) {
-          console.error('❌ Erro retornado pelo Supabase:', res.error);
+          console.error('❌ Erro Supabase:', res.error);
+          alert('⚠️ Supabase recusou o agendamento: ' + res.error.message);
+          return false;
         } else {
-          console.log('✅ Agendamento gravado com sucesso no Supabase na nuvem!');
+          console.log('✅ Agendamento gravado com sucesso no Supabase!');
+          return true;
         }
       } catch (err) {
-        console.warn('⚠️ Falha ao salvar no Supabase:', err);
+        console.error('⚠️ Exceção ao salvar no Supabase:', err);
+        return false;
       }
     }
 
@@ -2269,8 +2259,8 @@
       document.getElementById('btn-pay-pix-choice').className = 'time-slot-btn' + (m === 'PIX' ? ' selected' : '');
     }
 
-    function confirmarAgendamentoClienteFinal() {
-      salvarAgendamentoSupabase();
+    async function confirmarAgendamentoClienteFinal() {
+      await salvarAgendamentoSupabase();
       const cod = '#RT-' + Math.floor(1000 + Math.random() * 9000);
       const msg = `*CONFIRMAÇÃO DE AGENDAMENTO - RT MOBILE BARBER*%0A%0A*Código:* ${cod}%0A*Barbeiro:* ${barbeiroSelecionado.nome}%0A*Serviço:* ${servicoSelecionado.nome}%0A*Duração:* ${servicoSelecionado.duracaoMinutos} min%0A*Data/Hora:* ${diaSelecionadoTxt} às ${horaSelecionada}%0A*Total:* R$ ${servicoSelecionado.preco.toFixed(2)}%0A*Pagamento:* ${metodoPagamento === 'LOCAL' ? 'No Local' : 'Pix'}%0A%0AHorário reservado com sucesso!`;
       window.open(`https://wa.me/${dadosBarbearia.whatsapp}?text=${msg}`, '_blank');
