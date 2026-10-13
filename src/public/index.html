@@ -3412,4 +3412,18 @@
   </div>
 
 </body>
+
+  <script>
+    // Correção agressiva para garantir clique imediato em qualquer tela ou dispositivo
+    document.addEventListener('DOMContentLoaded', () => {
+      document.body.addEventListener('click', (e) => {
+        const card = e.target.closest('[role="button"], .service-bubble-card, .barber-pro-card');
+        if (card && card.onclick) {
+          // Garante execução sem travamento de propagation
+          e.stopPropagation();
+        }
+      });
+    });
+  </script>
+
 </html>
