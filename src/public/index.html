@@ -1515,7 +1515,8 @@
           .eq('status', 'Ativo');
 
         if (!error && data && data.length > 0) {
-          barbeariasCadastradasSaaS = data.map(bb => ({
+          // Atualiza apenas o painel do Super Admin, mantendo o marketplace limpo para novos assinantes reais
+          window.barbeariasDoBancoSupabase = data.map(bb => ({
             id: bb.id,
             nome: bb.name,
             dono: bb.name,
@@ -1527,12 +1528,6 @@
             endereco: bb.address || 'Centro, Santa Izabel do Pará - PA',
             foto: bb.photo_url || 'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=900'
           }));
-          renderizarListaBarbeariasSaaS();
-          renderizarMarketplaceBarbearias();
-      sincronizarBarbeariasSupabase();
-      sincronizarBarbeirosSupabase();
-      sincronizarServicosSupabase();
-      sincronizarProdutosSupabase();
         }
       } catch (e) {
         console.error('Erro ao buscar barbearias no Supabase:', e);
