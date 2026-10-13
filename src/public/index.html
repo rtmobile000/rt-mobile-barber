@@ -855,6 +855,7 @@
     }
 
 </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
@@ -1349,7 +1350,7 @@
               <input type="text" id="cfg-supabase-url" class="form-input-field" value="https://ptzuiinoiycohhnihcmh.supabase.co">
 
               <label style="font-size:10px; color:var(--text-muted); text-transform:uppercase;">SUPABASE_KEY:</label>
-              <input type="password" id="cfg-supabase-key" class="form-input-field" placeholder="Insira sua chave de API aqui">
+              <input type="password" id="cfg-supabase-key" class="form-input-field" value="sb_publishable_HutyHBSlh9wBeIBsXHQAxQ_KvT0zDSE">
 
               <button class="btn-gold-primary" style="width:100%;" onclick="salvarConfigSupabase()">Salvar Credenciais do Banco ↗</button>
             </div>
@@ -1488,6 +1489,74 @@
   </div>
 
   <script>
+    
+    // =========================================================
+    // CONEXÃO COM SUPABASE DATABASE & REALTIME
+    // =========================================================
+    const SUPABASE_PROJECT_URL = localStorage.getItem('rt_supabase_url') || 'https://ptzuiinoiycohhnihcmh.supabase.co';
+    const SUPABASE_ANON_KEY = localStorage.getItem('rt_supabase_key') || 'sb_publishable_HutyHBSlh9wBeIBsXHQAxQ_KvT0zDSE';
+    let supabaseClient = null;
+
+    try {
+      if (window.supabase && SUPABASE_PROJECT_URL && SUPABASE_ANON_KEY) {
+        supabaseClient = window.supabase.createClient(SUPABASE_PROJECT_URL, SUPABASE_ANON_KEY);
+        console.log('✅ Supabase conectado com sucesso!');
+      }
+    } catch (err) {
+      console.warn('Supabase aguardando chave anon nas configurações:', err);
+    }
+
+    async function sincronizarBarbeariasSupabase() {
+      if (!supabaseClient) return;
+      try {
+        const { data, error } = await supabaseClient
+          .from('organizations')
+          .select('*')
+          .eq('status', 'Ativo');
+
+        if (!error && data && data.length > 0) {
+          barbeariasCadastradasSaaS = data.map(bb => ({
+            id: bb.id,
+            nome: bb.name,
+            dono: bb.name,
+            email: bb.owner_email,
+            whatsapp: bb.whatsapp,
+            plano: bb.plan_type,
+            status: bb.status,
+            valorMensal: bb.plan_type === 'Vitalicio' ? 0 : 50.00,
+            endereco: bb.address || 'Centro, Santa Izabel do Pará - PA',
+            foto: bb.photo_url || 'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=900'
+          }));
+          renderizarListaBarbeariasSaaS();
+          renderizarMarketplaceBarbearias();
+      sincronizarBarbeariasSupabase();
+        }
+      } catch (e) {
+        console.error('Erro ao buscar barbearias no Supabase:', e);
+      }
+    }
+
+    async function salvarAgendamentoSupabase(agendamento) {
+      if (!supabaseClient) return;
+      try {
+        await supabaseClient.from('appointments').insert([{
+          organization_id: barbeariaAtivaSelecionada ? barbeariaAtivaSelecionada.id : null,
+          client_name: sessaoUsuario.nome || 'Cliente',
+          client_phone: dadosBarbearia.whatsapp,
+          appointment_date: new Date().toISOString().split('T')[0],
+          appointment_time: horaSelecionada,
+          status: 'AGUARDANDO',
+          haircut_notes: `Serviço: ${servicoSelecionado.nome} com ${barbeiroSelecionado.nome}`,
+          total_amount: servicoSelecionado.preco,
+          payment_method: metodoPagamento,
+          payment_status: metodoPagamento === 'PIX' ? 'PAGO' : 'PENDENTE'
+        }]);
+        console.log('✅ Agendamento persistido no Supabase!');
+      } catch (err) {
+        console.warn('Não foi possível gravar no Supabase:', err);
+      }
+    }
+
     // 1. INICIALIZAÇÃO
     (function removerSplash() {
       const splash = document.getElementById('splash-screen');
@@ -1642,6 +1711,7 @@
       barbeariasCadastradasSaaS[idx].status = barbeariasCadastradasSaaS[idx].status === 'Ativo' ? 'Bloqueado' : 'Ativo';
       renderizarListaBarbeariasSaaS();
       renderizarMarketplaceBarbearias();
+      sincronizarBarbeariasSupabase();
       verificarLinkDiretoBarbearia();
       alert(`Status da barbearia "${barbeariasCadastradasSaaS[idx].nome}" atualizado!`);
     }
@@ -1664,6 +1734,7 @@
       });
       renderizarListaBarbeariasSaaS();
       renderizarMarketplaceBarbearias();
+      sincronizarBarbeariasSupabase();
       verificarLinkDiretoBarbearia();
       alert(`Barbearia "${nome}" cadastrada com sucesso!`);
     }
@@ -1802,6 +1873,7 @@
       document.getElementById('cliente-portal-barbearia-selecionada').style.display = 'none';
       document.getElementById('cliente-marketplace-barbearias').style.display = 'block';
       renderizarMarketplaceBarbearias();
+      sincronizarBarbeariasSupabase();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -1822,6 +1894,7 @@
     function renderizarTudo() {
       renderizarListaBarbeariasSaaS();
       renderizarMarketplaceBarbearias();
+      sincronizarBarbeariasSupabase();
       verificarLinkDiretoBarbearia();
       renderizarGestaoClubeBarbeiros();
       renderizarModoTVTotem();
@@ -2175,6 +2248,7 @@
     }
 
     function confirmarAgendamentoClienteFinal() {
+      salvarAgendamentoSupabase();
       const cod = '#RT-' + Math.floor(1000 + Math.random() * 9000);
       const msg = `*CONFIRMAÇÃO DE AGENDAMENTO - RT MOBILE BARBER*%0A%0A*Código:* ${cod}%0A*Barbeiro:* ${barbeiroSelecionado.nome}%0A*Serviço:* ${servicoSelecionado.nome}%0A*Duração:* ${servicoSelecionado.duracaoMinutos} min%0A*Data/Hora:* ${diaSelecionadoTxt} às ${horaSelecionada}%0A*Total:* R$ ${servicoSelecionado.preco.toFixed(2)}%0A*Pagamento:* ${metodoPagamento === 'LOCAL' ? 'No Local' : 'Pix'}%0A%0AHorário reservado com sucesso!`;
       window.open(`https://wa.me/${dadosBarbearia.whatsapp}?text=${msg}`, '_blank');
@@ -2734,9 +2808,21 @@
     }
 
     function salvarConfigSupabase() {
-      const url = document.getElementById('cfg-supabase-url').value;
-      localStorage.setItem('rt_supabase_url', url.trim());
-      alert('URL salva com sucesso!');
+      const url = document.getElementById('cfg-supabase-url').value.trim();
+      const key = document.getElementById('cfg-supabase-key').value.trim();
+      localStorage.setItem('rt_supabase_url', url);
+      if (key) localStorage.setItem('rt_supabase_key', key);
+      try {
+        if (window.supabase && url && key) {
+          supabaseClient = window.supabase.createClient(url, key);
+          sincronizarBarbeariasSupabase();
+          alert('✅ Conexão com o Supabase estabelecida com sucesso!');
+        } else {
+          alert('Configuração salva! Insira a anon key para conectar em tempo real.');
+        }
+      } catch (e) {
+        alert('Erro ao inicializar Supabase: ' + e.message);
+      }
     }
 
     function copiarLinkBio() {
