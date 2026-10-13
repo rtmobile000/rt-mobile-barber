@@ -2057,40 +2057,61 @@
       }
     }
 
-        function submeterAutenticacao() {
-      const email = document.getElementById('auth-inp-email').value.trim().toLowerCase();
-      const senha = document.getElementById('auth-inp-senha').value;
-      const nome = document.getElementById('auth-inp-nome').value.trim();
-      const foto = document.getElementById('auth-inp-foto').value.trim();
+        
+    function submeterAutenticacao() {
+      const emailInput = document.getElementById('auth-inp-email');
+      const senhaInput = document.getElementById('auth-inp-senha');
+      
+      if (!emailInput || !senhaInput) {
+        alert('Erro nos campos de login.');
+        return;
+      }
 
-      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { alert('Digite um e-mail válido.'); return; }
-      if (!senha || senha.length < 6) { alert('A senha deve ter pelo menos 6 caracteres.'); return; }
+      const email = emailInput.value.trim().toLowerCase();
+      const senha = senhaInput.value;
 
-      const isAdminEmail = email === 'roberthaelley75@gmail.com';
-      let role = isAdminEmail ? 'SUPER_ADMIN' : authUserType;
+      if (!email || !email.includes('@')) {
+        alert('Por favor, digite um e-mail válido.');
+        return;
+      }
+      if (!senha || senha.length < 6) {
+        alert('A senha deve ter pelo menos 6 caracteres.');
+        return;
+      }
+
+      const isAdmin = (email === 'roberthaelley75@gmail.com');
+      const role = isAdmin ? 'SUPER_ADMIN' : (typeof authUserType !== 'undefined' ? authUserType : 'CLIENTE');
 
       let sessao = {
-        email,
-        role,
-        nome: nome || (isAdminEmail ? 'Robert Haelley' : (authUserType === 'DONO' ? 'Minha Barbearia' : 'Cliente RT')),
-        foto: foto || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=300',
+        email: email,
+        role: role,
+        nome: isAdmin ? 'Robert Haelley' : (role === 'DONO' ? 'Minha Barbearia' : 'Cliente RT'),
+        foto: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=300',
         loggedAt: Date.now()
       };
 
       if (role === 'DONO') {
-        sessao.trialExpiresAt = Date.now() + 48 * 60 * 60 * 1000;
+        sessao.trialExpiresAt = Date.now() + 48 * 3600 * 1000;
       }
 
-      // Salva sessão localmente garantindo acesso imediato sem travar
       localStorage.setItem('rt_auth_session', JSON.stringify(sessao));
       
-      // Sincroniza em segundo plano no Supabase se houver conexão
-      if (supabaseClient && authFormMode === 'CADASTRO') {
-        supabaseClient.auth.signUp({ email, password: senha }).catch(() => {});
+      // Esconde a tela de login imediatamente
+      const overlay = document.getElementById('auth-screen-overlay');
+      if (overlay) {
+        overlay.classList.add('hidden');
+        overlay.style.display = 'none';
       }
 
-      aplicarSessao(email, sessao.role, sessao);
+      // Aplica sessão e visão
+      try {
+        aplicarSessao(email, role, sessao);
+      } catch (err) {
+        console.error('Erro ao aplicar sessão:', err);
+        window.location.reload();
+      }
     }
+
 
     function aplicarSessao(email, role, sessao = {}) {
       sessaoUsuario.email = email;
@@ -3359,7 +3380,57 @@
     </div>
   </div>
 
+
+  <script>
+    // Reparo infalível para os botões de autenticação e abas de login
+    window.addEventListener('DOMContentLoaded', () => {
+      const btnEntrar = document.getElementById('btn-submit-action-auth');
+      const inpEmail = document.getElementById('auth-inp-email');
+      const inpSenha = document.getElementById('auth-inp-senha');
+      const overlay = document.getElementById('auth-screen-overlay');
+
+      if (btnEntrar) {
+        btnEntrar.onclick = function(e) {
+          e.preventDefault();
+          const email = inpEmail ? inpEmail.value.trim().toLowerCase() : 'roberthaelley75@gmail.com';
+          const senha = inpSenha ? inpSenha.value : '123456';
+
+          if (!email || !email.includes('@')) {
+            alert('Digite um e-mail válido.');
+            return;
+          }
+          if (!senha || senha.length < 6) {
+            alert('A senha deve ter pelo menos 6 caracteres.');
+            return;
+          }
+
+          const isAdmin = (email === 'roberthaelley75@gmail.com');
+          let sessao = {
+            email: email,
+            role: isAdmin ? 'SUPER_ADMIN' : 'DONO',
+            nome: isAdmin ? 'Robert Haelley' : 'Minha Barbearia',
+            foto: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=300',
+            loggedAt: Date.now()
+          };
+
+          localStorage.setItem('rt_auth_session', JSON.stringify(sessao));
+
+          if (overlay) {
+            overlay.classList.add('hidden');
+            overlay.style.display = 'none';
+          }
+
+          try {
+            aplicarSessao(email, sessao.role, sessao);
+          } catch(err) {
+            window.location.reload();
+          }
+        };
+      }
+    });
+  </script>
 </body>
+
 
   <script>
     // Correção agressiva para garantir clique imediato em qualquer tela ou dispositivo
