@@ -1104,17 +1104,17 @@
           <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:18px; margin-bottom:24px;">
             <div class="card-panel-dark" style="margin-bottom:0;">
               <div style="font-size:11px; font-weight:800; color:var(--text-muted); text-transform:uppercase;">Atendimentos Hoje</div>
-              <div style="font-size:28px; font-weight:900; margin-top:6px;">14</div>
+              <div style="font-size:28px; font-weight:900; margin-top:6px;" id="stat-atendimentos-hoje">0</div>
               <div style="font-size:11px; color:var(--neon-green); font-weight:800; margin-top:8px;">● 3 na cadeira agora</div>
             </div>
             <div class="card-panel-dark" style="margin-bottom:0;">
               <div style="font-size:11px; font-weight:800; color:var(--text-muted); text-transform:uppercase;">Faturamento Líquido</div>
-              <div style="font-size:28px; font-weight:900; color:var(--gold); margin-top:6px;">R$ 680,00</div>
+              <div style="font-size:28px; font-weight:900; color:var(--gold); margin-top:6px;" id="stat-faturamento-liquido">R$ 0,00</div>
               <div style="font-size:11px; color:var(--text-muted); font-weight:700; margin-top:8px;">Descontados insumos</div>
             </div>
             <div class="card-panel-dark" style="margin-bottom:0;">
               <div style="font-size:11px; font-weight:800; color:var(--text-muted); text-transform:uppercase;">Comissões a Pagar</div>
-              <div style="font-size:28px; font-weight:900; color:#cbd5e1; margin-top:6px;">R$ 272,00</div>
+              <div style="font-size:28px; font-weight:900; color:#cbd5e1; margin-top:6px;" id="stat-comissoes-pagar">R$ 0,00</div>
               <div style="font-size:11px; color:var(--text-muted); font-weight:700; margin-top:8px;">40% para os barbeiros</div>
             </div>
           </div>
@@ -1677,7 +1677,7 @@
     };
 
     // 11 SERVIÇOS REAIS DE BARBEARIA
-    let servicosDB = [
+    let servicosDB = []; /* Dinâmico por barbearia */ // let _old_serv = [
       { id: 's1', nome: 'Corte Simples / Social', preco: 40.00, duracaoMinutos: 30, categoria: 'CORTE', ativo: true },
       { id: 's2', nome: 'Corte Degradê', preco: 50.00, duracaoMinutos: 35, categoria: 'CORTE', ativo: true },
       { id: 's3', nome: 'Corte Degradê Navalhado', preco: 60.00, duracaoMinutos: 45, categoria: 'CORTE', ativo: true },
@@ -1692,7 +1692,7 @@
     ];
 
     // BARBEIROS COM CONTROLE DE FOLGA & CLUBE DE ASSINATURA INDIVIDUAL
-    let barbeirosDB = [
+    let barbeirosDB = []; /* Dinâmico por barbearia */ // let _old_barb = [
       { id: 'b1', nome: 'Vicente Cruz', rank: 'MASTER BARBER', nota: '4.9 (128)', foto: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=300', instagram: '@vicente.barber', whatsapp: '5591984551100',
       fidelidadeAtiva: true,
       linkGoogleAvaliacao: 'https://g.page/r/exemplo-rt-barber/review', tags: ['CORTE CLÁSSICO', 'BARBA'], emFolga: false, tipoFolga: 'NENHUMA', aceitaClubeAssinatura: true, valorClube: 140.00 },
