@@ -1537,23 +1537,45 @@
     }
 
     async function salvarAgendamentoSupabase(agendamento) {
-      if (!supabaseClient) return;
+      if (!supabaseClient) {
+        console.warn('⚠️ Supabase ainda não inicializado. Verifique a chave nas configurações.');
+        return;
+      }
       try {
-        await supabaseClient.from('appointments').insert([{
-          organization_id: barbeariaAtivaSelecionada ? barbeariaAtivaSelecionada.id : null,
-          client_name: sessaoUsuario.nome || 'Cliente',
-          client_phone: dadosBarbearia.whatsapp,
+        const estabId = barbeariaAtivaSelecionada ? barbeariaAtivaSelecionada.id : null;
+        const payloadPrincipal = {
+          client_name: (sessaoUsuario && sessaoUsuario.nome) ? sessaoUsuario.nome : 'Cliente Balcão',
+          client_phone: dadosBarbearia.whatsapp || '5591984551100',
           appointment_date: new Date().toISOString().split('T')[0],
-          appointment_time: horaSelecionada,
+          appointment_time: horaSelecionada || '09:00',
           status: 'AGUARDANDO',
           haircut_notes: `Serviço: ${servicoSelecionado.nome} com ${barbeiroSelecionado.nome}`,
-          total_amount: servicoSelecionado.preco,
-          payment_method: metodoPagamento,
+          total_amount: servicoSelecionado.preco || 40.00,
+          payment_method: metodoPagamento || 'LOCAL',
           payment_status: metodoPagamento === 'PIX' ? 'PAGO' : 'PENDENTE'
-        }]);
-        console.log('✅ Agendamento persistido no Supabase!');
+        };
+
+        // Tenta salvar com tenant_id (conforme o schema exibido na tabela appointments)
+        let payload = { ...payloadPrincipal };
+        if (estabId && estabId.length === 36) {
+          payload.tenant_id = estabId;
+        }
+
+        let res = await supabaseClient.from('appointments').insert([payload]);
+        if (res.error) {
+          console.warn('Tentando fallback de colunas para appointments:', res.error.message);
+          // Fallback sem chaves estrangeiras rígidas caso o ID não seja UUID
+          delete payload.tenant_id;
+          res = await supabaseClient.from('appointments').insert([payload]);
+        }
+
+        if (res.error) {
+          console.error('❌ Erro retornado pelo Supabase:', res.error);
+        } else {
+          console.log('✅ Agendamento gravado com sucesso no Supabase na nuvem!');
+        }
       } catch (err) {
-        console.warn('Não foi possível gravar no Supabase:', err);
+        console.warn('⚠️ Falha ao salvar no Supabase:', err);
       }
     }
 
