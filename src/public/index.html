@@ -384,9 +384,12 @@
     }
 
     .workspace-inner {
-      padding: 32px 36px 140px;
+      padding: 32px 36px 220px;
       max-width: 1400px;
       width: 100%;
+    }
+    body.modal-open .floating-bottom-dock {
+      display: none !important;
     }
     .screen-tab-panel { display: none; }
     .screen-tab-panel.active { display: block; }
@@ -705,7 +708,7 @@
     @media (max-width: 768px) {
       .floating-bottom-dock { display: flex; }
       .desktop-sidebar { display: none !important; }
-      .workspace-inner { padding: 20px 16px 140px; }
+      .workspace-inner { padding: 20px 16px 220px; }
       .casa-brava-hero { padding: 24px; height: 300px; }
       .hero-casa-title { font-size: 28px; }
     }
@@ -1929,6 +1932,7 @@
     }
 
     function abrirCupomTermico() {
+      document.body.classList.add('modal-open');
       const d = parseFloat(document.getElementById('inp-fech-dinheiro').value) || 0;
       const c = parseFloat(document.getElementById('inp-fech-cartao').value) || 0;
       const p = parseFloat(document.getElementById('inp-fech-pix').value) || 0;
@@ -1948,6 +1952,7 @@
     }
 
     function fecharCupomTermico() {
+      document.body.classList.remove('modal-open');
       document.getElementById('modal-cupom-termico').style.display = 'none';
     }
 
@@ -2004,10 +2009,12 @@
     function abrirModalCarrinho() {
       if (cartItens.length === 0) { alert('Sua sacola está vazia.'); return; }
       renderizarItensModalCarrinho();
+      document.body.classList.add('modal-open');
       document.getElementById('cart-slide-modal').style.display = 'flex';
     }
 
     function fecharModalCarrinho() {
+      document.body.classList.remove('modal-open');
       document.getElementById('cart-slide-modal').style.display = 'none';
     }
 
@@ -2336,6 +2343,7 @@
     // 1. COMANDA DE BALCÃO EXPRESS (WALK-IN)
     // =========================================================
     function abrirModalBalcaoExpress() {
+      document.body.classList.add('modal-open');
       const selBarbeiro = document.getElementById('express-sel-barbeiro');
       const selServico = document.getElementById('express-sel-servico');
       
@@ -2365,6 +2373,7 @@
     }
 
     function fecharModalBalcaoExpress() {
+      document.body.classList.remove('modal-open');
       document.getElementById('modal-balcao-express').style.display = 'none';
     }
 
