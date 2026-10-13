@@ -1,0 +1,19 @@
+{
+  "name": "rt-mobile-barber",
+  "version": "1.0.0",
+  "description": "SaaS Multi-tenant de Gestão e Agendamento para Barbearias - Ecossistema RT Mobile",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
+  },
+  "keywords": ["rt-mobile", "barber", "saas", "supabase", "render"],
+  "author": "RT Mobile",
+  "license": "ISC",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.42.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2"
+  }
+}
