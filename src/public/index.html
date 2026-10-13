@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>RT Mobile Barber • Plataforma de Gestão & Agendamento</title>
+  <title>RT Mobile Barber • Ecossistema Profissional</title>
   <style>
     * {
       box-sizing: border-box;
@@ -14,24 +14,26 @@
     }
 
     :root {
-      --black-pure: #050608;
-      --bg-dark: #090a0f;
-      --card-bg: #101217;
-      --card-inner: #151821;
-      --border-dark: #1f2330;
-      --gold-matte: #c59b63;
+      --bg-black: #000000;
+      --bg-surface: #07080c;
+      --bg-card: #10121a;
+      --bg-card-inner: #151822;
+      --border: #1f2330;
+      --gold: #c59b63;
       --gold-bright: #d4af37;
-      --gold-subtle: rgba(197, 155, 99, 0.12);
-      --green-status: #10b981;
-      --red-status: #ef4444;
-      --blue-accent: #3b82f6;
-      --text-pure: #ffffff;
+      --gold-glow: rgba(197, 155, 99, 0.12);
+      --neon-green: #10b981;
+      --neon-glow: rgba(16, 185, 129, 0.35);
+      --red: #ef4444;
+      --blue: #3b82f6;
+      --purple: #a855f7;
+      --text-white: #ffffff;
       --text-muted: #8e95a5;
     }
 
     body {
-      background-color: var(--black-pure);
-      color: var(--text-pure);
+      background-color: var(--bg-black);
+      color: var(--text-white);
       min-height: 100vh;
       margin: 0;
       padding: 0;
@@ -39,7 +41,7 @@
     }
 
     /* =========================================================
-       1. SPLASH SCREEN RT MOBILE (2 SEGUNDOS EXATOS)
+       1. SPLASH SCREEN COM BRILHO VERDE NEON (2 SEGUNDOS)
        ========================================================= */
     #splash-screen {
       position: fixed;
@@ -57,22 +59,39 @@
       visibility: hidden;
       pointer-events: none;
     }
-    .splash-logo-box {
+    .splash-logo-container {
       text-align: center;
-      animation: splashFade 1.8s ease-in-out forwards;
+      position: relative;
+    }
+    .splash-halo-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 140px;
+      height: 140px;
+      background: radial-gradient(circle, var(--neon-glow) 0%, rgba(16, 185, 129, 0) 70%);
+      border-radius: 50%;
+      filter: blur(20px);
+      z-index: 1;
     }
     .splash-rt {
-      font-size: 86px;
+      font-size: 88px;
       font-weight: 900;
       letter-spacing: -2px;
       color: #ffffff;
       line-height: 0.9;
+      position: relative;
+      z-index: 2;
+      text-shadow: 0 0 25px rgba(16, 185, 129, 0.4);
     }
     .splash-divider {
-      width: 86px;
+      width: 90px;
       height: 2px;
       background: #404452;
       margin: 14px auto 12px;
+      position: relative;
+      z-index: 2;
     }
     .splash-sub {
       font-size: 14px;
@@ -81,85 +100,298 @@
       color: #ffffff;
       text-transform: uppercase;
       padding-left: 10px;
+      position: relative;
+      z-index: 2;
     }
-    @keyframes splashFade {
-      0% { opacity: 0; transform: scale(0.95); }
-      30% { opacity: 1; transform: scale(1); }
-      85% { opacity: 1; transform: scale(1); }
-      100% { opacity: 1; transform: scale(1.02); }
+    .splash-tagline {
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--neon-green);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-top: 14px;
+      position: relative;
+      z-index: 2;
     }
 
     /* =========================================================
-       LAYOUT RESPONSIVO (DESKTOP HORIZONTAL vs MOBILE FLUIDO)
+       2. TELA DE ONBOARDING & LOGIN (SELEÇÃO CLIENTE VS BARBEARIA)
        ========================================================= */
-    .app-layout {
+    #auth-screen-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: #050608;
+      z-index: 90000;
       display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+    #auth-screen-overlay.hidden {
+      display: none;
+    }
+    .auth-split-wrapper {
+      display: flex;
+      flex: 1;
       width: 100%;
       min-height: 100vh;
     }
-
-    /* SIDEBAR (DESKTOP HORIZONTAL COMPLETO) */
-    .desktop-sidebar {
-      width: 280px;
-      background: #0c0e14;
-      border-right: 1px solid var(--border-dark);
+    .auth-hero-side {
+      flex: 1.1;
+      background: url('https://images.unsplash.com/photo-1503951914875-452162b0f3f1?q=80&w=1200') center/cover no-repeat;
+      position: relative;
       display: flex;
       flex-direction: column;
-      padding: 24px 20px;
-      flex-shrink: 0;
-      transition: transform 0.3s ease;
-      z-index: 100;
+      justify-content: flex-end;
+      padding: 48px;
     }
-    .sidebar-brand {
+    .auth-hero-side::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.85) 75%, #050608 100%);
+    }
+    .auth-hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 500px;
+    }
+    .auth-hero-tag {
+      font-size: 11px;
+      font-weight: 900;
+      color: var(--gold);
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .auth-hero-title {
+      font-size: 38px;
+      font-weight: 900;
+      line-height: 1.1;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .auth-hero-sub {
+      font-size: 13px;
+      color: #cbd5e1;
+      line-height: 1.5;
+    }
+
+    .auth-form-side {
+      flex: 1;
+      background: #090a0f;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 48px;
+      max-width: 560px;
+    }
+    @media (max-width: 900px) {
+      .auth-split-wrapper { flex-direction: column; }
+      .auth-hero-side { min-height: 320px; padding: 24px; }
+      .auth-form-side { padding: 24px; max-width: 100%; }
+      .auth-hero-title { font-size: 26px; }
+    }
+
+    /* ABAS DE LOGIN: ÁREA DO CLIENTE VS PAINEL DA BARBEARIA */
+    .auth-tabs-toggle {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      background: #11131c;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 4px;
+      margin-bottom: 24px;
+    }
+    .auth-tab-btn {
+      padding: 10px;
+      border-radius: 9px;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .auth-tab-btn.active {
+      background: #191c28;
+      color: var(--gold);
+      border: 1px solid var(--border);
+    }
+
+    .form-input-field {
+      width: 100%;
+      background: #141622;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 13px 16px;
+      color: #fff;
+      font-size: 13px;
+      margin-bottom: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-input-field:focus {
+      border-color: var(--gold);
+    }
+    .btn-submit-auth {
+      width: 100%;
+      background: var(--gold);
+      color: #000;
+      border: none;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      cursor: pointer;
+      margin-top: 6px;
+    }
+    .trial-48h-link {
+      display: block;
+      text-align: center;
+      font-size: 11px;
+      color: var(--neon-green);
+      font-weight: 800;
+      margin-top: 16px;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* =========================================================
+       3. TOPBAR SAAS & BARRA DE PERMISSÕES MASTER
+       ========================================================= */
+    .master-control-bar {
+      background: #0a0b10;
+      border-bottom: 1px solid var(--border);
+      padding: 8px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .user-pill-tag {
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 9px;
+      font-weight: 800;
+      text-transform: uppercase;
+      margin-left: 6px;
+    }
+    .user-pill-tag.vitalicio {
+      background: rgba(168, 85, 247, 0.15);
+      color: var(--purple);
+      border: 1px solid rgba(168, 85, 247, 0.35);
+    }
+
+    .role-switcher-tabs {
+      display: flex;
+      gap: 6px;
+    }
+    .btn-role-nav {
+      background: #141622;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 5px 12px;
+      border-radius: 7px;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+    .btn-role-nav.active {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: var(--gold-glow);
+    }
+
+    /* AVISO DE EXPIRAÇÃO SAAS */
+    .saas-notice-banner {
+      background: rgba(197, 155, 99, 0.12);
+      border-bottom: 1px solid var(--gold);
+      color: var(--gold);
+      padding: 8px 32px;
+      font-size: 11px;
+      font-weight: 800;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* =========================================================
+       4. ESTRUTURA GERAL DA PLATAFORMA (DESKTOP HORIZONTAL)
+       ========================================================= */
+    .app-desktop-structure {
+      display: flex;
+      width: 100%;
+      min-height: calc(100vh - 40px);
+    }
+
+    .sidebar-desktop-menu {
+      width: 270px;
+      background: #08090d;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      padding: 24px 18px;
+      flex-shrink: 0;
+    }
+    .sidebar-brand-box {
       display: flex;
       align-items: center;
       gap: 12px;
-      margin-bottom: 28px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid var(--border-dark);
+      margin-bottom: 24px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--border);
     }
-    .brand-sq-logo {
-      width: 44px;
-      height: 44px;
+    .sq-logo-rt {
+      width: 42px;
+      height: 42px;
       border-radius: 12px;
-      background: #141722;
-      border: 1.5px solid var(--gold-matte);
+      background: #12141c;
+      border: 1.5px solid var(--gold);
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 900;
       font-size: 16px;
-      color: #ffffff;
-      letter-spacing: -0.5px;
+      color: #fff;
     }
-    .brand-sq-logo span { color: var(--gold-matte); }
-    .brand-names h2 { font-size: 15px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
-    .brand-names p { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+    .sq-logo-rt span { color: var(--gold); }
+    .brand-meta-titles h2 { font-size: 14px; font-weight: 800; text-transform: uppercase; }
+    .brand-meta-titles p { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
 
-    .nav-section-title {
+    .menu-group-label {
       font-size: 10px;
       font-weight: 800;
       color: #64748b;
       letter-spacing: 1.5px;
       text-transform: uppercase;
-      margin: 16px 0 8px 6px;
+      margin: 14px 0 6px 6px;
     }
-    .sidebar-menu {
+    .sidebar-nav-list {
       display: flex;
       flex-direction: column;
-      gap: 5px;
+      gap: 4px;
       flex: 1;
     }
-    .side-nav-btn {
+    .side-item-btn {
       display: flex;
       align-items: center;
       gap: 12px;
-      padding: 12px 14px;
+      padding: 11px 14px;
       border-radius: 12px;
       background: transparent;
       border: 1px solid transparent;
       color: var(--text-muted);
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -168,14 +400,14 @@
       transition: all 0.2s;
       width: 100%;
     }
-    .side-nav-btn:hover { background: var(--card-bg); color: #fff; }
-    .side-nav-btn.active {
+    .side-item-btn:hover { background: var(--bg-card); color: #fff; }
+    .side-item-btn.active {
       background: #151824;
-      color: var(--gold-matte);
-      border-color: var(--border-dark);
+      color: var(--gold);
+      border-color: var(--border);
       font-weight: 900;
     }
-    .side-svg-icon {
+    .svg-icon-ui {
       width: 18px;
       height: 18px;
       fill: none;
@@ -185,367 +417,401 @@
       stroke-linejoin: round;
     }
 
-    /* ÁREA PRINCIPAL HORIZONTAL (MAIN DESKTOP) */
-    .desktop-main {
+    .main-viewport-content {
       flex: 1;
       display: flex;
       flex-direction: column;
-      min-width: 0;
-      background: var(--bg-dark);
+      background: var(--bg-surface);
       overflow-y: auto;
+      min-width: 0;
     }
 
-    .desktop-topbar {
-      height: 72px;
+    .main-top-navbar {
+      height: 70px;
       background: #000000;
-      border-bottom: 1px solid var(--border-dark);
+      border-bottom: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 0 32px;
       position: sticky;
       top: 0;
-      z-index: 90;
+      z-index: 80;
     }
-    .topbar-title-box h1 {
-      font-size: 17px;
+    .page-title-box h1 {
+      font-size: 16px;
       font-weight: 900;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
-    .topbar-title-box p {
+    .page-title-box p {
       font-size: 11px;
       color: var(--text-muted);
       margin-top: 2px;
     }
 
-    .topbar-actions {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .btn-quick-balcao {
-      background: var(--gold-matte);
+    .btn-topbar-primary {
+      background: var(--gold);
       color: #000;
       border: none;
       padding: 10px 18px;
-      border-radius: 12px;
+      border-radius: 10px;
       font-size: 11px;
       font-weight: 900;
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .btn-toggle-client-view {
-      background: #151824;
-      border: 1px solid var(--border-dark);
-      color: #cbd5e1;
-      padding: 9px 16px;
-      border-radius: 12px;
-      font-size: 11px;
-      font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.5px;
       cursor: pointer;
     }
 
-    .main-body-container {
+    .workspace-inner-padding {
       padding: 28px 32px;
       max-width: 1400px;
       width: 100%;
     }
 
-    /* TELAS DO SISTEMA */
-    .screen-view {
+    .screen-tab-panel {
       display: none;
     }
-    .screen-view.active {
+    .screen-tab-panel.active {
       display: block;
     }
 
-    /* GRID DAS METRICAS */
-    .metrics-summary-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 16px;
+    /* =========================================================
+       5. PORTAL DO CLIENTE - O PAINEL 4 COLUNAS HORIZONTAL (IMAGE_2.PNG)
+       ========================================================= */
+    .hero-banner-establishment {
+      width: 100%;
+      height: 280px;
+      border-radius: 24px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 28px 32px;
       margin-bottom: 24px;
+      border: 1px solid var(--border);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.7);
     }
-    .metric-card-box {
-      background: var(--card-bg);
-      border: 1px solid var(--border-dark);
-      border-radius: 18px;
-      padding: 20px;
+    .hero-banner-establishment::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.05) 15%, rgba(0,0,0,0.85) 75%, #07080c 100%);
+      border-radius: 24px;
+      z-index: 1;
     }
-    .metric-card-box .title {
+    .hero-meta-box {
+      position: relative;
+      z-index: 2;
+    }
+    .hero-tag-pill {
       font-size: 11px;
       font-weight: 800;
-      color: var(--text-muted);
+      letter-spacing: 2px;
+      color: var(--gold);
       text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 8px;
+      margin-bottom: 4px;
     }
-    .metric-card-box .val {
+    .hero-establishment-title {
       font-size: 28px;
       font-weight: 900;
-      color: #ffffff;
-      line-height: 1;
+      line-height: 1.15;
+      text-transform: uppercase;
     }
-    .metric-card-box .val.gold { color: var(--gold-matte); }
-    .metric-card-box .sub {
-      font-size: 11px;
-      color: var(--green-status);
-      font-weight: 700;
-      margin-top: 6px;
-    }
-
-    /* GRIDS DUPLOS HORIZONTAIS */
-    .two-cols-layout {
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 24px;
-      margin-bottom: 24px;
-    }
-    @media (max-width: 1100px) {
-      .two-cols-layout { grid-template-columns: 1fr; }
-    }
-
-    .panel-box-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border-dark);
-      border-radius: 20px;
-      padding: 22px;
-      margin-bottom: 20px;
-    }
-    .panel-box-card h3 {
+    .hero-establishment-address {
       font-size: 13px;
-      font-weight: 900;
-      color: var(--gold-matte);
+      color: #cbd5e1;
+      margin-top: 4px;
+    }
+
+    /* STATUS CADEIRA LIVRE AGORA */
+    .status-cadeira-livre-strip {
+      background: rgba(16, 185, 129, 0.12);
+      border: 1.5px solid rgba(16, 185, 129, 0.35);
+      border-radius: 14px;
+      padding: 12px 20px;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .pulse-dot-green {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--neon-green);
+      display: inline-block;
+      margin-right: 6px;
+      box-shadow: 0 0 10px var(--neon-green);
+    }
+
+    /* 4 BOTÕES DE CATEGORIA NO TOPO (CIRCULADO 1) */
+    .strip-categories-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+    .category-card-item {
+      background: var(--bg-card);
+      border: 1.5px solid var(--border);
+      border-radius: 18px;
+      padding: 16px 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .category-card-item:hover, .category-card-item.active {
+      border-color: var(--gold);
+      background: var(--gold-glow);
+      transform: translateY(-2px);
+    }
+    .category-card-item .label {
+      font-size: 11px;
+      font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 1px;
-      margin-bottom: 6px;
+      color: #cbd5e1;
     }
-    .panel-box-card p {
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-bottom: 16px;
-      line-height: 1.4;
-    }
+    .category-card-item.active .label { color: var(--gold); }
 
-    /* =========================================================
-       SERVIÇOS COM VALOR EDITÁVEL & CHAVE ON/OFF
-       ========================================================= */
-    .service-manager-row {
+    /* PAINEL 4 COLUNAS HORIZONTAL (IMAGE_2.PNG) */
+    .board-horizontal-schedule {
+      background: #0d0f17;
+      border: 1.5px solid var(--border);
+      border-radius: 28px;
+      padding: 28px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+      margin-bottom: 28px;
+    }
+    .board-header-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: var(--card-inner);
-      border: 1.5px solid var(--border-dark);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 20px;
+      margin-bottom: 24px;
+    }
+    .board-header-row h2 { font-size: 22px; font-weight: 900; }
+    .hours-info-txt { font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 700; }
+
+    .grid-4-columns-schedule {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    @media (max-width: 1024px) {
+      .grid-4-columns-schedule { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      .grid-4-columns-schedule { grid-template-columns: 1fr; }
+    }
+
+    .col-schedule-box {
+      background: #11131c;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+    }
+    .col-schedule-box h3 {
+      font-size: 12px;
+      font-weight: 900;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .schedule-pick-row {
+      background: #161824;
+      border: 1.5px solid var(--border);
       border-radius: 14px;
-      padding: 12px 16px;
-      margin-bottom: 10px;
-    }
-    .service-manager-row.disabled { opacity: 0.45; }
-    .service-info-col h4 {
-      font-size: 13px;
-      font-weight: 900;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    .service-info-col span {
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-top: 2px;
-      display: block;
-    }
-
-    .service-controls {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-    .price-editable-input {
-      display: flex;
-      align-items: center;
-      background: #090b10;
-      border: 1px solid var(--border-dark);
-      border-radius: 10px;
-      padding: 6px 10px;
-      gap: 4px;
-    }
-    .price-editable-input span {
-      font-size: 11px;
-      color: var(--gold-matte);
-      font-weight: 800;
-    }
-    .price-editable-input input {
-      background: transparent;
-      border: none;
-      color: #fff;
-      font-size: 13px;
-      font-weight: 900;
-      width: 58px;
-      text-align: right;
-      outline: none;
-    }
-
-    /* SWITCH ON/OFF */
-    .switch-ui { position: relative; width: 42px; height: 24px; }
-    .switch-ui input { opacity: 0; width: 0; height: 0; }
-    .slider-ui {
-      position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
-      background: #2b3044; border-radius: 30px; transition: .2s;
-    }
-    .slider-ui:before {
-      position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px;
-      background: #fff; border-radius: 50%; transition: .2s;
-    }
-    input:checked + .slider-ui { background: var(--green-status); }
-    input:checked + .slider-ui:before { transform: translateX(18px); }
-
-    /* =========================================================
-       LOGÍSTICA DE HORÁRIOS: FOLGAS, FERIADOS E DIAS FECHADOS
-       ========================================================= */
-    .status-barber-pill {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: #141622;
-      border: 1px solid var(--border-dark);
-      border-radius: 12px;
-      padding: 10px 14px;
+      padding: 12px 14px;
       margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.2s;
     }
-    .status-barber-pill .name { font-size: 12px; font-weight: 800; text-transform: uppercase; }
-    .btn-toggle-folga {
-      background: #1d2133;
-      border: 1px solid var(--border-dark);
-      color: var(--green-status);
-      padding: 6px 12px;
-      border-radius: 8px;
+    .schedule-pick-row.selected {
+      border-color: var(--gold);
+      background: var(--gold-glow);
+    }
+    .schedule-pick-row h4 { font-size: 12px; font-weight: 900; text-transform: uppercase; }
+    .schedule-pick-row .val { font-size: 12px; font-weight: 800; color: var(--gold); }
+    .check-circle-dot {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid #475569;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-size: 10px;
-      font-weight: 800;
-      text-transform: uppercase;
+      font-weight: 900;
+      color: transparent;
+      margin-left: 8px;
+    }
+    .schedule-pick-row.selected .check-circle-dot {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: #000;
+    }
+
+    .calendar-days-31-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 3px;
+      text-align: center;
+      margin-bottom: 14px;
+    }
+    .day-cell-btn {
+      padding: 6px 0;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #cbd5e1;
       cursor: pointer;
     }
-    .btn-toggle-folga.off {
-      color: var(--red-status);
-      background: rgba(239, 68, 68, 0.1);
-      border-color: rgba(239, 68, 68, 0.3);
+    .day-cell-btn.selected {
+      background: var(--gold);
+      color: #000;
+      font-weight: 900;
     }
 
-    /* =========================================================
-       CAIXA & FECHAMENTO CEGO
-       ========================================================= */
-    .cash-kpi-grid {
+    .time-slots-3x3 {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin-bottom: 20px;
+      gap: 6px;
     }
-    .cash-kpi {
-      background: #151823;
-      border: 1px solid var(--border-dark);
+    .time-slot-btn {
+      background: #161824;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 0;
+      text-align: center;
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .time-slot-btn.selected {
+      background: var(--gold);
+      color: #000;
+      border-color: var(--gold);
+    }
+
+    .booking-summary-card {
+      background: #161824;
       border-radius: 14px;
       padding: 14px;
-      text-align: center;
+      font-size: 11px;
+      margin-bottom: 14px;
+      border: 1px solid var(--border);
     }
-    .cash-kpi span { font-size: 10px; color: var(--text-muted); font-weight: 800; text-transform: uppercase; }
-    .cash-kpi strong { font-size: 18px; font-weight: 900; color: #fff; display: block; margin-top: 4px; }
-
-    /* =========================================================
-       ESTOQUE DE PRODUTOS
-       ========================================================= */
-    .inventory-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 12px;
+    .summary-line {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 0;
+      color: #cbd5e1;
     }
-    .inventory-table th {
-      text-align: left;
-      padding: 10px 12px;
-      color: var(--text-muted);
-      border-bottom: 1px solid var(--border-dark);
-      font-weight: 800;
-      text-transform: uppercase;
-      font-size: 10px;
-    }
-    .inventory-table td {
-      padding: 12px;
-      border-bottom: 1px solid var(--border-dark);
+    .summary-line.total-line {
+      border-top: 1px solid var(--border);
+      margin-top: 8px;
+      padding-top: 10px;
+      font-size: 14px;
+      font-weight: 900;
       color: #fff;
     }
+    .summary-line.total-line strong { color: var(--gold); }
 
-    /* INPUTS GERAIS */
-    .form-input-dark {
+    .btn-confirm-final-booking {
       width: 100%;
-      background: #151722;
-      border: 1px solid var(--border-dark);
-      border-radius: 12px;
-      padding: 11px 14px;
-      color: #fff;
-      font-size: 13px;
-      margin-bottom: 12px;
-      outline: none;
-    }
-    .form-input-dark:focus { border-color: var(--gold-matte); }
-
-    .btn-action-gold {
-      width: 100%;
-      background: var(--gold-matte);
+      background: var(--gold);
       color: #000;
       border: none;
-      padding: 13px;
+      padding: 14px;
       border-radius: 12px;
       font-size: 12px;
       font-weight: 900;
       text-transform: uppercase;
       letter-spacing: 0.8px;
       cursor: pointer;
+      box-shadow: 0 10px 25px rgba(197, 155, 99, 0.35);
     }
 
     /* =========================================================
-       ADAPTAÇÃO NATIVA QUANDO ABERTO NO SMARTPHONE (< 768px)
+       6. COMANDA DIGITAL & CONSUMO NA CADEIRA
        ========================================================= */
-    @media (max-width: 768px) {
-      .app-layout { flex-direction: column; }
-      .desktop-sidebar { display: none; }
-      .desktop-topbar { padding: 0 16px; }
-      .main-body-container { padding: 16px; }
-      .metrics-summary-grid { grid-template-columns: 1fr 1fr; }
-      .two-cols-layout { grid-template-columns: 1fr; }
-      
-      /* ILHA FLUTUANTE ATIVADA NO SMARTPHONE */
-      .mobile-island-dock {
-        display: flex !important;
-      }
-      .desktop-main {
-        padding-bottom: 100px;
-      }
+    .comanda-card-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+    .comanda-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 10px;
+      margin-bottom: 10px;
     }
 
-    .mobile-island-dock {
-      display: none;
+    /* =========================================================
+       7. CAIXA & FECHAMENTO CEGO
+       ========================================================= */
+    .cash-grid-kpis {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .cash-kpi-card {
+      background: #141724;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      text-align: center;
+    }
+    .cash-kpi-card span { font-size: 10px; color: var(--text-muted); font-weight: 800; text-transform: uppercase; }
+    .cash-kpi-card strong { font-size: 18px; font-weight: 900; color: #fff; display: block; margin-top: 4px; }
+
+    /* =========================================================
+       8. ILHA FLUTUANTE INFERIOR DOCK COM TESOURA METÁLICA (CIRCULADO 2)
+       ========================================================= */
+    .floating-bottom-dock {
       position: fixed;
-      bottom: 16px;
+      bottom: 20px;
       left: 50%;
       transform: translateX(-50%);
-      width: calc(100% - 30px);
+      width: calc(100% - 32px);
       max-width: 440px;
-      height: 64px;
+      height: 66px;
       background: rgba(10, 11, 16, 0.94);
       backdrop-filter: blur(24px);
       border: 1.5px solid rgba(255, 255, 255, 0.12);
       border-radius: 999px;
+      display: flex;
       justify-content: space-around;
       align-items: center;
-      padding: 0 8px;
+      padding: 0 10px;
       z-index: 1000;
       box-shadow: 0 16px 40px rgba(0,0,0,0.85);
     }
-    .dock-btn {
+    .dock-tab-btn {
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -554,938 +820,1005 @@
       border: none;
       color: #7b8292;
       cursor: pointer;
-      width: 50px;
+      width: 52px;
       height: 50px;
+      border-radius: 50%;
+      transition: all 0.2s;
     }
-    .dock-btn.active { color: var(--gold-matte); }
-    .dock-center-scissor {
+    .dock-tab-btn .lbl {
+      font-size: 9px;
+      font-weight: 800;
+      text-transform: uppercase;
+      margin-top: 3px;
+      letter-spacing: 0.5px;
+    }
+    .dock-tab-btn.active { color: var(--gold); }
+
+    .dock-scissor-gold-btn {
       width: 52px;
       height: 52px;
       border-radius: 50%;
-      background: var(--gold-matte);
+      background: var(--gold);
       color: #000;
       border: 3px solid #090a0f;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transform: translateY(-6px);
+      transform: translateY(-8px);
       box-shadow: 0 8px 24px rgba(197, 155, 99, 0.5);
     }
 
-    /* MODAL DE AGENDAMENTO BALCÃO PELO DONO */
-    .modal-overlay {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.88);
-      backdrop-filter: blur(10px);
-      z-index: 2000;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
+    /* FOOTER DE SUPORTE OFICIAL & CRÉDITOS DO DESENVOLVEDOR */
+    .developer-support-footer {
+      background: #090a0f;
+      border-top: 1px solid var(--border);
+      padding: 24px 32px;
+      text-align: center;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 40px;
     }
-    .modal-overlay.open { display: flex; }
-    .modal-card-box {
-      background: var(--card-bg);
-      border: 1px solid var(--border-dark);
-      border-radius: 24px;
-      width: 100%;
-      max-width: 480px;
-      max-height: 90vh;
-      overflow-y: auto;
-      padding: 24px;
+    .developer-support-footer strong { color: #fff; }
+    .btn-contact-dev {
+      background: #141724;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      padding: 8px 18px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      margin-top: 10px;
+      cursor: pointer;
+      display: inline-block;
+      text-decoration: none;
     }
   </style>
 </head>
 <body>
 
-  <!-- SPLASH SCREEN RT MOBILE (2 SEGUNDOS EXATOS) -->
+  <!-- =========================================================
+       1. SPLASH SCREEN RT MOBILE COM BRILHO VERDE NEON
+       ========================================================= -->
   <div id="splash-screen">
-    <div class="splash-logo-box">
+    <div class="splash-logo-container">
+      <div class="splash-halo-glow"></div>
       <div class="splash-rt">RT</div>
       <div class="splash-divider"></div>
       <div class="splash-sub">MOBILE</div>
+      <div class="splash-tagline">SISTEMA DE GESTÃO PROFISSIONAL</div>
     </div>
   </div>
 
-  <div class="app-layout">
-
-    <!-- =========================================================
-         BARRA LATERAL DESKTOP (PAINEL HORIZONTAL PROFISSIONAL)
-         ========================================================= -->
-    <aside class="desktop-sidebar">
-      <div class="sidebar-brand">
-        <div class="brand-sq-logo">RT<span>.</span></div>
-        <div class="brand-names">
-          <h2 id="side-brand-name">RT Mobile Barber</h2>
-          <p id="side-brand-sub">Painel Administrativo</p>
+  <!-- =========================================================
+       2. TELA DE ONBOARDING & LOGIN (SELEÇÃO CLIENTE VS BARBEARIA)
+       ========================================================= -->
+  <div id="auth-screen-overlay">
+    <div class="auth-split-wrapper">
+      
+      <!-- LADO ESQUERDO: FOTO HERO PROFISSIONAL -->
+      <div class="auth-hero-side">
+        <div class="auth-hero-content">
+          <div class="auth-hero-tag">EXPERIÊNCIA EXCLUSIVA</div>
+          <h1 class="auth-hero-title">LOOK SHARP • FEEL CONFIDENT • MEN</h1>
+          <p class="auth-hero-sub">Plataforma oficial de agendamentos, cortes e gestão para barbearias de alto padrão.</p>
         </div>
       </div>
 
-      <div class="nav-section-title">OPERAÇÃO</div>
-      <nav class="sidebar-menu">
-        <button class="side-nav-btn active" onclick="trocarTelaPainel('screen-dashboard', this)">
-          <svg class="side-svg-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+      <!-- LADO DIREITO: FORMULÁRIO DE LOGIN -->
+      <div class="auth-form-side">
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:28px;">
+          <div class="sq-logo-rt">RT<span>.</span></div>
+          <div>
+            <h2 style="font-size:16px; font-weight:900; text-transform:uppercase;">RT Mobile Barber</h2>
+            <p style="font-size:11px; color:var(--text-muted);">Acesso à Plataforma</p>
+          </div>
+        </div>
+
+        <!-- ABAS: ÁREA DO CLIENTE VS PAINEL DO ESTABELECIMENTO -->
+        <div class="auth-tabs-toggle">
+          <button class="auth-tab-btn active" id="btn-auth-cliente-tab" onclick="alternarAuthTab('CLIENTE')">Área do Cliente</button>
+          <button class="auth-tab-btn" id="btn-auth-dono-tab" onclick="alternarAuthTab('DONO')">Painel Barbearia</button>
+        </div>
+
+        <div id="auth-form-body">
+          <label style="font-size:11px; font-weight:800; color:var(--text-muted); text-transform:uppercase; margin-bottom:6px; display:block;">Seu E-mail:</label>
+          <input type="email" id="auth-inp-email" class="form-input-field" value="roberthaelley75@gmail.com" placeholder="seu@email.com">
+
+          <label style="font-size:11px; font-weight:800; color:var(--text-muted); text-transform:uppercase; margin-bottom:6px; display:block;">Sua Senha:</label>
+          <input type="password" id="auth-inp-senha" class="form-input-field" value="123456" placeholder="Mínimo de 6 caracteres">
+
+          <button class="btn-submit-auth" onclick="realizarLogin()">Acessar Plataforma ➔</button>
+
+          <!-- BOTÃO EXCLUSIVO DE TESTE GRÁTIS 48H PARA BARBEARIAS -->
+          <div class="trial-48h-link" id="auth-trial-trigger" onclick="ativarTesteGratis48h()">
+            Ainda não tem conta? Testar 48h Grátis ↗
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- AVISO DE PLANO SAAS (30 DIAS / TRIAL) -->
+  <div class="saas-notice-banner" id="banner-aviso-saas">
+    <div>
+      STATUS: <strong id="lbl-status-plano">VITALÍCIO SUPER ADMIN (roberthaelley75@gmail.com)</strong>
+    </div>
+    <button class="btn-pay-now-saas" style="background:var(--gold); border:none; padding:4px 10px; border-radius:6px; font-weight:900; cursor:pointer;" onclick="simularVencimento30Dias()">Simular Vencimento 30 Dias</button>
+  </div>
+
+  <!-- BARRA MASTER DE PERMISSÕES & NÍVEIS -->
+  <div class="master-control-bar">
+    <div>
+      Usuário: <strong id="lbl-logged-email">roberthaelley75@gmail.com</strong>
+      <span class="user-pill-tag vitalicio" id="lbl-tag-permissao">Super Admin Master</span>
+    </div>
+
+    <!-- SELETOR INSTANTÂNEO DE VISÃO -->
+    <div class="role-switcher-tabs">
+      <button class="btn-role-nav active" onclick="definirModoVisao('CLIENTE', this)">Ver Como Cliente</button>
+      <button class="btn-role-nav" onclick="definirModoVisao('DONO', this)">Painel do Dono</button>
+      <button class="btn-role-nav" onclick="definirModoVisao('SUPER_ADMIN', this)">Super Admin SaaS</button>
+      <button class="btn-role-nav" style="color:var(--red);" onclick="realizarLogout()">Sair</button>
+    </div>
+  </div>
+
+  <!-- CONTAINER DESKTOP COM SIDEBAR HORIZONTAL -->
+  <div class="app-desktop-structure">
+    
+    <!-- SIDEBAR LATERAL (DESKTOP) -->
+    <aside class="sidebar-desktop-menu" id="app-sidebar-lateral">
+      <div class="sidebar-brand-box">
+        <div class="sq-logo-rt">RT<span>.</span></div>
+        <div class="brand-meta-titles">
+          <h2 id="side-nome-barbearia">RT Mobile Barber</h2>
+          <p id="side-sub-barbearia">Centro, Santa Izabel</p>
+        </div>
+      </div>
+
+      <div class="menu-group-label">GESTÃO OPERACIONAL</div>
+      <nav class="sidebar-nav-list">
+        <button class="side-item-btn active" onclick="trocarAbaWorkspace('tab-visao-geral', this)">
+          <svg class="svg-icon-ui" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
           Visão Geral
         </button>
 
-        <button class="side-nav-btn" onclick="trocarTelaPainel('screen-grade-horarios', this)">
-          <svg class="side-svg-icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-          Grade & Agendamentos
+        <button class="side-item-btn" onclick="trocarAbaWorkspace('tab-agendamento-horizontal', this)">
+          <svg class="svg-icon-ui" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          Grade & Balcão
         </button>
 
-        <button class="side-nav-btn" onclick="trocarTelaPainel('screen-servicos', this)">
-          <svg class="side-svg-icon" viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><line x1="20" y1="4" x2="8.12" y2="15.88"></line><line x1="14.47" y1="14.48" x2="20" y2="20"></line><line x1="8.12" y1="8.12" x2="12" y2="12"></line></svg>
+        <button class="side-item-btn" onclick="trocarAbaWorkspace('tab-servicos-precos', this)">
+          <svg class="svg-icon-ui" viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><line x1="20" y1="4" x2="8.12" y2="15.88"></line></svg>
           Serviços & Preços
         </button>
 
-        <button class="side-nav-btn" onclick="trocarTelaPainel('screen-barbeiros-escalas', this)">
-          <svg class="side-svg-icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+        <button class="side-item-btn" onclick="trocarAbaWorkspace('tab-barbeiros-folgas', this)">
+          <svg class="svg-icon-ui" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
           Barbeiros & Folgas
         </button>
 
-        <button class="side-nav-btn" onclick="trocarTelaPainel('screen-estoque', this)">
-          <svg class="side-svg-icon" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
-          Estoque de Produtos
+        <button class="side-item-btn" onclick="trocarAbaWorkspace('tab-comanda-digital', this)">
+          <svg class="svg-icon-ui" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path></svg>
+          Comandas na Cadeira
         </button>
 
-        <button class="side-nav-btn" onclick="trocarTelaPainel('screen-caixa', this)">
-          <svg class="side-svg-icon" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"></rect><line x1="6" y1="8" x2="6" y2="8"></line><line x1="10" y1="8" x2="10" y2="8"></line><line x1="14" y1="8" x2="14" y2="8"></line><line x1="6" y1="12" x2="18" y2="12"></line></svg>
-          Caixa da Loja
+        <button class="side-item-btn" onclick="trocarAbaWorkspace('tab-caixa-fechamento', this)">
+          <svg class="svg-icon-ui" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"></rect><line x1="6" y1="12" x2="18" y2="12"></line></svg>
+          Caixa & Fechamento
         </button>
 
-        <button class="side-nav-btn" onclick="trocarTelaPainel('screen-configuracoes', this)">
-          <svg class="side-svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-          Configurações & Espaço
+        <button class="side-item-btn" onclick="trocarAbaWorkspace('tab-configuracoes-slug', this)">
+          <svg class="svg-icon-ui" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          Espaço, Pix & Bio
         </button>
       </nav>
 
-      <div style="padding-top:16px; border-top:1px solid var(--border-dark); font-size:11px; color:var(--text-muted);">
-        Plataforma SaaS: <strong style="color:var(--green-status);">Ativa (R$ 50/mês)</strong>
+      <div style="padding-top:14px; border-top:1px solid var(--border); font-size:11px; color:var(--text-muted);">
+        Plataforma SaaS: <strong style="color:var(--neon-green);">Ativa (R$ 50/mês)</strong>
       </div>
     </aside>
 
-    <!-- =========================================================
-         ÁREA PRINCIPAL (DESKTOP MAIN)
-         ========================================================= -->
-    <main class="desktop-main">
+    <!-- ÁREA PRINCIPAL HORIZONTAL -->
+    <main class="main-viewport-content">
       
-      <!-- TOPBAR FIXA -->
-      <header class="desktop-topbar">
-        <div class="topbar-title-box">
-          <h1 id="lbl-top-view-title">Visão Geral da Barbearia</h1>
-          <p id="lbl-top-view-sub">Gestão operacional, atendimentos e faturamento</p>
+      <header class="main-top-navbar">
+        <div class="page-title-box">
+          <h1 id="lbl-workspace-title">Painel de Gestão da Barbearia</h1>
+          <p id="lbl-workspace-sub">Operação oficial RT Mobile Barber</p>
         </div>
 
-        <div class="topbar-actions">
-          <button class="btn-quick-balcao" onclick="abrirModalBalcao()">
-            + Novo Agendamento Balcão
-          </button>
-          <button class="btn-toggle-client-view" onclick="abrirVisualizacaoClienteMobile()">
-            Ver Como Cliente
-          </button>
-        </div>
+        <button class="btn-topbar-primary" onclick="abrirModalBalcaoPresencial()">
+          + Agendamento Balcão
+        </button>
       </header>
 
-      <div class="main-body-container">
+      <div class="workspace-inner-padding">
 
-        <!-- =====================================================
-             TELA 1: VISÃO GERAL (DASHBOARD)
-             ===================================================== -->
-        <section id="screen-dashboard" class="screen-view active">
+        <!-- =======================================================
+             ABA 1: VISÃO GERAL (DASHBOARD)
+             ======================================================= -->
+        <section id="tab-visao-geral" class="screen-tab-panel active">
           
-          <div class="metrics-summary-grid">
-            <div class="metric-card-box">
-              <div class="title">Atendimentos Hoje</div>
-              <div class="val">14</div>
-              <div class="sub">● 3 na cadeira agora</div>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:16px; margin-bottom:24px;">
+            <div style="background:var(--bg-card); border:1px solid var(--border); border-radius:18px; padding:18px;">
+              <div style="font-size:10px; font-weight:800; color:var(--text-muted); text-transform:uppercase;">Atendimentos Hoje</div>
+              <div style="font-size:26px; font-weight:900; margin-top:4px;">14</div>
+              <div style="font-size:10px; color:var(--neon-green); font-weight:700; margin-top:6px;">● 3 na cadeira agora</div>
             </div>
 
-            <div class="metric-card-box">
-              <div class="title">Faturamento Estimado</div>
-              <div class="val gold">R$ 560,00</div>
-              <div class="sub" style="color:var(--text-muted);">Pix, Dinheiro e Cartão</div>
+            <div style="background:var(--bg-card); border:1px solid var(--border); border-radius:18px; padding:18px;">
+              <div style="font-size:10px; font-weight:800; color:var(--text-muted); text-transform:uppercase;">Faturamento Estimado</div>
+              <div style="font-size:26px; font-weight:900; color:var(--gold); margin-top:4px;">R$ 560,00</div>
+              <div style="font-size:10px; color:var(--text-muted); font-weight:700; margin-top:6px;">Pix, Dinheiro e Cartão</div>
             </div>
 
-            <div class="metric-card-box">
-              <div class="title">Serviços Ativos</div>
-              <div class="val" id="kpi-servicos-ativos">6</div>
-              <div class="sub" style="color:var(--text-muted);">Disponíveis na grade</div>
+            <div style="background:var(--bg-card); border:1px solid var(--border); border-radius:18px; padding:18px;">
+              <div style="font-size:10px; font-weight:800; color:var(--text-muted); text-transform:uppercase;">Serviços Ativos</div>
+              <div style="font-size:26px; font-weight:900; margin-top:4px;" id="kpi-servicos-ativos-num">6</div>
+              <div style="font-size:10px; color:var(--text-muted); font-weight:700; margin-top:6px;">Disponíveis para os clientes</div>
             </div>
 
-            <div class="metric-card-box">
-              <div class="title">Barbeiros em Atendimento</div>
-              <div class="val">3 / 4</div>
-              <div class="sub" style="color:var(--green-status);">● 1 vaga livre agora</div>
+            <div style="background:var(--bg-card); border:1px solid var(--border); border-radius:18px; padding:18px;">
+              <div style="font-size:10px; font-weight:800; color:var(--text-muted); text-transform:uppercase;">Equipe de Barbeiros</div>
+              <div style="font-size:26px; font-weight:900; margin-top:4px;">3 / 4</div>
+              <div style="font-size:10px; color:var(--neon-green); font-weight:700; margin-top:6px;">● 1 folga cadastrada</div>
             </div>
           </div>
 
-          <div class="two-cols-layout">
-            <div class="panel-box-card">
-              <h3>Próximos Horários de Hoje</h3>
-              <p>Atendimentos marcados pelos clientes no site e agendados no balcão.</p>
+          <div style="display:grid; grid-template-columns:2fr 1fr; gap:24px;">
+            <div style="background:var(--bg-card); border:1px solid var(--border); border-radius:20px; padding:22px;">
+              <h3 style="font-size:13px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:12px;">Fila de Atendimentos</h3>
+              <div id="lista-fila-hoje-dashboard"></div>
+            </div>
+
+            <div style="background:var(--bg-card); border:1px solid var(--border); border-radius:20px; padding:22px;">
+              <h3 style="font-size:13px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:12px;">Cadeira Livre Imediata</h3>
+              <p style="font-size:11px; color:var(--text-muted); margin-bottom:14px;">Ative para chamar clientes de rua e quem estiver perto da barbearia.</p>
+              <button class="btn-topbar-primary" style="width:100%;" onclick="alternarCadeiraLivreGeral()">Alternar Cadeira Livre</button>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- =======================================================
+             ABA 2: PAINEL 4 COLUNAS HORIZONTAL (IMAGE_2.PNG)
+             ======================================================= -->
+        <section id="tab-agendamento-horizontal" class="screen-tab-panel">
+          
+          <div class="hero-banner-establishment" id="banner-hero-establishment" style="background-image: url('https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=900');">
+            <div class="hero-meta-box">
+              <div class="hero-tag-pill">UNIDADE OFICIAL</div>
+              <h1 class="hero-establishment-title" id="lbl-establishment-name">RT Mobile Barber</h1>
+              <p class="hero-establishment-address" id="lbl-establishment-address">Centro, Santa Izabel do Pará – PA</p>
+            </div>
+          </div>
+
+          <!-- BOTÃO STATUS CADEIRA LIVRE AGORA -->
+          <div class="status-cadeira-livre-strip">
+            <div>
+              <span class="pulse-dot-green"></span>
+              <strong style="color:#fff; font-size:12px; text-transform:uppercase;">Cadeira Livre Agora • Sem Fila de Espera</strong>
+            </div>
+            <button class="btn-topbar-primary" style="padding:6px 14px; font-size:10px;" onclick="agendarCadeiraLivreImediata()">Atender Imediato ➔</button>
+          </div>
+
+          <!-- 4 BOTÕES DE CATEGORIA NO TOPO (CIRCULADO 1) -->
+          <div class="strip-categories-4">
+            <div class="category-card-item active" onclick="filtrarCategoriaPortal('CORTE', this)">
+              <svg class="category-svg-icon" viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><line x1="20" y1="4" x2="8.12" y2="15.88"></line></svg>
+              <span class="label">Cortes</span>
+            </div>
+            <div class="category-card-item" onclick="filtrarCategoriaPortal('BARBA', this)">
+              <svg class="category-svg-icon" viewBox="0 0 24 24"><path d="M4 8c0 4.4 3.6 8 8 8s8-3.6 8-8"></path><line x1="12" y1="16" x2="12" y2="21"></line></svg>
+              <span class="label">Barba</span>
+            </div>
+            <div class="category-card-item" onclick="filtrarCategoriaPortal('NAVALHA', this)">
+              <svg class="category-svg-icon" viewBox="0 0 24 24"><path d="M4 14l8-8 4 4-8 8H4v-4z"></path></svg>
+              <span class="label">Navalha</span>
+            </div>
+            <div class="category-card-item" onclick="filtrarCategoriaPortal('COMBO', this)">
+              <svg class="category-svg-icon" viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="13" rx="2"></rect><line x1="12" y1="8" x2="12" y2="21"></line></svg>
+              <span class="label">Combos</span>
+            </div>
+          </div>
+
+          <!-- AS 4 COLUNAS HORIZONTAIS DA FOTO (IMAGE_2.PNG) -->
+          <div class="board-horizontal-schedule">
+            <div class="board-header-row">
+              <h2>Agende seu horário</h2>
+              <div class="hours-info-txt">Seg - Sáb: 09h às 20h</div>
+            </div>
+
+            <div class="grid-4-columns-schedule">
               
-              <div id="lista-proximos-atendimentos">
-                <div class="service-manager-row">
-                  <div class="service-info-col">
-                    <h4>Gabriel Barbosa • (91) 98455-1100</h4>
-                    <span>14:00 • Corte Degradê + Barba • Barbeiro: Lucas Ferreira</span>
-                  </div>
-                  <strong style="color:var(--gold-matte); font-size:13px;">R$ 80,00</strong>
-                </div>
-
-                <div class="service-manager-row">
-                  <div class="service-info-col">
-                    <h4>Rodrigo Santos • Balcão</h4>
-                    <span>14:30 • Corte Social • Barbeiro: Gabriel Santos</span>
-                  </div>
-                  <strong style="color:var(--gold-matte); font-size:13px;">R$ 50,00</strong>
-                </div>
-
-                <div class="service-manager-row">
-                  <div class="service-info-col">
-                    <h4>Felipe Lima • (91) 98122-3344</h4>
-                    <span>15:00 • Barba Completa • Barbeiro: Rafael Lima</span>
-                  </div>
-                  <strong style="color:var(--gold-matte); font-size:13px;">R$ 40,00</strong>
+              <!-- COLUNA 1: SERVIÇO -->
+              <div class="col-schedule-box">
+                <h3>Escolha o serviço</h3>
+                <div id="col1-services-list"></div>
+                <div style="font-size:10px; color:#64748b; margin-top:auto; padding-top:12px;">
+                  Todos os serviços incluem toalha quente e finalização.
                 </div>
               </div>
-            </div>
 
-            <div class="panel-box-card">
-              <h3>Ações Rápidas de Gestão</h3>
-              <p>Controle instantâneo da operação diária.</p>
-
-              <button class="btn-action-gold" style="margin-bottom:10px;" onclick="abrirModalBalcao()">
-                + Agendar Cliente do Balcão
-              </button>
-
-              <button class="btn-action-gold" style="background:#171a26; color:#fff; border:1px solid var(--border-dark); margin-bottom:10px;" onclick="trocarTelaPainel('screen-caixa', null)">
-                Abrir / Fechar Caixa do Dia
-              </button>
-
-              <button class="btn-action-gold" style="background:#171a26; color:#fff; border:1px solid var(--border-dark);" onclick="trocarTelaPainel('screen-barbeiros-escalas', null)">
-                Definir Folga de Barbeiro
-              </button>
-            </div>
-          </div>
-
-        </section>
-
-        <!-- =====================================================
-             TELA 2: GRADE & AGENDAMENTOS BALCÃO (IMAGE_2.PNG COMPLETA)
-             ===================================================== -->
-        <section id="screen-grade-horarios" class="screen-view">
-          
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
-            <div>
-              <h2 style="font-size:18px; font-weight:900; text-transform:uppercase;">Grade de Horários & Atendimentos</h2>
-              <p style="font-size:12px; color:var(--text-muted);">Veja os horários livres e ocupados ou marque direto para o cliente.</p>
-            </div>
-            <button class="btn-quick-balcao" onclick="abrirModalBalcao()">
-              + Marcar Horário Presencial
-            </button>
-          </div>
-
-          <div class="two-cols-layout">
-            <div class="panel-box-card">
-              <h3>Grade de Horários de Hoje</h3>
-              <p>Horários organizados no intervalo padrão da barbearia.</p>
-
-              <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(130px, 1fr)); gap:10px;" id="grade-admin-slots">
-                <!-- Slots gerados via JavaScript -->
+              <!-- COLUNA 2: BARBEIRO -->
+              <div class="col-schedule-box">
+                <h3>Escolha o barbeiro</h3>
+                <div id="col2-barbers-list"></div>
+                <div style="font-size:10px; color:var(--gold); margin-top:auto; padding-top:12px; font-weight:800; cursor:pointer;" onclick="alert('Profissionais qualificados RT Mobile!')">
+                  Ver todos os barbeiros ➔
+                </div>
               </div>
-            </div>
 
-            <div class="panel-box-card">
-              <h3>Feriados & Dias Fechados</h3>
-              <p>Trave dias inteiros para que nenhum cliente consiga agendar.</p>
-
-              <label style="font-size:11px; color:var(--text-muted); text-transform:uppercase;">Data para Bloquear:</label>
-              <input type="date" id="inp-bloqueio-data" class="form-input-dark">
-
-              <label style="font-size:11px; color:var(--text-muted); text-transform:uppercase;">Motivo do Fechamento:</label>
-              <input type="text" id="inp-bloqueio-motivo" class="form-input-dark" placeholder="Ex: Feriado Municipal / Manutenção">
-
-              <button class="btn-action-gold" onclick="bloquearDataAgenda()">
-                Bloquear Dia na Agenda ↗
-              </button>
-            </div>
-          </div>
-
-        </section>
-
-        <!-- =====================================================
-             TELA 3: SERVIÇOS, PREÇOS EDITÁVEIS & CHAVES ON/OFF
-             ===================================================== -->
-        <section id="screen-servicos" class="screen-view">
-          
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
-            <div>
-              <h2 style="font-size:18px; font-weight:900; text-transform:uppercase;">Catálogo de Serviços & Preços</h2>
-              <p style="font-size:12px; color:var(--text-muted);">Edite o valor de venda e ative/desative a chave ON/OFF de cada procedimento.</p>
-            </div>
-            <button class="btn-quick-balcao" onclick="cadastrarNovoServicoPrompt()">
-              + Novo Serviço (Em Maiúsculas)
-            </button>
-          </div>
-
-          <div class="panel-box-card">
-            <h3>Gerenciamento de Cortes & Procedimentos</h3>
-            <p>Altere o valor numérico diretamente no campo ou use a chave para ligar/desligar.</p>
-
-            <div id="lista-gestao-servicos-admin">
-              <!-- Gerado via JavaScript com input de preço e switch ON/OFF -->
-            </div>
-          </div>
-
-        </section>
-
-        <!-- =====================================================
-             TELA 4: BARBEIROS, ESCALAS & FOLGAS
-             ===================================================== -->
-        <section id="screen-barbeiros-escalas" class="screen-view">
-          
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
-            <div>
-              <h2 style="font-size:18px; font-weight:900; text-transform:uppercase;">Barbeiros, Escalas & Ausências</h2>
-              <p style="font-size:12px; color:var(--text-muted);">Quando o barbeiro folgar ou faltar, desative a agenda dele aqui para não receber clientes.</p>
-            </div>
-            <button class="btn-quick-balcao" onclick="cadastrarBarbeiroPrompt()">
-              + Adicionar Barbeiro
-            </button>
-          </div>
-
-          <div class="panel-box-card">
-            <h3>Status da Equipe de Hoje</h3>
-            <p>Marque quem está presente e quem está de folga hoje.</p>
-
-            <div id="lista-barbeiros-folgas-admin">
-              <!-- Gerado via JavaScript -->
-            </div>
-          </div>
-
-        </section>
-
-        <!-- =====================================================
-             TELA 5: ESTOQUE DE PRODUTOS
-             ===================================================== -->
-        <section id="screen-estoque" class="screen-view">
-          
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
-            <div>
-              <h2 style="font-size:18px; font-weight:900; text-transform:uppercase;">Estoque de Produtos & Balcão</h2>
-              <p style="font-size:12px; color:var(--text-muted);">Pomadas, óleos, shampoos e itens de revenda da barbearia.</p>
-            </div>
-            <button class="btn-quick-balcao" onclick="cadastrarProdutoPrompt()">
-              + Novo Produto
-            </button>
-          </div>
-
-          <div class="panel-box-card">
-            <h3>Inventário da Loja</h3>
-            <table class="inventory-table">
-              <thead>
-                <tr>
-                  <th>Produto</th>
-                  <th>Preço Venda</th>
-                  <th>Qtd Estoque</th>
-                  <th>Status</th>
-                  <th>Ações</th>
-                </tr>
-              </thead>
-              <tbody id="tabela-estoque-body">
-                <!-- Gerado via JavaScript -->
-              </tbody>
-            </table>
-          </div>
-
-        </section>
-
-        <!-- =====================================================
-             TELA 6: CAIXA DA LOJA & FECHAMENTO CEGO
-             ===================================================== -->
-        <section id="screen-caixa" class="screen-view">
-          
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
-            <div>
-              <h2 style="font-size:18px; font-weight:900; text-transform:uppercase;">Fluxo de Caixa & Fechamento Cego</h2>
-              <p style="font-size:12px; color:var(--text-muted);">Controle os valores apurados no dia e faça o fechamento do caixa.</p>
-            </div>
-          </div>
-
-          <div class="cash-kpi-grid">
-            <div class="cash-kpi">
-              <span>Recebido em Pix</span>
-              <strong style="color:var(--gold-matte);" id="caixa-pix-val">R$ 380,00</strong>
-            </div>
-            <div class="cash-kpi">
-              <span>Dinheiro no Gaveteiro</span>
-              <strong id="caixa-dinheiro-val">R$ 120,00</strong>
-            </div>
-            <div class="cash-kpi">
-              <span>Cartão de Crédito/Débito</span>
-              <strong id="caixa-cartao-val">R$ 60,00</strong>
-            </div>
-          </div>
-
-          <div class="panel-box-card">
-            <h3>Fechamento Cego de Caixa</h3>
-            <p>Digite os valores reais que você contou no gaveteiro e nas maquininhas. O sistema fará a auditoria automática.</p>
-
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px;">
-              <div>
-                <label style="font-size:11px; color:var(--text-muted); text-transform:uppercase;">Total Contado em Dinheiro (R$):</label>
-                <input type="number" id="inp-fechamento-dinheiro" class="form-input-dark" placeholder="0.00" value="120.00">
+              <!-- COLUNA 3: DATA & HORA -->
+              <div class="col-schedule-box">
+                <h3>Escolha a data</h3>
+                <div class="calendar-days-31-grid" id="col3-calendar-days"></div>
+                <h3 style="margin-top:12px;">Escolha o horário</h3>
+                <div class="time-slots-3x3" id="col3-time-slots"></div>
               </div>
-              <div>
-                <label style="font-size:11px; color:var(--text-muted); text-transform:uppercase;">Total em Comprovantes de Cartão (R$):</label>
-                <input type="number" id="inp-fechamento-cartao" class="form-input-dark" placeholder="0.00" value="60.00">
+
+              <!-- COLUNA 4: RESUMO & CONFIRMAÇÃO -->
+              <div class="col-schedule-box">
+                <h3>Resumo do agendamento</h3>
+                <div class="booking-summary-card">
+                  <div class="summary-line"><span>Serviço:</span><strong id="sum-col4-servico" style="color:#fff;">Corte de Cabelo</strong></div>
+                  <div class="summary-line"><span>Barbeiro:</span><strong id="sum-col4-barbeiro" style="color:#fff;">Lucas Ferreira</strong></div>
+                  <div class="summary-line"><span>Data:</span><strong id="sum-col4-data" style="color:#fff;">22 de Maio de 2026</strong></div>
+                  <div class="summary-line"><span>Horário:</span><strong id="sum-col4-hora" style="color:#fff;">16:00</strong></div>
+                  <div class="summary-line"><span>Duração:</span><strong id="sum-col4-duracao" style="color:#fff;">30 min</strong></div>
+                  <div class="summary-line total-line"><span>Total:</span><strong id="sum-col4-total">R$ 50,00</strong></div>
+                </div>
+
+                <div style="font-size:10px; font-weight:800; color:var(--gold); text-transform:uppercase; margin-bottom:6px;">
+                  Forma de Pagamento:
+                </div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:12px;">
+                  <button class="time-slot-btn selected" id="btn-choice-pay-local" onclick="setChoicePayment('LOCAL')">No Local</button>
+                  <button class="time-slot-btn" id="btn-choice-pay-pix" onclick="setChoicePayment('PIX')">Pix Online</button>
+                </div>
+
+                <button class="btn-confirm-final-booking" onclick="confirmarAgendamentoHorizontal()">
+                  CONFIRMAR AGENDAMENTO ➔
+                </button>
               </div>
+
             </div>
-
-            <button class="btn-action-gold" onclick="apurarFechamentoCego()">
-              Realizar Fechamento Cego do Caixa ↗
-            </button>
-
-            <div id="box-resultado-fechamento" style="display:none; margin-top:16px; padding:14px; border-radius:12px; background:#141724; font-size:12px;"></div>
           </div>
 
         </section>
 
-        <!-- =====================================================
-             TELA 7: CONFIGURAÇÕES & FOTO DO ESPAÇO FÍSICO
-             ===================================================== -->
-        <section id="screen-configuracoes" class="screen-view">
-          
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
-            <div>
-              <h2 style="font-size:18px; font-weight:900; text-transform:uppercase;">Configurações do Estabelecimento</h2>
-              <p style="font-size:12px; color:var(--text-muted);">Nome da barbearia, localização, foto do ambiente, Pix e intervalos.</p>
+        <!-- =======================================================
+             ABA 3: SERVIÇOS & PREÇOS EDITÁVEIS
+             ======================================================= -->
+        <section id="tab-servicos-precos" class="screen-tab-panel">
+          <div style="background:var(--bg-card); border:1px solid var(--border); border-radius:20px; padding:22px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+              <h3 style="font-size:13px; font-weight:900; color:var(--gold); text-transform:uppercase;">Serviços & Valores Oficiais</h3>
+              <button class="btn-topbar-primary" style="padding:6px 14px; font-size:10px;" onclick="adicionarServicoPrompt()">+ Novo Serviço</button>
             </div>
+            <div id="lista-gestao-servicos-crud"></div>
+          </div>
+        </section>
+
+        <!-- =======================================================
+             ABA 4: BARBEIROS, ESCALAS & FOLGAS
+             ======================================================= -->
+        <section id="tab-barbeiros-folgas" class="screen-tab-panel">
+          <div style="background:var(--bg-card); border:1px solid var(--border); border-radius:20px; padding:22px;">
+            <h3 style="font-size:13px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:14px;">Equipe & Escala de Folgas</h3>
+            <p style="font-size:11px; color:var(--text-muted); margin-bottom:14px;">Barbeiro com folga ativada não recebe clientes na grade.</p>
+            <div id="lista-barbeiros-folgas-crud"></div>
+          </div>
+        </section>
+
+        <!-- =======================================================
+             ABA 5: COMANDA DIGITAL NA CADEIRA
+             ======================================================= -->
+        <section id="tab-comanda-digital" class="screen-tab-panel">
+          <div style="background:var(--bg-card); border:1px solid var(--border); border-radius:20px; padding:22px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+              <h3 style="font-size:13px; font-weight:900; color:var(--gold); text-transform:uppercase;">Comandas Abertas na Cadeira</h3>
+              <button class="btn-topbar-primary" style="padding:6px 14px; font-size:10px;" onclick="abrirNovaComandaPrompt()">+ Abrir Comanda</button>
+            </div>
+            <div id="lista-comandas-ativas"></div>
+          </div>
+        </section>
+
+        <!-- =======================================================
+             ABA 6: CAIXA & FECHAMENTO CEGO
+             ======================================================= -->
+        <section id="tab-caixa-fechamento" class="screen-tab-panel">
+          <div class="cash-grid-kpis">
+            <div class="cash-kpi-card"><span>Pix Recebido</span><strong style="color:var(--gold);">R$ 380,00</strong></div>
+            <div class="cash-kpi-card"><span>Dinheiro Gaveteiro</span><strong>R$ 120,00</strong></div>
+            <div class="cash-kpi-card"><span>Cartão Maquininha</span><strong>R$ 60,00</strong></div>
           </div>
 
-          <div class="two-cols-layout">
-            <div class="panel-box-card">
-              <h3>Espaço Físico & Identidade</h3>
-              <p>Os dados preenchidos aqui aparecem no portal do cliente.</p>
+          <div style="background:var(--bg-card); border:1px solid var(--border); border-radius:20px; padding:22px;">
+            <h3 style="font-size:13px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:14px;">Auditoria de Fechamento Cego</h3>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px;">
+              <input type="number" id="inp-fech-dinheiro" class="form-input-field" placeholder="Dinheiro Contado (R$)" value="120.00">
+              <input type="number" id="inp-fech-cartao" class="form-input-field" placeholder="Comprovantes Cartão (R$)" value="60.00">
+            </div>
+            <button class="btn-topbar-primary" style="width:100%;" onclick="apurarFechamentoCego()">Realizar Fechamento Cego ↗</button>
+            <div id="box-resultado-fechamento-cego" style="display:none; margin-top:14px; padding:12px; border-radius:10px; background:#141724;"></div>
+          </div>
+        </section>
 
-              <label style="font-size:11px; color:var(--text-muted); text-transform:uppercase;">Nome da Barbearia:</label>
-              <input type="text" id="adm-nome" class="form-input-dark" value="RT Mobile Barber">
-
-              <label style="font-size:11px; color:var(--text-muted); text-transform:uppercase;">Endereço Completo:</label>
-              <input type="text" id="adm-endereco" class="form-input-dark" value="Centro, Santa Izabel do Pará – PA">
-
-              <label style="font-size:11px; color:var(--text-muted); text-transform:uppercase;">URL da Foto do Espaço Físico:</label>
-              <input type="text" id="adm-foto" class="form-input-dark" value="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=900">
-
-              <button class="btn-action-gold" onclick="salvarEspacoIdentidade()">
-                Salvar Identidade & Foto ↗
-              </button>
+        <!-- =======================================================
+             ABA 7: CONFIGURAÇÕES, FOTO DO ESPAÇO, PIX & BIO
+             ======================================================= -->
+        <section id="tab-configuracoes-slug" class="screen-tab-panel">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px;">
+            <div style="background:var(--bg-card); border:1px solid var(--border); border-radius:20px; padding:22px;">
+              <h3 style="font-size:13px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:12px;">Link Exclusivo para Bio do Instagram</h3>
+              <p style="font-size:11px; color:var(--text-muted); margin-bottom:12px;">Seus clientes clicam na bio e abrem apenas a sua barbearia sem concorrentes.</p>
+              <input type="text" id="inp-slug-bio" class="form-input-field" readonly value="https://rt-mobile-barber.onrender.com/unidade-centro">
+              <button class="btn-topbar-primary" style="width:100%;" onclick="copiarLinkBio()">Copiar Link da Bio 📋</button>
             </div>
 
-            <div class="panel-box-card">
-              <h3>Dados Financeiros & WhatsApp</h3>
-              <p>Chave Pix para onde vão os pagamentos dos clientes.</p>
-
-              <label style="font-size:11px; color:var(--text-muted); text-transform:uppercase;">Chave Pix da Barbearia:</label>
-              <input type="text" id="adm-pix" class="form-input-dark" value="contato@rtmobilebarber.com.br">
-
-              <label style="font-size:11px; color:var(--text-muted); text-transform:uppercase;">Titular da Conta:</label>
-              <input type="text" id="adm-titular" class="form-input-dark" value="RT Mobile Barbearia LTDA">
-
-              <label style="font-size:11px; color:var(--text-muted); text-transform:uppercase;">WhatsApp Oficial da Barbearia:</label>
-              <input type="text" id="adm-whatsapp" class="form-input-dark" value="5591984551100">
-
-              <label style="font-size:11px; color:var(--text-muted); text-transform:uppercase;">Intervalo de Agendamento (Minutos):</label>
-              <select id="adm-intervalo-select" class="form-input-dark" onchange="alterarIntervaloMinutos(this.value)">
-                <option value="30" selected>30 em 30 minutos</option>
-                <option value="40">40 em 40 minutos</option>
-                <option value="45">45 em 45 minutos</option>
-                <option value="60">60 em 60 minutos</option>
-              </select>
-
-              <button class="btn-action-gold" onclick="salvarFinanceiro()">
-                Salvar Dados Financeiros ↗
-              </button>
+            <div style="background:var(--bg-card); border:1px solid var(--border); border-radius:20px; padding:22px;">
+              <h3 style="font-size:13px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:12px;">Espaço Físico & Pix Próprio</h3>
+              <input type="text" id="cfg-inp-nome" class="form-input-field" value="RT Mobile Barber">
+              <input type="text" id="cfg-inp-endereco" class="form-input-field" value="Centro, Santa Izabel do Pará – PA">
+              <input type="text" id="cfg-inp-foto" class="form-input-field" value="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=900">
+              <input type="text" id="cfg-inp-pix" class="form-input-field" value="contato@rtmobilebarber.com.br">
+              <button class="btn-topbar-primary" style="width:100%;" onclick="salvarConfiguracoesGerais()">Salvar Espaço & Pix ↗</button>
             </div>
           </div>
-
         </section>
 
       </div>
+
+      <!-- FOOTER DE SUPORTE OFICIAL & CRÉDITOS DO DESENVOLVEDOR -->
+      <footer class="developer-support-footer">
+        <div>RT Mobile Barber • Sistema de Gestão Profissional desenvolvido por <strong>RT Mobile</strong></div>
+        <div style="margin-top:4px;">Suporte Técnico Oficial: <strong>roberthaelley75@gmail.com</strong></div>
+        <a href="https://wa.me/5591989173221?text=Olá%20Robert,%20gostaria%20de%20implantar%20o%20sistema%20RT%20Mobile%20Barber%20no%20meu%20estabelecimento!" target="_blank" class="btn-contact-dev">
+          Falar com o Desenvolvedor • (91) 98917-3221 💬
+        </a>
+      </footer>
+
     </main>
 
   </div>
 
-  <!-- =========================================================
-       ILHA FLUTUANTE INFERIOR DOCK (VISÍVEL APENAS NO SMARTPHONE)
-       ========================================================= -->
-  <nav class="mobile-island-dock">
-    <button class="dock-btn active" onclick="trocarTelaPainel('screen-dashboard', null)">
-      <svg class="side-svg-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-      <span style="font-size:9px; font-weight:800; margin-top:2px;">INÍCIO</span>
+  <!-- ILHA FLUTUANTE INFERIOR DOCK COM A TESOURA NO CENTRO (IMAGE.PNG CIRCULADO 2) -->
+  <nav class="floating-bottom-dock">
+    <button class="dock-tab-btn active" onclick="trocarAbaWorkspace('tab-visao-geral', this)">
+      <svg class="dock-svg" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+      <span class="lbl">Home</span>
     </button>
 
-    <button class="dock-btn" onclick="trocarTelaPainel('screen-grade-horarios', null)">
-      <svg class="side-svg-icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-      <span style="font-size:9px; font-weight:800; margin-top:2px;">AGENDA</span>
+    <button class="dock-tab-btn" onclick="trocarAbaWorkspace('tab-agendamento-horizontal', this)">
+      <svg class="dock-svg" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line></svg>
+      <span class="lbl">Bookings</span>
     </button>
 
-    <!-- TESOURA CENTRAL PARA NOVO AGENDAMENTO RÁPIDO -->
-    <div class="dock-center-scissor" onclick="abrirModalBalcao()">
-      <svg style="width:24px; height:24px; fill:none; stroke:#000; stroke-width:2.2;" viewBox="0 0 24 24">
+    <!-- TESOURA CENTRAL FLUTUANTE EM OURO METÁLICO (CIRCULADO 2) -->
+    <div class="dock-scissor-gold-btn" onclick="abrirAgendamentoRapidoDock()">
+      <svg style="width:24px; height:24px; stroke:#000; fill:none; stroke-width:2.2;" viewBox="0 0 24 24">
         <circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle>
-        <line x1="20" y1="4" x2="8.12" y2="15.88"></line><line x1="14.47" y1="14.48" x2="20" y2="20"></line>
-        <line x1="8.12" y1="8.12" x2="12" y2="12"></line>
+        <line x1="20" y1="4" x2="8.12" y2="15.88"></line><line x1="14.47" y1="14.48" x2="20" y2="20"></line><line x1="8.12" y1="8.12" x2="12" y2="12"></line>
       </svg>
     </div>
 
-    <button class="dock-btn" onclick="trocarTelaPainel('screen-estoque', null)">
-      <svg class="side-svg-icon" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line></svg>
-      <span style="font-size:9px; font-weight:800; margin-top:2px;">ESTOQUE</span>
+    <button class="dock-tab-btn" onclick="trocarAbaWorkspace('tab-comanda-digital', this)">
+      <svg class="dock-svg" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path></svg>
+      <span class="lbl">Wallet</span>
     </button>
 
-    <button class="dock-btn" onclick="trocarTelaPainel('screen-configuracoes', null)">
-      <svg class="side-svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-      <span style="font-size:9px; font-weight:800; margin-top:2px;">DONO</span>
+    <button class="dock-tab-btn" onclick="trocarAbaWorkspace('tab-configuracoes-slug', this)">
+      <svg class="dock-svg" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+      <span class="lbl">Profile</span>
     </button>
   </nav>
 
-  <!-- =========================================================
-       MODAL DE NOVO AGENDAMENTO BALCÃO PELO PROPRIETÁRIO
-       ========================================================= -->
-  <div id="modal-balcao" class="modal-overlay">
-    <div class="modal-card-box">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-        <h3 style="font-size:15px; font-weight:900; text-transform:uppercase; color:var(--gold-matte);">Marcar Horário Presencial / Balcão</h3>
-        <button onclick="fecharModalBalcao()" style="background:#1e2333; border:none; color:#fff; width:30px; height:30px; border-radius:50%; cursor:pointer; font-weight:900;">✕</button>
+  <!-- MODAL PIX ONLINE DO CLIENTE -->
+  <div id="modal-pix-cliente-view" style="position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.92); z-index:99990; display:none; align-items:center; justify-content:center; padding:16px;">
+    <div style="background:#11131c; border:1px solid var(--gold); border-radius:24px; max-width:400px; width:100%; padding:24px; text-align:center;">
+      <h3 style="font-size:15px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:12px;">Pagamento via Pix</h3>
+      <div style="background:#fff; padding:10px; border-radius:14px; display:inline-block; margin-bottom:12px;">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=00020126580014BR.GOV.BCB.PIX0136contato@rtmobilebarber.com.br520400005303986540550.005802BR" style="width:140px; height:140px; display:block;">
       </div>
-
-      <label style="font-size:11px; color:var(--text-muted); text-transform:uppercase;">Nome do Cliente:</label>
-      <input type="text" id="balcao-inp-cliente" class="form-input-dark" placeholder="Ex: Roberto Cruz">
-
-      <label style="font-size:11px; color:var(--text-muted); text-transform:uppercase;">Telefone / WhatsApp:</label>
-      <input type="tel" id="balcao-inp-fone" class="form-input-dark" placeholder="(91) 98000-0000">
-
-      <label style="font-size:11px; color:var(--text-muted); text-transform:uppercase;">Escolha o Barbeiro:</label>
-      <select id="balcao-select-barbeiro" class="form-input-dark"></select>
-
-      <label style="font-size:11px; color:var(--text-muted); text-transform:uppercase;">Serviço:</label>
-      <select id="balcao-select-servico" class="form-input-dark"></select>
-
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-        <div>
-          <label style="font-size:11px; color:var(--text-muted); text-transform:uppercase;">Data:</label>
-          <input type="date" id="balcao-inp-data" class="form-input-dark">
-        </div>
-        <div>
-          <label style="font-size:11px; color:var(--text-muted); text-transform:uppercase;">Horário:</label>
-          <select id="balcao-select-hora" class="form-input-dark">
-            <option>09:00</option><option>09:30</option><option>10:00</option><option>10:30</option>
-            <option>11:00</option><option>11:30</option><option>12:00</option><option>14:00</option>
-            <option>14:30</option><option>15:00</option><option>15:30</option><option>16:00</option>
-            <option>16:30</option><option>17:00</option><option>17:30</option><option>18:00</option>
-          </select>
-        </div>
+      <div style="background:#151824; padding:10px; border-radius:10px; font-size:11px; text-align:left; margin-bottom:14px;">
+        <div>Recebedor: <strong id="pix-cli-recebedor">RT Mobile Barbearia LTDA</strong></div>
+        <div>Chave Pix: <strong id="pix-cli-chave" style="color:var(--gold);">contato@rtmobilebarber.com.br</strong></div>
+        <div>Valor: <strong id="pix-cli-valor" style="color:#fff;">R$ 50,00</strong></div>
       </div>
-
-      <button class="btn-action-gold" onclick="salvarAgendamentoBalcao()">
-        Confirmar e Bloquear Vaga na Grade ↗
-      </button>
+      <button class="btn-confirm-final-booking" style="margin-bottom:8px;" onclick="copiarChavePixCliente()">Copiar Chave Pix 📋</button>
+      <button class="btn-confirm-final-booking" style="background:#25d366; color:#fff;" onclick="enviarComprovanteWhats()">Enviar no WhatsApp</button>
     </div>
   </div>
 
   <script>
-    // SPLASH SCREEN 2 SEGUNDOS EXATOS
+    // 1. SPLASH SCREEN 2 SEGUNDOS EXATOS
     window.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => {
         const splash = document.getElementById('splash-screen');
         if (splash) splash.classList.add('hidden');
       }, 2000);
 
-      // Data de hoje padrão para agendamentos
-      const hoje = new Date().toISOString().split('T')[0];
-      document.getElementById('balcao-inp-data').value = hoje;
-      document.getElementById('inp-bloqueio-data').value = hoje;
-
       renderizarTudo();
     });
 
-    // DADOS DA BARBEARIA
+    // DADOS DO ESTABELECIMENTO
     let dadosBarbearia = {
       nome: 'RT Mobile Barber',
       endereco: 'Centro, Santa Izabel do Pará – PA',
       foto: 'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=900',
       chavePix: 'contato@rtmobilebarber.com.br',
       titularPix: 'RT Mobile Barbearia LTDA',
-      whatsapp: '5591984551100',
-      intervaloMinutos: 30
+      whatsapp: '5591984551100'
     };
 
     // SERVIÇOS COM PREÇO EDITÁVEL E CHAVE ON/OFF
     let servicosDB = [
-      { id: 's1', nome: 'CORTE DE CABELO (DEGRADÊ/SOCIAL)', preco: 50.00, duracao: '30 min', ativo: true },
-      { id: 's2', nome: 'BARBA COMPLETA COM TOALHA QUENTE', preco: 40.00, duracao: '30 min', ativo: true },
-      { id: 's3', nome: 'CORTE + BARBA (COMBO PREMIUM)', preco: 80.00, duracao: '50 min', ativo: true },
-      { id: 's4', nome: 'DESIGN DE SOBRANCELHA NAVALHADA', preco: 20.00, duracao: '15 min', ativo: true },
-      { id: 's5', nome: 'CORTE + BARBA + SOBRANCELHA', preco: 100.00, duracao: '60 min', ativo: true },
-      { id: 's6', nome: 'PIGMENTAÇÃO BARBA/CABELO', preco: 25.00, duracao: '20 min', ativo: true },
-      { id: 's7', nome: 'LAVAGEM CAPILAR COM MASSAGEM', preco: 15.00, duracao: '15 min', ativo: false },
-      { id: 's8', nome: 'SELAGEM TÉRMICA CAPILAR', preco: 70.00, duracao: '60 min', ativo: false }
+      { id: 's1', nome: 'Corte de Cabelo', preco: 50.00, duracao: '30 min', categoria: 'CORTE', ativo: true },
+      { id: 's2', nome: 'Barba', preco: 40.00, duracao: '30 min', categoria: 'BARBA', ativo: true },
+      { id: 's3', nome: 'Corte + Barba', preco: 80.00, duracao: '50 min', categoria: 'COMBO', ativo: true },
+      { id: 's4', nome: 'Sobrancelha', preco: 20.00, duracao: '15 min', categoria: 'NAVALHA', ativo: true },
+      { id: 's5', nome: 'Corte + Barba + Sobrancelha', preco: 100.00, duracao: '60 min', categoria: 'COMBO', ativo: true },
+      { id: 's6', nome: 'Pigmentação Barba/Cabelo', preco: 25.00, duracao: '20 min', categoria: 'BARBA', ativo: true },
+      { id: 's7', nome: 'Lavagem com Massagem', preco: 15.00, duracao: '15 min', categoria: 'CORTE', ativo: false }
     ];
 
-    // BARBEIROS E FOLGAS
+    // BARBEIROS CADASTRADOS (IMAGE_2.PNG)
     let barbeirosDB = [
-      { id: 'b1', nome: 'Lucas Ferreira', presenteHoje: true, cortesHoje: 5 },
-      { id: 'b2', nome: 'Gabriel Santos', presenteHoje: true, cortesHoje: 4 },
-      { id: 'b3', nome: 'Rafael Lima', presenteHoje: true, cortesHoje: 3 },
-      { id: 'b4', nome: 'Matheus Alves', presenteHoje: false, cortesHoje: 0 } // Exemplo: De folga
+      { id: 'b1', nome: 'Lucas Ferreira', nota: '4.9', foto: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200', presenteHoje: true },
+      { id: 'b2', nome: 'Gabriel Santos', nota: '4.8', foto: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200', presenteHoje: true },
+      { id: 'b3', nome: 'Rafael Lima', nota: '4.9', foto: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?q=80&w=200', presenteHoje: true },
+      { id: 'b4', nome: 'Matheus Alves', nota: '4.7', foto: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200', presenteHoje: false } // Folga
     ];
 
-    // ESTOQUE
-    let produtosDB = [
-      { id: 'p1', nome: 'Pomada Efeito Matte 150g', preco: 40.00, estoque: 8 },
-      { id: 'p2', nome: 'Óleo Hidratante Barba 30ml', preco: 35.00, estoque: 5 },
-      { id: 'p3', nome: 'Pomada em Pó Extra Volume', preco: 45.00, estoque: 6 },
-      { id: 'p4', nome: 'Lâminas Descartáveis Caixa c/ 100', preco: 25.00, estoque: 12 }
+    // COMANDAS NA CADEIRA
+    let comandasDB = [
+      { id: 'c1', cliente: 'Lucas Silva', barbeiro: 'Lucas Ferreira', itens: ['Corte Degradê (R$ 50)', 'Cerveja Artesanal (R$ 12)'], total: 62.00 },
+      { id: 'c2', cliente: 'Felipe Santos', barbeiro: 'Gabriel Santos', itens: ['Barba Completa (R$ 40)', 'Pomada Matte (R$ 40)'], total: 80.00 }
     ];
+
+    let servicoSelecionado = servicosDB[0];
+    let barbeiroSelecionado = barbeirosDB[0];
+    let dataSelecionada = '22 de Maio de 2026';
+    let horaSelecionada = '16:00';
+    let metodoPagamento = 'LOCAL';
+    let authModo = 'CLIENTE';
 
     function renderizarTudo() {
-      renderizarServicosAdmin();
-      renderizarBarbeirosAdmin();
-      renderizarGradeSlots();
-      renderizarEstoque();
-      preencherSelectsModalBalcao();
+      renderizarPainelHorizontal4Colunas();
+      renderizarServicosGestao();
+      renderizarBarbeirosFolgas();
+      renderizarComandas();
+      renderizarFilaDashboard();
     }
 
-    // 1. SERVIÇOS COM VALOR EDITÁVEL E CHAVE ON/OFF
-    function renderizarServicosAdmin() {
-      const container = document.getElementById('lista-gestao-servicos-admin');
-      container.innerHTML = '';
-
-      let ativosCount = 0;
-
-      servicosDB.forEach((s, idx) => {
-        if (s.ativo) ativosCount++;
-
-        const row = document.createElement('div');
-        row.className = 'service-manager-row' + (!s.ativo ? ' disabled' : '');
-        row.innerHTML = `
-          <div class="service-info-col">
+    // 1. RENDERIZAR O PAINEL 4 COLUNAS HORIZONTAL (IMAGE_2.PNG)
+    function renderizarPainelHorizontal4Colunas(cat = 'TODOS') {
+      // Coluna 1
+      const col1 = document.getElementById('col1-services-list');
+      col1.innerHTML = '';
+      const filtrados = servicosDB.filter(s => s.ativo && (cat === 'TODOS' || s.categoria === cat));
+      filtrados.forEach(s => {
+        const isSel = servicoSelecionado.id === s.id;
+        const div = document.createElement('div');
+        div.className = 'schedule-pick-row' + (isSel ? ' selected' : '');
+        div.onclick = () => {
+          servicoSelecionado = s;
+          renderizarPainelHorizontal4Colunas(cat);
+          atualizarResumoHorizontal();
+        };
+        div.innerHTML = `
+          <div>
             <h4>${s.nome}</h4>
-            <span>Duração: ${s.duracao} • ${s.ativo ? 'Disponível na Agenda' : 'Oculto para Clientes'}</span>
+            <div class="val">R$ ${s.preco.toFixed(2).replace('.', ',')}</div>
           </div>
-          <div class="service-controls">
-            <div class="price-editable-input">
+          <div class="check-circle-dot">${isSel ? '✓' : ''}</div>
+        `;
+        col1.appendChild(div);
+      });
+
+      // Coluna 2
+      const col2 = document.getElementById('col2-barbeiros-list');
+      col2.innerHTML = '';
+      barbeirosDB.forEach(b => {
+        const isSel = barbeiroSelecionado.id === b.id;
+        const div = document.createElement('div');
+        div.className = 'schedule-pick-row' + (isSel ? ' selected' : '');
+        div.onclick = () => {
+          if (!b.presenteHoje) { alert(`${b.nome} está de folga hoje.`); return; }
+          barbeiroSelecionado = b;
+          renderizarPainelHorizontal4Colunas(cat);
+          atualizarResumoHorizontal();
+        };
+        div.innerHTML = `
+          <div style="display:flex; align-items:center; gap:8px;">
+            <img src="${b.foto}" style="width:34px; height:34px; border-radius:50%; border:1px solid var(--gold);">
+            <div>
+              <h4>${b.nome}</h4>
+              <span style="font-size:10px; color:var(--gold);">★ ${b.nota} ${b.presenteHoje ? '' : '(Folga)'}</span>
+            </div>
+          </div>
+          <div class="check-circle-dot">${isSel ? '✓' : ''}</div>
+        `;
+        col2.appendChild(div);
+      });
+
+      // Coluna 3: Dias e Horas
+      const col3Days = document.getElementById('col3-calendar-days');
+      col3Days.innerHTML = '';
+      for (let i = 1; i <= 31; i++) {
+        const d = document.createElement('div');
+        const isSel = i === 22;
+        d.className = 'day-cell-btn' + (isSel ? ' selected' : '');
+        d.innerText = i;
+        d.onclick = () => {
+          document.querySelectorAll('.day-cell-btn').forEach(x => x.classList.remove('selected'));
+          d.classList.add('selected');
+          dataSelecionada = `${i} de Maio de 2026`;
+          atualizarResumoHorizontal();
+        };
+        col3Days.appendChild(d);
+      }
+
+      const col3Hours = document.getElementById('col3-time-slots');
+      col3Hours.innerHTML = '';
+      const slots = ['09:00', '10:00', '11:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00'];
+      slots.forEach(h => {
+        const btn = document.createElement('div');
+        const isSel = h === horaSelecionada;
+        btn.className = 'time-slot-btn' + (isSel ? ' selected' : '');
+        btn.innerText = h;
+        btn.onclick = () => {
+          document.querySelectorAll('#col3-time-slots .time-slot-btn').forEach(x => x.classList.remove('selected'));
+          btn.classList.add('selected');
+          horaSelecionada = h;
+          atualizarResumoHorizontal();
+        };
+        col3Hours.appendChild(btn);
+      });
+
+      atualizarResumoHorizontal();
+    }
+
+    function atualizarResumoHorizontal() {
+      document.getElementById('sum-col4-servico').innerText = servicoSelecionado.nome;
+      document.getElementById('sum-col4-barbeiro').innerText = barbeiroSelecionado.nome;
+      document.getElementById('sum-col4-data').innerText = dataSelecionada;
+      document.getElementById('sum-col4-hora').innerText = horaSelecionada;
+      document.getElementById('sum-col4-duracao').innerText = servicoSelecionado.duracao;
+      document.getElementById('sum-col4-total').innerText = `R$ ${servicoSelecionado.preco.toFixed(2).replace('.', ',')}`;
+    }
+
+    function setChoicePayment(m) {
+      metodoPagamento = m;
+      document.getElementById('btn-choice-pay-local').className = 'time-slot-btn' + (m === 'LOCAL' ? ' selected' : '');
+      document.getElementById('btn-choice-pay-pix').className = 'time-slot-btn' + (m === 'PIX' ? ' selected' : '');
+    }
+
+    function confirmarAgendamentoHorizontal() {
+      if (metodoPagamento === 'PIX') {
+        document.getElementById('pix-cli-valor').innerText = `R$ ${servicoSelecionado.preco.toFixed(2).replace('.', ',')}`;
+        document.getElementById('pix-cli-chave').innerText = dadosBarbearia.chavePix;
+        document.getElementById('pix-cli-recebedor').innerText = dadosBarbearia.titularPix;
+        document.getElementById('modal-pix-cliente-view').style.display = 'flex';
+      } else {
+        const msg = `*AGENDAMENTO CONFIRMADO - RT MOBILE BARBER*%0A%0A*Barbeiro:* ${barbeiroSelecionado.nome}%0A*Data/Hora:* ${dataSelecionada} às ${horaSelecionada}%0A*Serviço:* ${servicoSelecionado.nome}%0A*Total:* R$ ${servicoSelecionado.preco.toFixed(2).replace('.', ',')}%0A*Pagamento:* Pagar no Local (Balcão)%0A%0AConfirmem meu horário por favor!`;
+        window.open(`https://wa.me/${dadosBarbearia.whatsapp}?text=${msg}`, '_blank');
+        alert('Agendamento confirmado com sucesso!');
+      }
+    }
+
+    function copiarChavePixCliente() {
+      navigator.clipboard.writeText(dadosBarbearia.chavePix);
+      alert(`Chave Pix copiada: ${dadosBarbearia.chavePix}`);
+    }
+
+    function enviarComprovanteWhats() {
+      const msg = `Olá! Realizei o agendamento de ${servicoSelecionado.nome} com ${barbeiroSelecionado.nome} e fiz o Pix. Segue meu comprovante!`;
+      window.open(`https://wa.me/${dadosBarbearia.whatsapp}?text=${encodeURIComponent(msg)}`, '_blank');
+      document.getElementById('modal-pix-cliente-view').style.display = 'none';
+    }
+
+    function filtrarCategoriaPortal(cat, btn) {
+      document.querySelectorAll('.category-card-item').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderizarPainelHorizontal4Colunas(cat);
+    }
+
+    // 2. GESTÃO DE SERVIÇOS COM PREÇO EDITÁVEL
+    function renderizarServicosGestao() {
+      const container = document.getElementById('lista-gestao-servicos-crud');
+      container.innerHTML = '';
+      let ativos = 0;
+      servicosDB.forEach((s, idx) => {
+        if (s.ativo) ativos++;
+        const row = document.createElement('div');
+        row.style.display = 'flex';
+        row.style.justifyContent = 'space-between';
+        row.style.alignItems = 'center';
+        row.style.background = '#151824';
+        row.style.padding = '12px 16px';
+        row.style.borderRadius = '12px';
+        row.style.marginBottom = '8px';
+        row.innerHTML = `
+          <div>
+            <h4 style="font-size:12px; font-weight:800; text-transform:uppercase;">${s.nome}</h4>
+            <span style="font-size:10px; color:var(--text-muted);">${s.duracao}</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div class="price-input-control">
               <span>R$</span>
               <input type="number" step="0.50" value="${s.preco.toFixed(2)}" onchange="alterarPrecoServico(${idx}, this.value)">
             </div>
             <label class="switch-ui">
-              <input type="checkbox" ${s.ativo ? 'checked' : ''} onchange="toggleServicoChave(${idx}, this.checked)">
+              <input type="checkbox" ${s.ativo ? 'checked' : ''} onchange="toggleServicoAtivo(${idx}, this.checked)">
               <span class="slider-ui"></span>
             </label>
           </div>
         `;
         container.appendChild(row);
       });
-
-      document.getElementById('kpi-servicos-ativos').innerText = ativosCount;
+      document.getElementById('kpi-servicos-ativos-num').innerText = ativos;
     }
 
-    function alterarPrecoServico(idx, novoPreco) {
-      servicosDB[idx].preco = parseFloat(novoPreco) || 0;
+    function alterarPrecoServico(idx, val) {
+      servicosDB[idx].preco = parseFloat(val) || 0;
+      renderizarPainelHorizontal4Colunas();
       alert(`Preço de "${servicosDB[idx].nome}" atualizado para R$ ${servicosDB[idx].preco.toFixed(2)}!`);
     }
 
-    function toggleServicoChave(idx, estado) {
-      servicosDB[idx].ativo = estado;
-      renderizarServicosAdmin();
+    function toggleServicoAtivo(idx, val) {
+      servicosDB[idx].ativo = val;
+      renderizarServicosGestao();
+      renderizarPainelHorizontal4Colunas();
     }
 
-    function cadastrarNovoServicoPrompt() {
+    function adicionarServicoPrompt() {
       const nome = prompt("Nome do Novo Serviço (será forçado em MAIÚSCULAS):");
       if (!nome) return;
       const preco = parseFloat(prompt("Preço sugerido (R$):", "50.00"));
-      if (isNaN(preco)) return;
-
       servicosDB.push({
         id: 's_' + Date.now(),
         nome: nome.toUpperCase().trim(),
-        preco: preco,
+        preco: isNaN(preco) ? 50.00 : preco,
         duracao: '30 min',
+        categoria: 'CORTE',
         ativo: true
       });
-      renderizarServicosAdmin();
-      preencherSelectsModalBalcao();
-      alert(`Serviço "${nome.toUpperCase().trim()}" cadastrado com sucesso!`);
+      renderizarServicosGestao();
+      renderizarPainelHorizontal4Colunas();
+      alert(`Serviço "${nome.toUpperCase().trim()}" criado com sucesso!`);
     }
 
-    // 2. BARBEIROS, ESCALAS & FOLGAS
-    function renderizarBarbeirosAdmin() {
-      const container = document.getElementById('lista-barbeiros-folgas-admin');
+    // 3. BARBEIROS E FOLGAS
+    function renderizarBarbeirosFolgas() {
+      const container = document.getElementById('lista-barbeiros-folgas-crud');
       container.innerHTML = '';
-
       barbeirosDB.forEach((b, idx) => {
-        const row = document.createElement('div');
-        row.className = 'status-barber-pill';
-        row.innerHTML = `
+        const div = document.createElement('div');
+        div.style.display = 'flex';
+        div.style.justifyContent = 'space-between';
+        div.style.alignItems = 'center';
+        div.style.background = '#151824';
+        div.style.padding = '12px 16px';
+        div.style.borderRadius = '12px';
+        div.style.marginBottom = '8px';
+        div.innerHTML = `
           <div>
-            <div class="name">${b.nome}</div>
-            <div style="font-size:10px; color:var(--text-muted); margin-top:2px;">
-              ${b.presenteHoje ? '● Na Barbearia (Atendendo)' : '○ De Folga / Ausente'} • ${b.cortesHoje} cortes hoje
-            </div>
+            <h4 style="font-size:12px; font-weight:800;">${b.nome}</h4>
+            <span style="font-size:10px; color:${b.presenteHoje ? 'var(--neon-green)' : 'var(--red)'};">${b.presenteHoje ? '● Atendendo Hoje' : '○ De Folga'}</span>
           </div>
-          <button class="btn-toggle-folga ${b.presenteHoje ? '' : 'off'}" onclick="alternarFolgaBarbeiro(${idx})">
-            ${b.presenteHoje ? 'Trabalhando Hoje' : 'Marcar Presente'}
+          <button class="btn-topbar-primary" style="padding:6px 12px; font-size:10px; background:${b.presenteHoje ? '#1e2233' : 'var(--gold)'}; color:${b.presenteHoje ? '#fff' : '#000'};" onclick="toggleFolgaBarbeiro(${idx})">
+            ${b.presenteHoje ? 'Marcar Folga' : 'Marcar Presente'}
           </button>
         `;
-        container.appendChild(row);
+        container.appendChild(div);
       });
     }
 
-    function alternarFolgaBarbeiro(idx) {
+    function toggleFolgaBarbeiro(idx) {
       barbeirosDB[idx].presenteHoje = !barbeirosDB[idx].presenteHoje;
-      renderizarBarbeirosAdmin();
+      renderizarBarbeirosFolgas();
+      renderizarPainelHorizontal4Colunas();
     }
 
-    function cadastrarBarbeiroPrompt() {
-      const nome = prompt("Nome do Barbeiro:");
-      if (!nome) return;
-      barbeirosDB.push({
-        id: 'b_' + Date.now(),
-        nome: nome.trim(),
-        presenteHoje: true,
-        cortesHoje: 0
-      });
-      renderizarBarbeirosAdmin();
-      preencherSelectsModalBalcao();
-      alert(`Barbeiro "${nome}" adicionado à equipe!`);
-    }
-
-    // 3. GRADE DE HORÁRIOS ADMIN
-    function renderizarGradeSlots() {
-      const container = document.getElementById('grade-admin-slots');
+    // 4. COMANDAS DIGITAIS
+    function renderizarComandas() {
+      const container = document.getElementById('lista-comandas-ativas');
       container.innerHTML = '';
-      const horarios = ['08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00'];
-      
-      horarios.forEach((h, i) => {
-        const ocupado = i % 3 === 0;
-        const box = document.createElement('div');
-        box.style.background = ocupado ? '#181b28' : '#11131c';
-        box.style.border = `1px solid ${ocupado ? 'var(--gold-matte)' : 'var(--border-dark)'}`;
-        box.style.borderRadius = '12px';
-        box.style.padding = '12px';
-        box.style.textAlign = 'center';
-        box.innerHTML = `
-          <strong style="font-size:13px; color:#fff;">${h}</strong>
-          <div style="font-size:10px; margin-top:4px; font-weight:800; color:${ocupado ? 'var(--gold-matte)' : 'var(--green-status)'};">
-            ${ocupado ? 'Reservado' : 'Disponível'}
+      comandasDB.forEach((c, idx) => {
+        const div = document.createElement('div');
+        div.className = 'comanda-card-item';
+        div.innerHTML = `
+          <div class="comanda-header">
+            <div>
+              <strong style="font-size:13px; color:#fff;">${c.cliente}</strong>
+              <div style="font-size:10px; color:var(--text-muted);">Barbeiro: ${c.barbeiro}</div>
+            </div>
+            <strong style="color:var(--gold); font-size:14px;">Total: R$ ${c.total.toFixed(2)}</strong>
+          </div>
+          <div style="font-size:11px; color:#cbd5e1; margin-bottom:10px;">${c.itens.join(' + ')}</div>
+          <div style="display:flex; gap:8px;">
+            <button class="btn-topbar-primary" style="flex:1; padding:8px; font-size:10px;" onclick="adicionarItemComanda(${idx})">+ Item / Bebida</button>
+            <button class="btn-topbar-primary" style="flex:1; padding:8px; font-size:10px; background:#10b981; color:#fff;" onclick="fecharComanda(${idx})">Fechar Comanda ↗</button>
           </div>
         `;
-        container.appendChild(box);
+        container.appendChild(div);
       });
     }
 
-    function bloquearDataAgenda() {
-      const data = document.getElementById('inp-bloqueio-data').value;
-      const motivo = document.getElementById('inp-bloqueio-motivo').value || 'Feriado';
-      if (!data) {
-        alert('Selecione uma data para bloquear.');
-        return;
-      }
-      alert(`Data ${data} bloqueada com sucesso na agenda! Motivo: ${motivo}`);
+    function adicionarItemComanda(idx) {
+      const item = prompt("Item ou Bebida para adicionar (Ex: Cerveja R$ 12, Água R$ 5, Pomada R$ 40):");
+      if (!item) return;
+      const valor = parseFloat(prompt("Valor do item (R$):", "12.00")) || 0;
+      comandasDB[idx].itens.push(`${item} (R$ ${valor.toFixed(2)})`);
+      comandasDB[idx].total += valor;
+      renderizarComandas();
     }
 
-    // 4. ESTOQUE
-    function renderizarEstoque() {
-      const tbody = document.getElementById('tabela-estoque-body');
-      tbody.innerHTML = '';
+    function fecharComanda(idx) {
+      alert(`Comanda de ${comandasDB[idx].cliente} fechada com sucesso no valor de R$ ${comandasDB[idx].total.toFixed(2)}!`);
+      comandasDB.splice(idx, 1);
+      renderizarComandas();
+    }
 
-      produtosDB.forEach((p, idx) => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td><strong>${p.nome}</strong></td>
-          <td style="color:var(--gold-matte); font-weight:800;">R$ ${p.preco.toFixed(2)}</td>
-          <td><strong>${p.estoque}</strong> un</td>
-          <td><span style="color:${p.estoque > 0 ? 'var(--green-status)' : 'var(--red-status)'}; font-weight:800;">● ${p.estoque > 0 ? 'Em estoque' : 'Esgotado'}</span></td>
-          <td>
-            <button onclick="alterarEstoqueQtd(${idx}, 1)" style="background:#1c202e; border:none; color:#fff; padding:4px 8px; border-radius:6px; cursor:pointer; font-weight:900;">+1</button>
-            <button onclick="alterarEstoqueQtd(${idx}, -1)" style="background:#1c202e; border:none; color:#fff; padding:4px 8px; border-radius:6px; cursor:pointer; font-weight:900;">-1</button>
-          </td>
-        `;
-        tbody.appendChild(tr);
+    function abrirNovaComandaPrompt() {
+      const cli = prompt("Nome do Cliente:");
+      if (!cli) return;
+      comandasDB.push({
+        id: 'c_' + Date.now(),
+        cliente: cli,
+        barbeiro: barbeirosDB[0].nome,
+        itens: ['Corte de Cabelo (R$ 50.00)'],
+        total: 50.00
       });
+      renderizarComandas();
     }
 
-    function alterarEstoqueQtd(idx, delta) {
-      produtosDB[idx].estoque += delta;
-      if (produtosDB[idx].estoque < 0) produtosDB[idx].estoque = 0;
-      renderizarEstoque();
-    }
-
-    function cadastrarProdutoPrompt() {
-      const nome = prompt("Nome do Produto:");
-      if (!nome) return;
-      const preco = parseFloat(prompt("Preço de Venda (R$):", "40.00"));
-      const qtd = parseInt(prompt("Quantidade Inicial em Estoque:", "10"));
-      produtosDB.push({
-        id: 'p_' + Date.now(),
-        nome: nome.trim(),
-        preco: isNaN(preco) ? 40.00 : preco,
-        estoque: isNaN(qtd) ? 10 : qtd
-      });
-      renderizarEstoque();
-      alert(`Produto "${nome}" cadastrado no estoque!`);
-    }
-
-    // 5. CAIXA & FECHAMENTO CEGO
+    // 5. CAIXA CEGO
     function apurarFechamentoCego() {
-      const dinheiroContado = parseFloat(document.getElementById('inp-fechamento-dinheiro').value) || 0;
-      const cartaoContado = parseFloat(document.getElementById('inp-fechamento-cartao').value) || 0;
-      const totalContado = dinheiroContado + cartaoContado + 380.00; // Soma com o Pix registrado
-      const esperadoPeloSistema = 560.00; // Total registrado no sistema hoje
-
-      const diferenca = totalContado - esperadoPeloSistema;
-      const box = document.getElementById('box-resultado-fechamento');
+      const d = parseFloat(document.getElementById('inp-fech-dinheiro').value) || 0;
+      const c = parseFloat(document.getElementById('inp-fech-cartao').value) || 0;
+      const total = d + c + 380.00;
+      const diff = total - 560.00;
+      const box = document.getElementById('box-resultado-fechamento-cego');
       box.style.display = 'block';
-
-      if (diferenca === 0) {
-        box.innerHTML = `
-          <strong style="color:var(--green-status); font-size:14px;">CAIXA PERFEITO • CONFERÊNCIA EXATA!</strong>
-          <div style="margin-top:6px; color:#cbd5e1;">Total Apurado: R$ ${totalContado.toFixed(2)} | Esperado: R$ ${esperadoPeloSistema.toFixed(2)}</div>
-          <div style="margin-top:4px; color:var(--text-muted);">Diferença: R$ 0,00. Fechamento arquivado com sucesso.</div>
-        `;
-      } else if (diferenca < 0) {
-        box.innerHTML = `
-          <strong style="color:var(--red-status); font-size:14px;">QUEBRA DE CAIXA • FALTA DE VALOR</strong>
-          <div style="margin-top:6px; color:#cbd5e1;">Total Apurado: R$ ${totalContado.toFixed(2)} | Esperado: R$ ${esperadoPeloSistema.toFixed(2)}</div>
-          <div style="margin-top:4px; color:var(--red-status);">Diferença: Faltam R$ ${Math.abs(diferenca).toFixed(2)}.</div>
-        `;
+      if (diff === 0) {
+        box.innerHTML = '<strong style="color:var(--neon-green);">CAIXA CONCILIADO EXATO!</strong><br>R$ 560,00 fechados com sucesso.';
       } else {
-        box.innerHTML = `
-          <strong style="color:var(--gold-matte); font-size:14px;">SOBRA DE CAIXA • VALOR MAIOR QUE O ESPERADO</strong>
-          <div style="margin-top:6px; color:#cbd5e1;">Total Apurado: R$ ${totalContado.toFixed(2)} | Esperado: R$ ${esperadoPeloSistema.toFixed(2)}</div>
-          <div style="margin-top:4px; color:var(--gold-matte);">Diferença: Sobra de R$ ${diferenca.toFixed(2)}.</div>
-        `;
+        box.innerHTML = `<strong style="color:${diff > 0 ? 'var(--gold)' : 'var(--red)'};">DIFERENÇA: R$ ${diff.toFixed(2)}</strong><br>Apurado: R$ ${total.toFixed(2)} | Esperado: R$ 560,00`;
       }
     }
 
-    // 6. MODAL DE AGENDAMENTO BALCÃO PELO PROPRIETÁRIO
-    function preencherSelectsModalBalcao() {
-      const selBarbeiro = document.getElementById('balcao-select-barbeiro');
-      const selServico = document.getElementById('balcao-select-servico');
-      selBarbeiro.innerHTML = '';
-      selServico.innerHTML = '';
-
-      barbeirosDB.forEach(b => {
-        const opt = document.createElement('option');
-        opt.value = b.nome;
-        opt.innerText = `${b.nome} ${b.presenteHoje ? '' : '(De folga)'}`;
-        selBarbeiro.appendChild(opt);
-      });
-
-      servicosDB.forEach(s => {
-        if (s.ativo) {
-          const opt = document.createElement('option');
-          opt.value = s.nome;
-          opt.innerText = `${s.nome} - R$ ${s.preco.toFixed(2)}`;
-          selServico.appendChild(opt);
-        }
-      });
-    }
-
-    function abrirModalBalcao() {
-      document.getElementById('modal-balcao').classList.add('open');
-    }
-    function fecharModalBalcao() {
-      document.getElementById('modal-balcao').classList.remove('open');
-    }
-
-    function salvarAgendamentoBalcao() {
-      const cliente = document.getElementById('balcao-inp-cliente').value.trim();
-      const fone = document.getElementById('balcao-inp-fone').value.trim() || 'Presencial';
-      const barbeiro = document.getElementById('balcao-select-barbeiro').value;
-      const servico = document.getElementById('balcao-select-servico').value;
-      const data = document.getElementById('balcao-inp-data').value;
-      const hora = document.getElementById('balcao-select-hora').value;
-
-      if (!cliente) {
-        alert('Informe o nome do cliente.');
-        return;
-      }
-
-      // Adiciona na lista visual de próximos
-      const lista = document.getElementById('lista-proximos-atendimentos');
-      const row = document.createElement('div');
-      row.className = 'service-manager-row';
-      row.innerHTML = `
-        <div class="service-info-col">
-          <h4>${cliente} • ${fone}</h4>
-          <span>${hora} (${data}) • ${servico} • Barbeiro: ${barbeiro}</span>
+    // 6. FILA DASHBOARD
+    function renderizarFilaDashboard() {
+      const c = document.getElementById('lista-fila-hoje-dashboard');
+      c.innerHTML = `
+        <div style="background:#151824; padding:10px 14px; border-radius:10px; margin-bottom:8px; display:flex; justify-content:space-between;">
+          <div><strong>Gabriel Barbosa</strong><div style="font-size:10px; color:var(--text-muted);">14:00 • Corte Degradê • Lucas Ferreira</div></div>
+          <strong style="color:var(--gold);">R$ 50,00</strong>
         </div>
-        <strong style="color:var(--gold-matte); font-size:13px;">Confirmado</strong>
       `;
-      lista.prepend(row);
-
-      fecharModalBalcao();
-      alert(`Agendamento de ${cliente} confirmado para ${data} às ${hora} com ${barbeiro}! A vaga foi bloqueada.`);
     }
 
-    // 7. CONFIGURAÇÕES
-    function salvarEspacoIdentidade() {
-      dadosBarbearia.nome = document.getElementById('adm-nome').value.trim();
-      dadosBarbearia.endereco = document.getElementById('adm-endereco').value.trim();
-      dadosBarbearia.foto = document.getElementById('adm-foto').value.trim();
-
-      document.getElementById('side-brand-name').innerText = dadosBarbearia.nome;
-      document.getElementById('side-brand-sub').innerText = dadosBarbearia.endereco;
-      alert('Identidade da barbearia salva com sucesso!');
+    // 7. CADEIRA LIVRE
+    function alternarCadeiraLivreGeral() {
+      alert('Status de Cadeira Livre alterado na plataforma!');
+    }
+    function agendarCadeiraLivreImediata() {
+      const nome = prompt("Nome do cliente para atendimento imediato:");
+      if (!nome) return;
+      alert(`Atendimento imediato iniciado para ${nome}! Vaga reservada.`);
     }
 
-    function salvarFinanceiro() {
-      dadosBarbearia.chavePix = document.getElementById('adm-pix').value.trim();
-      dadosBarbearia.titularPix = document.getElementById('adm-titular').value.trim();
-      dadosBarbearia.whatsapp = document.getElementById('adm-whatsapp').value.trim();
-      alert('Chave Pix própria e WhatsApp atualizados!');
+    // 8. CONFIGURAÇÕES & BIO SLUG
+    function copiarLinkBio() {
+      const url = document.getElementById('inp-slug-bio').value;
+      navigator.clipboard.writeText(url);
+      alert('Link exclusivo da Bio copiado! Cole no perfil do Instagram da sua barbearia.');
     }
 
-    function alterarIntervaloMinutos(m) {
-      dadosBarbearia.intervaloMinutos = parseInt(m);
-      alert(`Intervalo da agenda alterado para ${m} minutos!`);
+    function salvarConfiguracoesGerais() {
+      dadosBarbearia.nome = document.getElementById('cfg-inp-nome').value;
+      dadosBarbearia.endereco = document.getElementById('cfg-inp-endereco').value;
+      dadosBarbearia.foto = document.getElementById('cfg-inp-foto').value;
+      dadosBarbearia.chavePix = document.getElementById('cfg-inp-pix').value;
+
+      document.getElementById('lbl-establishment-name').innerText = dadosBarbearia.nome;
+      document.getElementById('lbl-establishment-address').innerText = dadosBarbearia.endereco;
+      document.getElementById('side-nome-barbearia').innerText = dadosBarbearia.nome;
+      document.getElementById('banner-hero-establishment').style.backgroundImage = `url('${dadosBarbearia.foto}')`;
+      alert('Configurações e Foto do Estabelecimento salvas!');
     }
 
-    // NAVEGAÇÃO DO PAINEL
-    function trocarTelaPainel(telaId, btn) {
-      document.querySelectorAll('.screen-view').forEach(s => s.classList.remove('active'));
-      document.getElementById(telaId).classList.add('active');
+    // 9. NAVEGAÇÃO DE WORKSPACE
+    function trocarAbaWorkspace(tabId, btn) {
+      document.querySelectorAll('.screen-tab-panel').forEach(p => p.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
 
       if (btn) {
-        document.querySelectorAll('.side-nav-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.side-item-btn, .dock-tab-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
       }
 
       const titulos = {
-        'screen-dashboard': { t: 'Visão Geral da Barbearia', s: 'Gestão operacional, atendimentos e faturamento' },
-        'screen-grade-horarios': { t: 'Grade de Horários & Atendimentos', s: 'Controle de vagas, balcão e bloqueio de feriados' },
-        'screen-servicos': { t: 'Catálogo de Serviços & Preços', s: 'Ajuste de valores e chaves ON/OFF' },
-        'screen-barbeiros-escalas': { t: 'Barbeiros, Escalas & Ausências', s: 'Controle de presença diária e folgas' },
-        'screen-estoque': { t: 'Estoque de Produtos & Balcão', s: 'Itens de revenda e controle de quantidades' },
-        'screen-caixa': { t: 'Fluxo de Caixa & Fechamento Cego', s: 'Auditoria de valores apurados no dia' },
-        'screen-configuracoes': { t: 'Configurações do Estabelecimento', s: 'Foto do espaço, Pix próprio e WhatsApp' }
+        'tab-visao-geral': 'Visão Geral da Barbearia',
+        'tab-agendamento-horizontal': 'Grade de Horários & Agendamento',
+        'tab-servicos-precos': 'Serviços & Preços Oficiais',
+        'tab-barbeiros-folgas': 'Barbeiros, Escalas & Folgas',
+        'tab-comanda-digital': 'Comandas Digitais na Cadeira',
+        'tab-caixa-fechamento': 'Caixa & Fechamento Cego',
+        'tab-configuracoes-slug': 'Espaço Físico, Pix & Link da Bio'
       };
-
-      if (titulos[telaId]) {
-        document.getElementById('lbl-top-view-title').innerText = titulos[telaId].t;
-        document.getElementById('lbl-top-view-sub').innerText = titulos[telaId].s;
-      }
-
+      if (titulos[tabId]) document.getElementById('lbl-workspace-title').innerText = titulos[tabId];
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function abrirVisualizacaoClienteMobile() {
-      alert('Para ver a experiência mobile do cliente, basta abrir o link oficial no seu celular ou redimensionar a janela do navegador!');
+    function abrirAgendamentoRapidoDock() {
+      trocarAbaWorkspace('tab-agendamento-horizontal', null);
+      document.querySelector('.board-horizontal-schedule').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function abrirModalBalcaoPresencial() {
+      const cli = prompt("Nome do Cliente presencial:");
+      if (!cli) return;
+      alert(`Horário de balcão reservado para ${cli}!`);
+    }
+
+    // 10. AUTH & PERMISSÕES
+    function alternarAuthTab(tipo) {
+      authModo = tipo;
+      document.getElementById('btn-auth-cliente-tab').className = 'auth-tab-btn' + (tipo === 'CLIENTE' ? ' active' : '');
+      document.getElementById('btn-auth-dono-tab').className = 'auth-tab-btn' + (tipo === 'DONO' ? ' active' : '');
+      document.getElementById('auth-trial-trigger').style.display = tipo === 'DONO' ? 'block' : 'none';
+    }
+
+    function realizarLogin() {
+      const email = document.getElementById('auth-inp-email').value.trim();
+      document.getElementById('lbl-logged-email').innerText = email;
+
+      if (email === 'roberthaelley75@gmail.com') {
+        document.getElementById('lbl-status-plano').innerText = 'VITALÍCIO SUPER ADMIN ATIVO (roberthaelley75@gmail.com)';
+        document.getElementById('lbl-tag-permissao').className = 'user-pill-tag vitalicio';
+        document.getElementById('lbl-tag-permissao').innerText = 'Super Admin Vitalício';
+      }
+
+      document.getElementById('auth-screen-overlay').classList.add('hidden');
+    }
+
+    function ativarTesteGratis48h() {
+      alert('Parabéns! Sua barbearia foi ativada com 48 Horas de Teste Grátis no RT Mobile Barber.');
+      document.getElementById('auth-screen-overlay').classList.add('hidden');
+      document.getElementById('lbl-status-plano').innerText = 'TESTE GRÁTIS ATIVO (48 HORAS)';
+    }
+
+    function definirModoVisao(modo, btn) {
+      document.querySelectorAll('.btn-role-nav').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const sidebar = document.getElementById('app-sidebar-lateral');
+      if (modo === 'CLIENTE') {
+        sidebar.style.display = 'none';
+        trocarAbaWorkspace('tab-agendamento-horizontal', null);
+      } else if (modo === 'DONO') {
+        sidebar.style.display = 'flex';
+        trocarAbaWorkspace('tab-visao-geral', null);
+      } else if (modo === 'SUPER_ADMIN') {
+        sidebar.style.display = 'flex';
+        alert('Modo Super Admin Ativo: Acesso irrestrito a todas as unidades!');
+        trocarAbaWorkspace('tab-visao-geral', null);
+      }
+    }
+
+    function realizarLogout() {
+      document.getElementById('auth-screen-overlay').classList.remove('hidden');
+    }
+
+    function simularVencimento30Dias() {
+      alert('Aviso de Vencimento: Faltam 3 dias para renovar sua assinatura de R$ 50,00.');
     }
   </script>
 </body>
