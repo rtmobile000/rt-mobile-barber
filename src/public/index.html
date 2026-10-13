@@ -57,7 +57,20 @@
       justify-content: center;
       align-items: center;
       z-index: 9999999;
-      transition: opacity 0.4s ease-out;
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 0.35s ease-out, visibility 0s linear 0.35s;
+      /* Failsafe: splash never traps the user if another script errors on mobile. */
+      animation: rtSplashFailsafe 0.01s linear 2.35s forwards;
+    }
+    @keyframes rtSplashFailsafe {
+      to { opacity: 0; visibility: hidden; pointer-events: none; }
+    }
+    #splash-screen.splash-hidden {
+      opacity: 0 !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+      display: none !important;
     }
     .splash-halo {
       position: absolute;
@@ -1440,20 +1453,24 @@
   </div>
 
   <script>
-    // 1. REMOÇÃO INCONDICIONAL DA SPLASH (NUNCA TRAVA)
+    // Splash robusta: nunca bloqueia a interface, inclusive se sessionStorage falhar.
     (function removerSplash() {
       const splash = document.getElementById('splash-screen');
       if (!splash) return;
-      if (sessionStorage.getItem('rt_splash_seen')) {
-        splash.style.display = 'none';
+      let jaFoiExibida = false;
+      try { jaFoiExibida = sessionStorage.getItem('rt_splash_seen') === 'true'; } catch (_) {}
+      const ocultar = () => {
+        if (!splash || splash.classList.contains('splash-hidden')) return;
+        splash.classList.add('splash-hidden');
+        splash.setAttribute('aria-hidden', 'true');
+        try { sessionStorage.setItem('rt_splash_seen', 'true'); } catch (_) {}
+      };
+      if (jaFoiExibida) {
+        ocultar();
       } else {
-        setTimeout(() => {
-          splash.style.opacity = '0';
-          setTimeout(() => {
-            splash.style.display = 'none';
-            sessionStorage.setItem('rt_splash_seen', 'true');
-          }, 350);
-        }, 1800);
+        // 1,8 s visível + 350 ms de fade; timeout de segurança adicional.
+        window.setTimeout(ocultar, 2150);
+        window.setTimeout(ocultar, 2400);
       }
     })();
 
