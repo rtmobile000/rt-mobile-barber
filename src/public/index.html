@@ -3,46 +3,51 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>RT Mobile Barber • Experiência Premium</title>
+  <title>RT Mobile Barber • Barbearia Premium</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
       -webkit-tap-highlight-color: transparent;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
 
     :root {
-      --bg-black: #000000;
-      --bg-surface: #0a0b10;
-      --bg-card: #12141c;
-      --bg-card-inner: #181b26;
-      --border: #222638;
+      --bg-black: #050608;
+      --bg-surface: #0b0d13;
+      --bg-card: #121520;
+      --bg-card-hover: #171b28;
+      --bg-input: #151824;
+      --border: #232838;
+      --border-light: #2d3448;
       --gold: #d4a373;
-      --gold-bright: #e5b887;
-      --gold-dark: #b88251;
-      --gold-glow: rgba(212, 163, 115, 0.18);
+      --gold-light: #e5b98f;
+      --gold-dark: #b68252;
+      --gold-glow: rgba(212, 163, 115, 0.22);
       --neon-green: #10b981;
       --neon-glow: rgba(16, 185, 129, 0.35);
       --red: #ef4444;
       --blue: #3b82f6;
       --purple: #a855f7;
       --text-white: #ffffff;
-      --text-muted: #94a3b8;
+      --text-muted: #8e95a5;
     }
 
     body {
       background-color: var(--bg-black);
       color: var(--text-white);
       min-height: 100vh;
+      overflow-x: hidden;
       margin: 0;
       padding: 0;
-      overflow-x: hidden;
     }
 
     /* =========================================================
-       1. SPLASH SCREEN (REMOÇÃO GARANTIDA NO 1º ACESSO)
+       1. SPLASH SCREEN (EFEITO LUXO COM SUMIÇO IMEDIATO)
        ========================================================= */
     #splash-screen {
       position: fixed;
@@ -52,16 +57,16 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      z-index: 999999;
+      z-index: 9999999;
       transition: opacity 0.4s ease-out;
     }
     .splash-halo {
       position: absolute;
-      width: 160px;
-      height: 160px;
+      width: 180px;
+      height: 180px;
       background: radial-gradient(circle, var(--neon-glow) 0%, rgba(16, 185, 129, 0) 70%);
       border-radius: 50%;
-      filter: blur(24px);
+      filter: blur(28px);
       z-index: 1;
     }
     .splash-rt {
@@ -72,12 +77,12 @@
       line-height: 0.9;
       position: relative;
       z-index: 2;
-      text-shadow: 0 0 25px rgba(16, 185, 129, 0.4);
+      text-shadow: 0 0 28px rgba(16, 185, 129, 0.45);
     }
     .splash-divider {
       width: 90px;
       height: 2px;
-      background: #404452;
+      background: #333848;
       margin: 14px auto 12px;
       position: relative;
       z-index: 2;
@@ -104,12 +109,158 @@
     }
 
     /* =========================================================
-       2. TOPBAR SAAS & BARRA DE PERMISSÕES MASTER
+       2. TELA DE AUTENTICAÇÃO HÍBRIDA 100% BLINDADA
+       ========================================================= */
+    #auth-screen-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: #050608;
+      z-index: 999999;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+    #auth-screen-overlay.hidden {
+      display: none !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+    }
+    .auth-split-wrapper {
+      display: flex;
+      flex: 1;
+      width: 100%;
+      min-height: 100vh;
+    }
+    .auth-hero-side {
+      flex: 1.1;
+      background: url('https://images.unsplash.com/photo-1503951914875-452162b0f3f1?q=80&w=1200') center/cover no-repeat;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 48px;
+    }
+    .auth-hero-side::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(5,6,8,0.92) 80%, #050608 100%);
+    }
+    .auth-hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 520px;
+    }
+    .auth-hero-tag {
+      font-size: 11px;
+      font-weight: 900;
+      color: var(--gold);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .auth-hero-title {
+      font-size: 38px;
+      font-weight: 900;
+      line-height: 1.1;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .auth-hero-sub {
+      font-size: 13px;
+      color: #cbd5e1;
+      line-height: 1.6;
+    }
+
+    .auth-form-side {
+      flex: 1;
+      background: #08090d;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 48px;
+      max-width: 560px;
+    }
+    @media (max-width: 900px) {
+      .auth-split-wrapper { flex-direction: column; }
+      .auth-hero-side { min-height: 280px; padding: 24px; }
+      .auth-form-side { padding: 28px 20px; max-width: 100%; }
+      .auth-hero-title { font-size: 26px; }
+    }
+
+    .auth-tabs-toggle {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      background: #11131c;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 4px;
+      margin-bottom: 24px;
+    }
+    .auth-tab-btn {
+      padding: 12px;
+      border-radius: 10px;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .auth-tab-btn.active {
+      background: #191c28;
+      color: var(--gold);
+      border: 1px solid var(--border);
+    }
+
+    .form-input-field {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 16px;
+      outline: none;
+      transition: all 0.2s;
+    }
+    .form-input-field:focus {
+      border-color: var(--gold);
+      background: #191c28;
+    }
+    .btn-submit-auth {
+      width: 100%;
+      background: linear-gradient(135deg, #d4a373 0%, #b88251 100%);
+      color: #000;
+      border: none;
+      padding: 15px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(212, 163, 115, 0.3);
+      transition: all 0.2s;
+    }
+    .btn-submit-auth:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(212, 163, 115, 0.4);
+    }
+
+    /* =========================================================
+       3. TOPBAR SAAS PROFISSIONAL & CONTROLE MASTER
        ========================================================= */
     .saas-status-bar {
-      background: #0d0f17;
+      background: #090a0f;
       border-bottom: 1px solid var(--border);
-      padding: 10px 28px;
+      padding: 12px 32px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -118,30 +269,35 @@
       gap: 12px;
       position: sticky;
       top: 0;
-      z-index: 1000;
+      z-index: 8000;
     }
     .badge-pill-status {
-      padding: 3px 8px;
+      padding: 4px 10px;
       border-radius: 6px;
       font-size: 9px;
-      font-weight: 800;
+      font-weight: 900;
       text-transform: uppercase;
       margin-left: 6px;
+      letter-spacing: 0.5px;
     }
     .badge-pill-status.vitalicio { background: rgba(168, 85, 247, 0.15); color: var(--purple); border: 1px solid rgba(168, 85, 247, 0.35); }
     .badge-pill-status.trial { background: rgba(16, 185, 129, 0.15); color: var(--neon-green); border: 1px solid rgba(16, 185, 129, 0.35); }
 
     .btn-role-tab {
-      background: #151824;
+      background: #141622;
       border: 1px solid var(--border);
       color: #cbd5e1;
-      padding: 6px 14px;
-      border-radius: 8px;
-      font-size: 10px;
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-size: 11px;
       font-weight: 800;
       text-transform: uppercase;
       cursor: pointer;
       transition: all 0.2s;
+    }
+    .btn-role-tab:hover {
+      background: #1c2030;
+      color: #fff;
     }
     .btn-role-tab.active {
       border-color: var(--gold);
@@ -150,29 +306,29 @@
     }
 
     /* =========================================================
-       ESTRUTURA GERAL (DESKTOP HORIZONTAL vs MOBILE)
+       4. ESTRUTURA GERAL (DESKTOP HORIZONTAL vs MOBILE)
        ========================================================= */
     .app-main-layout {
       display: flex;
       width: 100%;
-      min-height: calc(100vh - 42px);
+      min-height: calc(100vh - 54px);
     }
 
-    /* SIDEBAR DESKTOP DO DONO */
+    /* SIDEBAR DO DONO NO PC */
     .desktop-sidebar {
       width: 280px;
       background: #08090d;
       border-right: 1px solid var(--border);
       display: flex;
       flex-direction: column;
-      padding: 24px 20px;
+      padding: 24px 18px;
       flex-shrink: 0;
     }
     .sq-logo-rt {
       width: 44px;
       height: 44px;
       border-radius: 12px;
-      background: #141722;
+      background: #12141c;
       border: 1.5px solid var(--gold);
       display: flex;
       align-items: center;
@@ -180,7 +336,6 @@
       font-weight: 900;
       font-size: 16px;
       color: #ffffff;
-      letter-spacing: -0.5px;
     }
     .sq-logo-rt span { color: var(--gold); }
 
@@ -195,7 +350,7 @@
     .sidebar-nav-list {
       display: flex;
       flex-direction: column;
-      gap: 5px;
+      gap: 6px;
       flex: 1;
     }
     .side-nav-btn {
@@ -233,21 +388,8 @@
       min-width: 0;
     }
 
-    .main-top-navbar {
-      height: 72px;
-      background: #000000;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 32px;
-      position: sticky;
-      top: 0;
-      z-index: 80;
-    }
-
     .workspace-inner {
-      padding: 28px 32px 140px;
+      padding: 32px 36px 140px;
       max-width: 1400px;
       width: 100%;
     }
@@ -264,7 +406,7 @@
       background: linear-gradient(135deg, #d4a373 0%, #b88251 100%);
       color: #000;
       border: none;
-      padding: 12px 20px;
+      padding: 12px 22px;
       border-radius: 12px;
       font-size: 11px;
       font-weight: 900;
@@ -272,9 +414,14 @@
       letter-spacing: 0.8px;
       cursor: pointer;
       box-shadow: 0 8px 24px rgba(212, 163, 115, 0.25);
+      transition: all 0.2s;
+    }
+    .btn-gold-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(212, 163, 115, 0.35);
     }
     .btn-dark-secondary {
-      background: #151824;
+      background: #141624;
       border: 1px solid var(--border);
       color: #cbd5e1;
       padding: 10px 18px;
@@ -283,39 +430,45 @@
       font-weight: 800;
       text-transform: uppercase;
       cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-dark-secondary:hover {
+      background: #1c2032;
+      color: #fff;
     }
     .card-panel-dark {
       background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 24px;
-      margin-bottom: 20px;
+      border: 1.5px solid var(--border);
+      border-radius: 24px;
+      padding: 28px;
+      margin-bottom: 24px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.6);
     }
 
     /* =========================================================
-       3. ESTILO EXATO "CASA BRAVA" (PORTAL DO CLIENTE)
+       5. VISÃO DO CLIENTE: EXPERIÊNCIA "CASA BRAVA" DEFINITIVA
        ========================================================= */
     .casa-brava-hero {
       width: 100%;
-      height: 320px;
-      border-radius: 24px;
+      height: 340px;
+      border-radius: 28px;
       background-size: cover;
       background-position: center;
       position: relative;
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
-      padding: 32px;
-      margin-bottom: 28px;
+      padding: 36px 40px;
+      margin-bottom: 32px;
       border: 1px solid var(--border);
-      box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.85);
     }
     .casa-brava-hero::after {
       content: "";
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.85) 75%, #07080c 100%);
-      border-radius: 24px;
+      background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(5,6,8,0.88) 75%, #07080c 100%);
+      border-radius: 28px;
       z-index: 1;
     }
     .hero-casa-content {
@@ -326,41 +479,41 @@
       font-size: 11px;
       font-weight: 900;
       color: var(--gold);
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      margin-bottom: 6px;
-    }
-    .hero-casa-title {
-      font-size: 34px;
-      font-weight: 900;
-      line-height: 1.1;
+      letter-spacing: 3.5px;
       text-transform: uppercase;
       margin-bottom: 8px;
     }
+    .hero-casa-title {
+      font-size: 38px;
+      font-weight: 900;
+      line-height: 1.1;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
     .hero-casa-sub {
-      font-size: 13px;
+      font-size: 14px;
       color: #cbd5e1;
-      max-width: 520px;
-      line-height: 1.5;
+      max-width: 540px;
+      line-height: 1.6;
     }
 
     /* CARROSSEL HORIZONTAL DE SERVIÇOS (ESTILO CASA BRAVA 00:01) */
     .services-carousel-strip {
       display: flex;
-      gap: 14px;
+      gap: 16px;
       overflow-x: auto;
-      padding-bottom: 8px;
-      margin-bottom: 32px;
+      padding-bottom: 12px;
+      margin-bottom: 36px;
       scrollbar-width: none;
     }
     .services-carousel-strip::-webkit-scrollbar { display: none; }
 
     .service-bubble-card {
-      min-width: 170px;
-      background: #12141c;
-      border: 1px solid #222638;
-      border-radius: 18px;
-      padding: 16px;
+      min-width: 180px;
+      background: #11141e;
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      padding: 18px;
       display: flex;
       flex-direction: column;
       gap: 12px;
@@ -370,16 +523,17 @@
     .service-bubble-card:hover, .service-bubble-card.selected {
       border-color: var(--gold);
       background: rgba(212, 163, 115, 0.12);
-      transform: translateY(-2px);
+      transform: translateY(-3px);
     }
     .service-bubble-top {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      background: #191c28;
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: #181b28;
       display: flex;
       align-items: center;
       justify-content: center;
+      font-size: 18px;
       border: 1px solid var(--border);
     }
     .service-bubble-card h4 {
@@ -388,18 +542,18 @@
       color: #fff;
     }
     .service-bubble-card .price {
-      font-size: 14px;
+      font-size: 15px;
       font-weight: 900;
       color: var(--gold);
     }
 
     /* CARDS LUXUOSOS DOS BARBEIROS (ESTILO CASA BRAVA 00:02) */
     .barber-pro-card {
-      background: #12141c;
-      border: 1.5px solid #222638;
-      border-radius: 20px;
-      padding: 16px 20px;
-      margin-bottom: 12px;
+      background: #11141e;
+      border: 1.5px solid var(--border);
+      border-radius: 22px;
+      padding: 18px 22px;
+      margin-bottom: 14px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -409,79 +563,80 @@
     .barber-pro-card:hover, .barber-pro-card.selected {
       border-color: var(--gold);
       background: rgba(212, 163, 115, 0.12);
+      transform: translateY(-2px);
     }
     .barber-pro-left {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 18px;
     }
     .barber-img-frame {
-      width: 60px;
-      height: 60px;
-      border-radius: 16px;
+      width: 64px;
+      height: 64px;
+      border-radius: 18px;
       object-fit: cover;
-      border: 1.5px solid var(--gold);
+      border: 2px solid var(--gold);
     }
     .barber-rank-title {
       font-size: 10px;
-      font-weight: 800;
+      font-weight: 900;
       color: var(--gold);
-      letter-spacing: 1.5px;
+      letter-spacing: 2px;
       text-transform: uppercase;
-      margin-bottom: 2px;
+      margin-bottom: 3px;
     }
     .barber-name-txt {
-      font-size: 15px;
+      font-size: 16px;
       font-weight: 900;
       color: #fff;
     }
     .barber-stars-badge {
       display: flex;
       align-items: center;
-      gap: 4px;
-      font-size: 11px;
+      gap: 5px;
+      font-size: 12px;
       color: var(--gold);
       font-weight: 800;
       margin-top: 3px;
     }
     .barber-tags-row {
       display: flex;
-      gap: 6px;
+      gap: 8px;
       margin-top: 6px;
     }
     .barber-pill-tag {
-      background: #191c28;
+      background: #181b28;
       border: 1px solid var(--border);
       color: #cbd5e1;
-      padding: 3px 8px;
-      border-radius: 6px;
-      font-size: 9px;
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 10px;
       font-weight: 800;
       text-transform: uppercase;
     }
 
-    /* O PAINEL DE AGENDAMENTO 4 COLUNAS HORIZONTAL (CASA BRAVA + IMAGE_2.PNG) */
+    /* PAINEL HORIZONTAL 4 COLUNAS (IMAGE_2.PNG + CASA BRAVA) */
     .schedule-board-horizontal {
       background: #0d0f17;
       border: 1.5px solid var(--border);
-      border-radius: 28px;
-      padding: 28px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.8);
-      margin-bottom: 28px;
+      border-radius: 30px;
+      padding: 32px;
+      box-shadow: 0 24px 70px rgba(0,0,0,0.85);
+      margin-bottom: 32px;
     }
     .board-grid-4-cols {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
+      gap: 22px;
     }
     @media (max-width: 1024px) { .board-grid-4-cols { grid-template-columns: 1fr 1fr; } }
     @media (max-width: 768px) { .board-grid-4-cols { grid-template-columns: 1fr; } }
 
     .schedule-column-box {
-      background: #11131c;
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 18px;
+      background: #11141e;
+      border: 1.5px solid var(--border);
+      border-radius: 22px;
+      padding: 20px;
       display: flex;
       flex-direction: column;
     }
@@ -490,16 +645,16 @@
       font-weight: 900;
       color: var(--gold);
       text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 14px;
+      letter-spacing: 1.2px;
+      margin-bottom: 16px;
     }
 
     .service-row-pick {
       background: #161824;
       border: 1.5px solid var(--border);
-      border-radius: 14px;
-      padding: 12px 14px;
-      margin-bottom: 8px;
+      border-radius: 16px;
+      padding: 13px 15px;
+      margin-bottom: 9px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -511,17 +666,17 @@
       background: var(--gold-glow);
     }
     .check-dot-gold {
-      width: 18px;
-      height: 18px;
+      width: 20px;
+      height: 20px;
       border-radius: 50%;
       border: 2px solid #475569;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 10px;
+      font-size: 11px;
       font-weight: 900;
       color: transparent;
-      margin-left: 8px;
+      margin-left: 10px;
     }
     .service-row-pick.selected .check-dot-gold {
       background: var(--gold);
@@ -529,22 +684,22 @@
       color: #000;
     }
 
-    /* PÍLULAS DE DIAS DA SEMANA (ESTILO CASA BRAVA 00:04: SEG 15 jun, TER 16 jun...) */
+    /* PÍLULAS DE DIAS (ESTILO CASA BRAVA 00:04) */
     .calendar-pills-row {
       display: flex;
       gap: 8px;
       overflow-x: auto;
-      padding-bottom: 6px;
+      padding-bottom: 8px;
       margin-bottom: 16px;
       scrollbar-width: none;
     }
     .calendar-pills-row::-webkit-scrollbar { display: none; }
     .day-pill-card {
-      min-width: 60px;
+      min-width: 62px;
       background: #161824;
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 10px 6px;
+      border-radius: 14px;
+      padding: 11px 8px;
       text-align: center;
       cursor: pointer;
       transition: all 0.2s;
@@ -557,7 +712,7 @@
     .day-pill-card .weekday { font-size: 10px; font-weight: 800; text-transform: uppercase; }
     .day-pill-card .daynum { font-size: 18px; font-weight: 900; margin-top: 2px; }
 
-    /* GRADE DE HORÁRIOS ESTILO CASA BRAVA (00:05: 09:00, 11:30 DOURADO...) */
+    /* GRADE DE HORÁRIOS ESTILO CASA BRAVA (00:05) */
     .time-grid-casa-brava {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -566,8 +721,8 @@
     .time-slot-btn {
       background: #161824;
       border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 10px 0;
+      border-radius: 12px;
+      padding: 11px 0;
       text-align: center;
       font-size: 12px;
       font-weight: 800;
@@ -582,91 +737,91 @@
       font-weight: 900;
     }
 
-    /* TICKET COMPROVANTE ESTILO CASA BRAVA (00:08) */
+    /* TICKET COMPROVANTE (ESTILO CASA BRAVA 00:08) */
     .ticket-receipt-card {
       background: #141724;
-      border: 1px dashed var(--gold);
-      border-radius: 18px;
-      padding: 18px;
+      border: 1.5px dashed var(--gold);
+      border-radius: 20px;
+      padding: 20px;
       position: relative;
-      margin-bottom: 16px;
+      margin-bottom: 18px;
     }
     .receipt-row {
       display: flex;
       justify-content: space-between;
-      padding: 5px 0;
+      padding: 6px 0;
       font-size: 12px;
       color: #cbd5e1;
     }
     .receipt-row.total {
       border-top: 1px dashed #333;
-      margin-top: 10px;
-      padding-top: 10px;
-      font-size: 16px;
+      margin-top: 12px;
+      padding-top: 12px;
+      font-size: 17px;
       font-weight: 900;
       color: #fff;
     }
     .receipt-row.total strong { color: var(--gold); }
 
     /* =========================================================
-       4. LOJA DE PRODUTOS COM CARRINHO MULTIPLO & CHECKOUT COMPLETO
+       6. LOJA DO CLIENTE COM CARRINHO MULTIPLO & CHECKOUT
        ========================================================= */
     .product-shop-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 16px;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 18px;
     }
     .prod-card-shop {
-      background: #12141c;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 16px;
+      background: #11141e;
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      padding: 18px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
     }
     .prod-card-shop img {
       width: 100%;
-      height: 140px;
-      border-radius: 12px;
+      height: 150px;
+      border-radius: 14px;
       object-fit: cover;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
 
-    /* CARRINHO MODAL FLUTUANTE */
     #cart-slide-modal {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.88);
-      backdrop-filter: blur(12px);
-      z-index: 99990;
+      background: rgba(0,0,0,0.92);
+      backdrop-filter: blur(14px);
+      z-index: 999990;
       display: none;
       align-items: center;
       justify-content: center;
-      padding: 16px;
+      padding: 20px;
     }
     .cart-box-container {
       background: #11131c;
-      border: 1px solid var(--gold);
+      border: 1.5px solid var(--gold);
       border-radius: 28px;
       max-width: 480px;
       width: 100%;
       max-height: 90vh;
       overflow-y: auto;
-      padding: 24px;
+      padding: 26px;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.9);
     }
 
     /* =========================================================
-       5. MATRIZ SEMANAL EXPANSÍVEL NA VISÃO DO DONO
+       7. MATRIZ SEMANAL EXPANSÍVEL (DONO)
        ========================================================= */
     .matrix-board-container {
       width: 100%;
       overflow-x: auto;
       background: #0d0f17;
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 18px;
-      margin-top: 16px;
+      border: 1.5px solid var(--border);
+      border-radius: 22px;
+      padding: 20px;
+      margin-top: 18px;
     }
     .matrix-table {
       width: 100%;
@@ -676,28 +831,28 @@
     }
     .matrix-table th {
       padding: 12px 10px;
-      background: #151824;
+      background: #141724;
       color: var(--gold);
       border: 1px solid var(--border);
       font-weight: 900;
       text-transform: uppercase;
     }
     .matrix-table td {
-      padding: 10px 8px;
+      padding: 11px 8px;
       border: 1px solid var(--border);
       background: #10121a;
       color: #cbd5e1;
     }
     .slot-booked {
-      background: rgba(212, 163, 115, 0.2) !important;
+      background: rgba(212, 163, 115, 0.22) !important;
       color: var(--gold) !important;
-      font-weight: 800;
+      font-weight: 900;
       border-radius: 6px;
-      padding: 4px;
+      padding: 5px;
     }
 
     /* =========================================================
-       6. ILHAS FLUTUANTES SEPARADAS (CLIENTE vs DONO COM EMOJIS)
+       8. ILHAS FLUTUANTES SEPARADAS (MOBILE EXCLUSIVO COM EMOJIS)
        ========================================================= */
     .floating-bottom-dock {
       position: fixed;
@@ -706,22 +861,24 @@
       transform: translateX(-50%);
       width: calc(100% - 32px);
       max-width: 440px;
-      height: 68px;
+      height: 70px;
       background: rgba(10, 11, 16, 0.94);
       backdrop-filter: blur(24px);
-      border: 1.5px solid rgba(255, 255, 255, 0.12);
+      border: 1.5px solid rgba(255, 255, 255, 0.14);
       border-radius: 999px;
-      display: none; /* Apenas no celular! No PC o layout é horizontal */
+      display: none;
       justify-content: space-around;
       align-items: center;
-      padding: 0 10px;
+      padding: 0 12px;
       z-index: 1000;
-      box-shadow: 0 16px 40px rgba(0,0,0,0.85);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.88);
     }
     @media (max-width: 768px) {
       .floating-bottom-dock { display: flex; }
       .desktop-sidebar { display: none !important; }
-      .workspace-inner { padding: 16px 16px 140px; }
+      .workspace-inner { padding: 20px 16px 140px; }
+      .casa-brava-hero { padding: 24px; height: 300px; }
+      .hero-casa-title { font-size: 28px; }
     }
 
     .dock-tab-btn {
@@ -736,7 +893,7 @@
       width: 52px;
       height: 52px;
       border-radius: 50%;
-      font-size: 16px;
+      font-size: 18px;
     }
     .dock-tab-btn .lbl {
       font-size: 9px;
@@ -760,13 +917,13 @@
       cursor: pointer;
       transform: translateY(-8px);
       box-shadow: 0 8px 24px rgba(212, 163, 115, 0.5);
-      font-size: 20px;
+      font-size: 22px;
     }
   </style>
 </head>
 <body>
 
-  <!-- 1. SPLASH SCREEN (AUTORREMOÇÃO INCONDICIONAL) -->
+  <!-- 1. SPLASH SCREEN (EFEITO LUXO COM SUMIÇO INCONDICIONAL) -->
   <div id="splash-screen">
     <div class="splash-halo"></div>
     <div class="splash-rt">RT</div>
@@ -775,7 +932,7 @@
     <div class="splash-tagline">SISTEMA DE GESTÃO PROFISSIONAL</div>
   </div>
 
-  <!-- 2. TELA DE AUTENTICAÇÃO HÍBRIDA REAL -->
+  <!-- 2. TELA DE AUTENTICAÇÃO HÍBRIDA (100% BLINDADA) -->
   <div id="auth-screen-overlay">
     <div class="auth-split-wrapper">
       
@@ -788,10 +945,10 @@
       </div>
 
       <div class="auth-form-side">
-        <div style="display:flex; align-items:center; gap:12px; margin-bottom:28px;">
+        <div style="display:flex; align-items:center; gap:14px; margin-bottom:28px;">
           <div class="sq-logo-rt">RT<span>.</span></div>
           <div>
-            <h2 style="font-size:16px; font-weight:900; text-transform:uppercase;">RT Mobile Barber</h2>
+            <h2 style="font-size:17px; font-weight:900; text-transform:uppercase;">RT Mobile Barber</h2>
             <p style="font-size:11px; color:var(--text-muted);">Acesso Seguro à Plataforma</p>
           </div>
         </div>
@@ -810,7 +967,7 @@
 
           <button class="btn-submit-auth" onclick="realizarLogin()">Acessar Plataforma ➔</button>
 
-          <div style="text-align:center; margin-top:16px;">
+          <div style="text-align:center; margin-top:18px;">
             <span id="btn-trial-trigger-auth" style="font-size:11px; color:var(--neon-green); font-weight:800; cursor:pointer; text-transform:uppercase; display:none;" onclick="ativarTrial48h()">
               Ainda não tem conta? Testar 48h Grátis ↗
             </span>
@@ -821,29 +978,29 @@
     </div>
   </div>
 
-  <!-- BARRA SUPERIOR SAAS MASTER & ROLES -->
+  <!-- 3. TOPBAR SAAS PROFISSIONAL & CONTROLE MASTER -->
   <div class="saas-status-bar">
     <div>
       Usuário: <strong id="lbl-logged-email">roberthaelley75@gmail.com</strong>
       <span class="badge-pill-status vitalicio" id="badge-role-user">Super Admin Vitalício</span>
     </div>
 
-    <div style="display:flex; gap:6px;">
-      <button class="btn-role-tab active" onclick="definirModoVisao('CLIENTE')">Visão Cliente</button>
-      <button class="btn-role-tab" onclick="definirModoVisao('DONO')">Painel Dono</button>
+    <div style="display:flex; gap:8px;">
+      <button class="btn-role-tab active" id="btn-role-nav-cliente" onclick="definirModoVisao('CLIENTE')">Visão Cliente</button>
+      <button class="btn-role-tab" id="btn-role-nav-dono" onclick="definirModoVisao('DONO')">Painel Dono</button>
       <button class="btn-role-tab" style="color:var(--red);" onclick="realizarLogout()">Desconectar</button>
     </div>
   </div>
 
-  <!-- ESTRUTURA GERAL DA PLATAFORMA -->
+  <!-- 4. ESTRUTURA GERAL (DESKTOP HORIZONTAL vs MOBILE) -->
   <div class="app-main-layout">
     
-    <!-- SIDEBAR DESKTOP (DONO / ADMIN) -->
+    <!-- SIDEBAR DO DONO NO PC -->
     <aside class="desktop-sidebar" id="app-sidebar-lateral" style="display:none;">
       <div style="display:flex; align-items:center; gap:12px; margin-bottom:24px; padding-bottom:18px; border-bottom:1px solid var(--border);">
         <div class="sq-logo-rt">RT<span>.</span></div>
         <div>
-          <h2 style="font-size:14px; font-weight:800; text-transform:uppercase;" id="side-nome-barbearia">RT Mobile Barber</h2>
+          <h2 style="font-size:14px; font-weight:900; text-transform:uppercase;" id="side-nome-barbearia">RT Mobile Barber</h2>
           <p style="font-size:11px; color:var(--text-muted);">Painel do Dono</p>
         </div>
       </div>
@@ -889,42 +1046,42 @@
       <div class="workspace-inner">
 
         <!-- =======================================================
-             1. VISÃO DO CLIENTE: O PADRÃO "CASA BRAVA" COM 4 COLUNAS
+             5. VISÃO DO CLIENTE: O PADRÃO "CASA BRAVA" (EXATO AO VÍDEO)
              ======================================================= -->
         <section id="tab-cliente-portal-view" class="screen-tab-panel active">
           
-          <!-- BANNER HERO CASA BRAVA COM FOTO DO ESPAÇO FÍSICO RESTAURADA -->
+          <!-- BANNER HERO CASA BRAVA (FOTO ESPAÇO FÍSICO RESTAURADA) -->
           <div class="casa-brava-hero" id="banner-hero-establishment" style="background-image: url('https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=900');">
             <div class="hero-casa-content">
               <div class="hero-kicker-badge">BARBEARIA PREMIUM</div>
               <h1 class="hero-casa-title" id="lbl-establishment-name">Sua rotina, refinada.</h1>
               <p class="hero-casa-sub" id="lbl-establishment-address">Agende seu corte, escolha seu barbeiro e pague em segundos. Tudo na palma da mão.</p>
               
-              <button class="btn-gold-primary" style="margin-top:16px; padding:14px 28px; font-size:12px;" onclick="rolarParaAgendamento()">
+              <button class="btn-gold-primary" style="margin-top:18px; padding:15px 30px; font-size:12px;" onclick="rolarParaAgendamento()">
                 Toque para Agendar ➔
               </button>
             </div>
           </div>
 
           <!-- CARROSSEL DE SERVIÇOS (ESTILO CASA BRAVA 00:01) -->
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-            <h3 style="font-size:14px; font-weight:900; text-transform:uppercase; letter-spacing:1px; color:#fff;">Serviços em Destaque</h3>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+            <h3 style="font-size:15px; font-weight:900; text-transform:uppercase; letter-spacing:1px; color:#fff;">Serviços em Destaque</h3>
             <span style="font-size:11px; color:var(--gold); font-weight:800; cursor:pointer;" onclick="rolarParaAgendamento()">Ver Tudo ➔</span>
           </div>
           <div class="services-carousel-strip" id="carousel-servicos-cliente"></div>
 
-          <!-- SEÇÃO "NOSSOS BARBEIROS" LUXUOSOS (ESTILO CASA BRAVA 00:02) -->
-          <div style="display:flex; justify-content:space-between; align-items:center; margin:24px 0 14px;">
-            <h3 style="font-size:14px; font-weight:900; text-transform:uppercase; letter-spacing:1px; color:#fff;">Nossos Barbeiros Especialistas</h3>
+          <!-- SEÇÃO "NOSSOS BARBEIROS" (ESTILO CASA BRAVA 00:02) -->
+          <div style="display:flex; justify-content:space-between; align-items:center; margin:28px 0 16px;">
+            <h3 style="font-size:15px; font-weight:900; text-transform:uppercase; letter-spacing:1px; color:#fff;">Nossos Barbeiros Especialistas</h3>
             <span style="font-size:11px; color:var(--gold); font-weight:800; cursor:pointer;" onclick="trocarAbaMobileCliente('tab-barbeiros-painel', null)">Equipe Completa ➔</span>
           </div>
           <div id="lista-barbeiros-casa-brava"></div>
 
           <!-- PAINEL HORIZONTAL 4 COLUNAS (IMAGE_2.PNG + CASA BRAVA) -->
-          <div class="schedule-board-horizontal" id="bloco-agendamento-completo" style="margin-top:32px;">
-            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:18px; margin-bottom:20px;">
+          <div class="schedule-board-horizontal" id="bloco-agendamento-completo" style="margin-top:36px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:20px; margin-bottom:24px;">
               <div>
-                <h2 style="font-size:22px; font-weight:900;">Agende seu horário</h2>
+                <h2 style="font-size:24px; font-weight:900;">Agende seu horário</h2>
                 <div style="font-size:11px; color:var(--gold); font-weight:800; text-transform:uppercase; margin-top:4px;">Atendimento com hora marcada</div>
               </div>
               <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Seg - Sáb: 09h às 20h</div>
@@ -936,7 +1093,7 @@
               <div class="schedule-column-box">
                 <h3>1. Escolha o serviço</h3>
                 <div id="col1-services-list"></div>
-                <div style="font-size:10px; color:#64748b; margin-top:auto; padding-top:12px;">
+                <div style="font-size:10px; color:#64748b; margin-top:auto; padding-top:14px;">
                   Todos os serviços incluem toalha quente e finalização.
                 </div>
               </div>
@@ -952,7 +1109,7 @@
                 <h3>3. Escolha a data</h3>
                 <div class="calendar-pills-row" id="col3-days-pills"></div>
 
-                <h3 style="margin-top:12px;">Horários Disponíveis</h3>
+                <h3 style="margin-top:14px;">Horários Disponíveis</h3>
                 <div class="time-grid-casa-brava" id="col3-time-slots"></div>
               </div>
 
@@ -969,15 +1126,15 @@
                   <div class="receipt-row total"><span>Total:</span><strong id="sum-col4-total">R$ 95,00</strong></div>
                 </div>
 
-                <div style="font-size:10px; font-weight:800; color:var(--gold); text-transform:uppercase; margin-bottom:6px;">
+                <div style="font-size:10px; font-weight:800; color:var(--gold); text-transform:uppercase; margin-bottom:8px;">
                   Forma de Pagamento:
                 </div>
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:12px;">
-                  <button class="time-slot-btn selected" id="btn-pay-local-choice" onclick="setChoicePayment('LOCAL')">Pagar no Local</button>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:14px;">
+                  <button class="time-slot-btn selected" id="btn-pay-local-choice" onclick="setChoicePayment('LOCAL')">No Local</button>
                   <button class="time-slot-btn" id="btn-pay-pix-choice" onclick="setChoicePayment('PIX')">Pix Online</button>
                 </div>
 
-                <button class="btn-gold-primary" style="width:100%; padding:14px;" onclick="confirmarAgendamentoClienteFinal()">
+                <button class="btn-gold-primary" style="width:100%; padding:15px;" onclick="confirmarAgendamentoClienteFinal()">
                   GARANTIR MEU HORÁRIO ➔
                 </button>
               </div>
@@ -988,13 +1145,13 @@
         </section>
 
         <!-- =======================================================
-             2. LOJA DO CLIENTE: COM CARRINHO MÚLTIPLO & NEGOCIAÇÃO
+             6. LOJA DO CLIENTE: COM CARRINHO MULTIPLO & CHECKOUT
              ======================================================= -->
         <section id="tab-cliente-loja-view" class="screen-tab-panel">
           <div class="card-panel-dark">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
               <div>
-                <h3 style="font-size:15px; font-weight:900; color:var(--gold); text-transform:uppercase;">Loja de Produtos & Pomadas</h3>
+                <h3 style="font-size:16px; font-weight:900; color:var(--gold); text-transform:uppercase;">Loja de Produtos & Pomadas</h3>
                 <p style="font-size:12px; color:var(--text-muted);">Adicione múltiplos itens ao seu carrinho e retire no balcão.</p>
               </div>
               <button class="btn-gold-primary" onclick="abrirModalCarrinho()" style="display:flex; align-items:center; gap:8px;">
@@ -1007,14 +1164,48 @@
         </section>
 
         <!-- =======================================================
-             3. VISÃO DO DONO: GRADE SEMANAL DINÂMICA
+             7. VISÃO DO DONO: VISÃO GERAL & MÉTRICAS
+             ======================================================= -->
+        <section id="tab-visao-geral" class="screen-tab-panel">
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:18px; margin-bottom:24px;">
+            <div class="card-panel-dark" style="margin-bottom:0;">
+              <div style="font-size:11px; font-weight:800; color:var(--text-muted); text-transform:uppercase;">Atendimentos Hoje</div>
+              <div style="font-size:28px; font-weight:900; margin-top:6px;">14</div>
+              <div style="font-size:11px; color:var(--neon-green); font-weight:800; margin-top:8px;">● 3 na cadeira agora</div>
+            </div>
+
+            <div class="card-panel-dark" style="margin-bottom:0;">
+              <div style="font-size:11px; font-weight:800; color:var(--text-muted); text-transform:uppercase;">Faturamento Líquido</div>
+              <div style="font-size:28px; font-weight:900; color:var(--gold); margin-top:6px;">R$ 560,00</div>
+              <div style="font-size:11px; color:var(--text-muted); font-weight:700; margin-top:8px;">Descontados insumos</div>
+            </div>
+
+            <div class="card-panel-dark" style="margin-bottom:0;">
+              <div style="font-size:11px; font-weight:800; color:var(--text-muted); text-transform:uppercase;">Comissões a Pagar</div>
+              <div style="font-size:28px; font-weight:900; color:#cbd5e1; margin-top:6px;">R$ 224,00</div>
+              <div style="font-size:11px; color:var(--text-muted); font-weight:700; margin-top:8px;">40% para os barbeiros</div>
+            </div>
+          </div>
+
+          <div class="card-panel-dark">
+            <h3 style="font-size:15px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:14px;">Trilha de Auditoria (Audit Log)</h3>
+            <div style="font-size:12px; color:#cbd5e1; line-height:1.8;">
+              <div>• 14:20 — Dono alterou o valor de "Corte Degradê" para R$ 60,00</div>
+              <div>• 13:45 — Operador lançou atendimento balcão com pagamento Pix</div>
+              <div>• 12:00 — Caixa auditado e conciliado sem divergências</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- =======================================================
+             8. VISÃO DO DONO: GRADE SEMANAL DA EQUIPE
              ======================================================= -->
         <section id="tab-matriz-equipe" class="screen-tab-panel">
           <div class="card-panel-dark">
             <div style="display:flex; justify-content:space-between; align-items:center;">
               <div>
-                <h3 style="font-size:14px; font-weight:900; color:var(--gold); text-transform:uppercase;">Matriz Semanal de Agendamentos da Equipe</h3>
-                <p style="font-size:11px; color:var(--text-muted); margin-top:2px;">Tabela expandida automaticamente de acordo com os barbeiros da barbearia.</p>
+                <h3 style="font-size:16px; font-weight:900; color:var(--gold); text-transform:uppercase;">Matriz Semanal de Agendamentos da Equipe</h3>
+                <p style="font-size:12px; color:var(--text-muted); margin-top:3px;">Grade dinâmica expansível conforme novos barbeiros são adicionados.</p>
               </div>
               <button class="btn-gold-primary" onclick="adicionarBarbeiroPrompt()">+ Adicionar Barbeiro</button>
             </div>
@@ -1026,12 +1217,12 @@
         </section>
 
         <!-- =======================================================
-             4. VISÃO DO DONO: SERVIÇOS & PREÇOS
+             9. VISÃO DO DONO: SERVIÇOS & PREÇOS
              ======================================================= -->
         <section id="tab-servicos-tabela" class="screen-tab-panel">
           <div class="card-panel-dark">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-              <h3 style="font-size:14px; font-weight:900; color:var(--gold); text-transform:uppercase;">Catálogo de Cortes & Procedimentos</h3>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
+              <h3 style="font-size:16px; font-weight:900; color:var(--gold); text-transform:uppercase;">Catálogo de Procedimentos & Preços</h3>
               <button class="btn-gold-primary" onclick="adicionarServicoPrompt()">+ Novo Procedimento</button>
             </div>
             <div id="lista-servicos-completa-gestao"></div>
@@ -1039,12 +1230,12 @@
         </section>
 
         <!-- =======================================================
-             5. VISÃO DO DONO: BARBEIROS, WHATSAPP & INSTAGRAM
+             10. VISÃO DO DONO: BARBEIROS, WHATSAPP & INSTAGRAM
              ======================================================= -->
         <section id="tab-barbeiros-painel" class="screen-tab-panel">
           <div class="card-panel-dark">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-              <h3 style="font-size:14px; font-weight:900; color:var(--gold); text-transform:uppercase;">Equipe de Barbeiros & Contato Direto</h3>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
+              <h3 style="font-size:16px; font-weight:900; color:var(--gold); text-transform:uppercase;">Equipe de Barbeiros & Contato Direto</h3>
               <button class="btn-gold-primary" onclick="adicionarBarbeiroCompletoPrompt()">+ Cadastrar Novo Barbeiro</button>
             </div>
             <div id="lista-barbeiros-cards-completos"></div>
@@ -1052,45 +1243,45 @@
         </section>
 
         <!-- =======================================================
-             6. VISÃO DO DONO: ESTOQUE DE PRODUTOS & AJUSTE DE PREÇO
+             11. VISÃO DO DONO: ESTOQUE DA LOJA
              ======================================================= -->
         <section id="tab-estoque-geral" class="screen-tab-panel">
           <div class="card-panel-dark">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-              <h3 style="font-size:14px; font-weight:900; color:var(--gold); text-transform:uppercase;">Estoque de Produtos & Ajuste de Preço</h3>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
+              <h3 style="font-size:16px; font-weight:900; color:var(--gold); text-transform:uppercase;">Estoque de Produtos & Ajuste de Preço</h3>
               <button class="btn-gold-primary" onclick="cadastrarProdutoEstoquePrompt()">+ Novo Produto</button>
             </div>
-            <div id="grid-estoque-produtos-admin" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(240px, 1fr)); gap:14px;"></div>
+            <div id="grid-estoque-produtos-admin" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(240px, 1fr)); gap:16px;"></div>
           </div>
         </section>
 
         <!-- =======================================================
-             7. VISÃO DO DONO: COMANDAS & CAIXA CEGO
+             12. VISÃO DO DONO: CAIXA & FECHAMENTO CEGO
              ======================================================= -->
         <section id="tab-caixa-comandas" class="screen-tab-panel">
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:22px;">
             <div class="card-panel-dark">
-              <h3 style="font-size:14px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:12px;">Comandas na Cadeira</h3>
+              <h3 style="font-size:15px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:14px;">Comandas na Cadeira</h3>
               <div id="lista-comandas-ativas"></div>
             </div>
 
             <div class="card-panel-dark">
-              <h3 style="font-size:14px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:12px;">Fechamento Cego de Caixa</h3>
+              <h3 style="font-size:15px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:14px;">Fechamento Cego de Caixa</h3>
               <input type="number" id="inp-fech-dinheiro" class="form-input-field" placeholder="Total em Dinheiro (R$)" value="120.00">
               <input type="number" id="inp-fech-cartao" class="form-input-field" placeholder="Comprovantes Cartão (R$)" value="60.00">
               <button class="btn-gold-primary" style="width:100%;" onclick="apurarFechamentoCego()">Realizar Fechamento Cego ↗</button>
-              <div id="box-resultado-fechamento-cego" style="display:none; margin-top:14px; padding:12px; border-radius:10px; background:#141724; font-size:11px;"></div>
+              <div id="box-resultado-fechamento-cego" style="display:none; margin-top:16px; padding:14px; border-radius:12px; background:#141724; font-size:12px;"></div>
             </div>
           </div>
         </section>
 
         <!-- =======================================================
-             8. VISÃO DO DONO: CONFIGURAÇÕES & SUPABASE
+             13. VISÃO DO DONO: CONFIGURAÇÕES & SUPABASE
              ======================================================= -->
         <section id="tab-configuracoes-db" class="screen-tab-panel">
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:22px;">
             <div class="card-panel-dark">
-              <h3 style="font-size:14px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:12px;">Conexão Supabase / Banco de Dados</h3>
+              <h3 style="font-size:15px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:14px;">Conexão Supabase / Banco de Dados</h3>
               <label style="font-size:10px; color:var(--text-muted); text-transform:uppercase;">SUPABASE_URL:</label>
               <input type="text" id="cfg-supabase-url" class="form-input-field" value="https://ptzuiinoiycohhnihcmh.supabase.co">
 
@@ -1101,11 +1292,11 @@
             </div>
 
             <div class="card-panel-dark">
-              <h3 style="font-size:14px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:12px;">Link Oficial para Bio do Instagram</h3>
+              <h3 style="font-size:15px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:14px;">Link Oficial para Bio do Instagram</h3>
               <input type="text" id="inp-slug-bio" class="form-input-field" readonly value="https://rt-mobile-barber.onrender.com/unidade-centro">
-              <button class="btn-gold-primary" style="width:100%; margin-bottom:18px;" onclick="copiarLinkBio()">Copiar Link da Bio 📋</button>
+              <button class="btn-gold-primary" style="width:100%; margin-bottom:20px;" onclick="copiarLinkBio()">Copiar Link da Bio 📋</button>
 
-              <h3 style="font-size:14px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:12px;">Dados da Barbearia & Pix</h3>
+              <h3 style="font-size:15px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:14px;">Dados da Barbearia & Pix</h3>
               <input type="text" id="cfg-inp-nome" class="form-input-field" value="RT Mobile Barber">
               <input type="text" id="cfg-inp-endereco" class="form-input-field" value="Centro, Santa Izabel do Pará – PA">
               <input type="text" id="cfg-inp-foto" class="form-input-field" value="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=900">
@@ -1121,8 +1312,7 @@
   </div>
 
   <!-- =========================================================
-       ILHA FLUTUANTE INFERIOR DOCK DO CLIENTE (MOBILE)
-       [Início] [Agenda] [Tesoura] [Loja] [Equipe]
+       ILHAS FLUTUANTES SEPARADAS (MOBILE EXCLUSIVO COM EMOJIS)
        ========================================================= -->
   <nav class="floating-bottom-dock" id="dock-cliente-mobile">
     <button class="dock-tab-btn active" onclick="trocarAbaMobileCliente('tab-cliente-portal-view', this)">
@@ -1139,7 +1329,6 @@
       ✂️
     </div>
 
-    <!-- LOJA DE PRODUTOS PARA O CLIENTE -->
     <button class="dock-tab-btn" onclick="trocarAbaMobileCliente('tab-cliente-loja-view', this)">
       🛍️
       <span class="lbl">Loja</span>
@@ -1151,9 +1340,6 @@
     </button>
   </nav>
 
-  <!-- =========================================================
-       ILHA FLUTUANTE INFERIOR DOCK DO DONO (COM EMOJIS MODERNOS!)
-       ========================================================= -->
   <nav class="floating-bottom-dock" id="dock-dono-mobile" style="display:none;">
     <button class="dock-tab-btn active" onclick="trocarAbaWorkspace('tab-matriz-equipe', this)">
       📊
@@ -1176,17 +1362,17 @@
     </button>
   </nav>
 
-  <!-- MODAL DO CARRINHO MULTIPLO & CHECKOUT COMPLETO (REQUISITO A) -->
+  <!-- MODAL DO CARRINHO MÚLTIPLO & CHECKOUT COMPLETO -->
   <div id="cart-slide-modal">
     <div class="cart-box-container">
-      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:12px; margin-bottom:16px;">
-        <h3 style="font-size:15px; font-weight:900; color:var(--gold); text-transform:uppercase;">Sua Sacola de Compras</h3>
-        <button onclick="fecharModalCarrinho()" style="background:#1e2333; border:none; color:#fff; width:28px; height:28px; border-radius:50%; cursor:pointer;">✕</button>
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:14px; margin-bottom:18px;">
+        <h3 style="font-size:16px; font-weight:900; color:var(--gold); text-transform:uppercase;">Sua Sacola de Compras</h3>
+        <button onclick="fecharModalCarrinho()" style="background:#1e2333; border:none; color:#fff; width:30px; height:30px; border-radius:50%; cursor:pointer;">✕</button>
       </div>
 
-      <div id="cart-items-list" style="margin-bottom:16px;"></div>
+      <div id="cart-items-list" style="margin-bottom:18px;"></div>
 
-      <div style="display:flex; justify-content:space-between; font-size:15px; font-weight:900; margin-bottom:16px; border-top:1px dashed #333; padding-top:12px;">
+      <div style="display:flex; justify-content:space-between; font-size:16px; font-weight:900; margin-bottom:18px; border-top:1px dashed #333; padding-top:14px;">
         <span>Total a Pagar:</span>
         <span style="color:var(--gold);" id="lbl-total-carrinho">R$ 0,00</span>
       </div>
@@ -1194,37 +1380,37 @@
       <label style="font-size:11px; font-weight:800; color:var(--text-muted); text-transform:uppercase; margin-bottom:6px; display:block;">Nome de quem comprou:</label>
       <input type="text" id="cart-buyer-name" class="form-input-field" placeholder="Ex: Lucas Silva" required>
 
-      <div style="background:#141724; padding:12px; border-radius:12px; border:1px solid var(--border); margin-bottom:14px;">
-        <span style="font-size:11px; font-weight:800; color:#cbd5e1; display:block; margin-bottom:8px;">Quem vai buscar na barbearia?</span>
+      <div style="background:#141724; padding:14px; border-radius:14px; border:1px solid var(--border); margin-bottom:16px;">
+        <span style="font-size:11px; font-weight:800; color:#cbd5e1; display:block; margin-bottom:10px;">Quem vai buscar na barbearia?</span>
         <div style="display:flex; gap:8px;">
           <button type="button" id="btn-retirada-eu" class="time-slot-btn selected" style="flex:1;" onclick="setRetiradaTipo('EU')">Eu Mesmo</button>
           <button type="button" id="btn-retirada-outro" class="time-slot-btn" style="flex:1;" onclick="setRetiradaTipo('OUTRO')">Outra Pessoa</button>
         </div>
 
-        <div id="box-outro-nome" style="display:none; margin-top:10px;">
+        <div id="box-outro-nome" style="display:none; margin-top:12px;">
           <input type="text" id="cart-pickup-other-name" class="form-input-field" placeholder="Nome completo de quem vai retirar">
         </div>
       </div>
 
       <!-- PIX DA BARBEARIA COM QR CODE E COPIAR E COLAR -->
-      <div style="background:#090a10; padding:14px; border-radius:14px; border:1px solid #333; text-align:center; margin-bottom:16px;">
-        <div style="background:#fff; padding:8px; border-radius:10px; display:inline-block; margin-bottom:8px;">
+      <div style="background:#090a10; padding:16px; border-radius:16px; border:1px solid #333; text-align:center; margin-bottom:18px;">
+        <div style="background:#fff; padding:10px; border-radius:12px; display:inline-block; margin-bottom:10px;">
           <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=00020126580014BR.GOV.BCB.PIX0136contato@rtmobilebarber.com.br520400005303986540545.005802BR" style="width:110px; height:110px; display:block;">
         </div>
-        <div style="font-size:11px; color:#cbd5e1; margin-bottom:6px;">Chave Pix: <strong>contato@rtmobilebarber.com.br</strong></div>
-        <button class="btn-dark-secondary" style="font-size:11px; padding:6px 14px;" onclick="navigator.clipboard.writeText('contato@rtmobilebarber.com.br'); alert('Chave Pix copiada com sucesso!');">
+        <div style="font-size:11px; color:#cbd5e1; margin-bottom:8px;">Chave Pix: <strong>contato@rtmobilebarber.com.br</strong></div>
+        <button class="btn-dark-secondary" style="font-size:11px; padding:8px 16px;" onclick="navigator.clipboard.writeText('contato@rtmobilebarber.com.br'); alert('Chave Pix copiada com sucesso!');">
           Copiar Chave Pix 📋
         </button>
       </div>
 
-      <button class="btn-gold-primary" style="width:100%; padding:14px; background:#25d366; color:#000;" onclick="finalizarPedidoProdutosWhatsApp()">
+      <button class="btn-gold-primary" style="width:100%; padding:15px; background:#25d366; color:#000;" onclick="finalizarPedidoProdutosWhatsApp()">
         Enviar Comprovante no WhatsApp 💬
       </button>
     </div>
   </div>
 
   <script>
-    // 1. INICIALIZAÇÃO E REMOÇÃO GARANTIDA DA SPLASH
+    // 1. REMOÇÃO INCONDICIONAL DA SPLASH (NUNCA TRAVA)
     (function removerSplash() {
       const splash = document.getElementById('splash-screen');
       if (!splash) return;
@@ -1286,13 +1472,13 @@
       { dia: 'SÁB', num: '20 jun' }
     ];
 
-    let servicoSelecionado = servicosDB[2]; // Combo Corte + Barba R$ 95
-    let barbeiroSelecionado = barbeirosDB[0]; // Vicente Cruz
+    let servicoSelecionado = servicosDB[2];
+    let barbeiroSelecionado = barbeirosDB[0];
     let diaSelecionadoTxt = 'Segunda-Feira, 15 de Junho';
     let horaSelecionada = '11:30';
     let metodoPagamento = 'LOCAL';
 
-    // RENDERIZAÇÃO & RESTAURAÇÃO DE SESSÃO PERSISTENTE
+    // RENDERIZAÇÃO & PERSISTÊNCIA REAL
     window.addEventListener('load', () => {
       renderizarTudo();
       verificarSessaoPersistida();
@@ -1309,7 +1495,105 @@
       renderizarEstoqueGestao();
     }
 
-    // 1. CARROSSEL DE SERVIÇOS (ESTILO CASA BRAVA 00:01)
+    // APLICAÇÃO DE SESSÃO & PERSISTÊNCIA EM LOCALSTORAGE
+    function aplicarSessao(email, role) {
+      sessaoUsuario.email = email;
+      sessaoUsuario.role = role;
+      sessaoUsuario.autenticado = true;
+      document.getElementById('lbl-logged-email').innerText = email;
+
+      if (email.toLowerCase() === 'roberthaelley75@gmail.com' || role === 'SUPER_ADMIN') {
+        sessaoUsuario.role = 'SUPER_ADMIN';
+        document.getElementById('badge-role-user').className = 'badge-pill-status vitalicio';
+        document.getElementById('badge-role-user').innerText = 'Super Admin Vitalício';
+        definirModoVisao('DONO');
+      } else if (role === 'DONO') {
+        document.getElementById('badge-role-user').className = 'badge-pill-status trial';
+        document.getElementById('badge-role-user').innerText = 'Painel Barbearia';
+        definirModoVisao('DONO');
+      } else {
+        document.getElementById('badge-role-user').className = 'badge-pill-status';
+        document.getElementById('badge-role-user').innerText = 'Cliente Autenticado';
+        definirModoVisao('CLIENTE');
+      }
+
+      document.getElementById('auth-screen-overlay').classList.add('hidden');
+    }
+
+    function realizarLogin() {
+      const email = document.getElementById('auth-inp-email').value.trim();
+      const senha = document.getElementById('auth-inp-senha').value.trim();
+      if (!email || !email.includes('@')) { alert('Por favor, digite um e-mail válido.'); return; }
+      if (!senha || senha.length < 6) { alert('A senha deve conter no mínimo 6 caracteres.'); return; }
+
+      const role = (email.toLowerCase() === 'roberthaelley75@gmail.com') ? 'SUPER_ADMIN' : (document.getElementById('btn-tab-auth-dono').classList.contains('active') ? 'DONO' : 'CLIENTE');
+
+      localStorage.setItem('rt_auth_session', JSON.stringify({ email: email.toLowerCase(), role: role, loggedAt: Date.now() }));
+      aplicarSessao(email, role);
+    }
+
+    function verificarSessaoPersistida() {
+      try {
+        const salva = localStorage.getItem('rt_auth_session');
+        if (salva) {
+          const dados = JSON.parse(salva);
+          if (dados && dados.email) {
+            aplicarSessao(dados.email, dados.role);
+            return true;
+          }
+        }
+      } catch (e) {
+        console.error('Erro ao ler sessão salva', e);
+      }
+      return false;
+    }
+
+    function realizarLogout() {
+      sessaoUsuario.autenticado = false;
+      sessaoUsuario.email = null;
+      localStorage.removeItem('rt_auth_session');
+      document.getElementById('auth-inp-senha').value = '';
+      document.getElementById('auth-screen-overlay').classList.remove('hidden');
+    }
+
+    function alternarAbaAuth(tipo) {
+      document.getElementById('btn-tab-auth-cliente').className = 'auth-tab-btn' + (tipo === 'CLIENTE' ? ' active' : '');
+      document.getElementById('btn-tab-auth-dono').className = 'auth-tab-btn' + (tipo === 'DONO' ? ' active' : '');
+      document.getElementById('btn-trial-trigger-auth').style.display = tipo === 'DONO' ? 'inline' : 'none';
+    }
+
+    function ativarTrial48h() {
+      const email = prompt("Informe o e-mail da sua Barbearia para ativar 48h Grátis:");
+      if (!email || !email.includes('@')) return;
+      localStorage.setItem('rt_auth_session', JSON.stringify({ email: email.toLowerCase(), role: 'DONO', loggedAt: Date.now() }));
+      aplicarSessao(email, 'DONO');
+    }
+
+    function definirModoVisao(modo) {
+      const sidebar = document.getElementById('app-sidebar-lateral');
+      const dockCliente = document.getElementById('dock-cliente-mobile');
+      const dockDono = document.getElementById('dock-dono-mobile');
+      const btnCliente = document.getElementById('btn-role-nav-cliente');
+      const btnDono = document.getElementById('btn-role-nav-dono');
+
+      if (modo === 'CLIENTE') {
+        sidebar.style.display = 'none';
+        dockCliente.style.display = 'flex';
+        dockDono.style.display = 'none';
+        btnCliente.classList.add('active');
+        btnDono.classList.remove('active');
+        trocarAbaWorkspace('tab-cliente-portal-view', null);
+      } else {
+        sidebar.style.display = 'flex';
+        dockCliente.style.display = 'none';
+        dockDono.style.display = 'flex';
+        btnDono.classList.add('active');
+        btnCliente.classList.remove('active');
+        trocarAbaWorkspace('tab-matriz-equipe', null);
+      }
+    }
+
+    // CARROSSEL DE SERVIÇOS (CASA BRAVA)
     function renderizarCarrosselServicosCliente() {
       const c = document.getElementById('carousel-servicos-cliente');
       if (!c) return;
@@ -1332,7 +1616,7 @@
       });
     }
 
-    // 2. LISTA DE BARBEIROS (ESTILO CASA BRAVA 00:02)
+    // LISTA DE BARBEIROS (CASA BRAVA)
     function renderizarBarbeirosCasaBrava() {
       const container = document.getElementById('lista-barbeiros-casa-brava');
       if (!container) return;
@@ -1366,9 +1650,8 @@
       });
     }
 
-    // 3. PAINEL 4 COLUNAS HORIZONTAL (CASA BRAVA)
+    // PAINEL HORIZONTAL 4 COLUNAS
     function renderizarPainelHorizontal4Colunas() {
-      // Coluna 1
       const col1 = document.getElementById('col1-services-list');
       if (col1) {
         col1.innerHTML = '';
@@ -1395,7 +1678,6 @@
         });
       }
 
-      // Coluna 2
       const col2 = document.getElementById('col2-barbeiros-list');
       if (col2) {
         col2.innerHTML = '';
@@ -1423,7 +1705,6 @@
         });
       }
 
-      // Coluna 3: Pílulas de Dias
       const col3Days = document.getElementById('col3-days-pills');
       if (col3Days) {
         col3Days.innerHTML = '';
@@ -1442,7 +1723,6 @@
         });
       }
 
-      // Coluna 3: Horários
       const col3Hours = document.getElementById('col3-time-slots');
       if (col3Hours) {
         col3Hours.innerHTML = '';
@@ -1492,7 +1772,7 @@
       document.getElementById('bloco-agendamento-completo').scrollIntoView({ behavior: 'smooth' });
     }
 
-    // 4. LOJA DO CLIENTE: CARRINHO MÚLTIPLO & CHECKOUT COMPLETO
+    // LOJA & CARRINHO MÚLTIPLO
     function renderizarLojaCliente() {
       const grid = document.getElementById('grid-loja-cliente-produtos');
       if (!grid) return;
@@ -1503,12 +1783,12 @@
         div.innerHTML = `
           <img src="${p.img}">
           <div>
-            <h4 style="font-size:13px; font-weight:900;">${p.nome}</h4>
-            <div style="font-size:10px; color:var(--neon-green); font-weight:800; margin:4px 0;">● ${p.estoque} unidades disponíveis</div>
+            <h4 style="font-size:14px; font-weight:900;">${p.nome}</h4>
+            <div style="font-size:11px; color:var(--neon-green); font-weight:800; margin:4px 0;">● ${p.estoque} unidades disponíveis</div>
           </div>
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px;">
-            <strong style="color:var(--gold); font-size:14px;">R$ ${p.preco.toFixed(2)}</strong>
-            <button class="btn-gold-primary" style="padding:6px 12px; font-size:10px;" onclick="adicionarAoCarrinho('${p.id}')">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px;">
+            <strong style="color:var(--gold); font-size:15px;">R$ ${p.preco.toFixed(2)}</strong>
+            <button class="btn-gold-primary" style="padding:8px 14px; font-size:10px;" onclick="adicionarAoCarrinho('${p.id}')">
               + Carrinho
             </button>
           </div>
@@ -1553,16 +1833,16 @@
         const sub = item.preco * item.qtd;
         total += sub;
         const row = document.createElement('div');
-        row.style.display = 'flex'; row.style.justifyContent = 'space-between'; row.style.alignItems = 'center'; row.style.padding = '8px 0'; row.style.borderBottom = '1px solid var(--border)';
+        row.style.display = 'flex'; row.style.justifyContent = 'space-between'; row.style.alignItems = 'center'; row.style.padding = '10px 0'; row.style.borderBottom = '1px solid var(--border)';
         row.innerHTML = `
           <div>
-            <strong style="font-size:12px; color:#fff;">${item.nome}</strong>
-            <div style="font-size:11px; color:var(--gold);">R$ ${item.preco.toFixed(2)} x ${item.qtd}</div>
+            <strong style="font-size:13px; color:#fff;">${item.nome}</strong>
+            <div style="font-size:12px; color:var(--gold);">R$ ${item.preco.toFixed(2)} x ${item.qtd}</div>
           </div>
           <div>
-            <button onclick="alterarQtdSacola(${idx}, -1)" class="btn-dark-secondary" style="padding:2px 8px;">-</button>
-            <span style="font-weight:900; margin:0 6px; font-size:12px;">${item.qtd}</span>
-            <button onclick="alterarQtdSacola(${idx}, 1)" class="btn-dark-secondary" style="padding:2px 8px;">+</button>
+            <button onclick="alterarQtdSacola(${idx}, -1)" class="btn-dark-secondary" style="padding:4px 10px;">-</button>
+            <span style="font-weight:900; margin:0 8px; font-size:13px;">${item.qtd}</span>
+            <button onclick="alterarQtdSacola(${idx}, 1)" class="btn-dark-secondary" style="padding:4px 10px;">+</button>
           </div>
         `;
         container.appendChild(row);
@@ -1599,27 +1879,27 @@
       atualizarContadorSacola();
     }
 
-    // 5. MATRIZ SEMANAL EXPANSÍVEL (DONO)
+    // MATRIZ SEMANAL EXPANSÍVEL (DONO)
     function renderizarTabelaMatrizEquipe() {
       const tabela = document.getElementById('tabela-matriz-equipe');
       if (!tabela) return;
-      let thead = '<thead><tr><th style="padding:10px; background:#141724; color:var(--gold); border:1px solid var(--border);">Horário</th>';
+      let thead = '<thead><tr><th style="padding:12px 10px; background:#141724; color:var(--gold); border:1px solid var(--border);">Horário</th>';
       barbeirosDB.forEach(b => {
-        thead += `<th style="padding:10px; background:#141724; color:var(--gold); border:1px solid var(--border);">${b.nome}</th>`;
+        thead += `<th style="padding:12px 10px; background:#141724; color:var(--gold); border:1px solid var(--border);">${b.nome}</th>`;
       });
       thead += '</tr></thead>';
 
       const horas = ['09:00', '10:00', '11:00', '11:30', '14:00', '15:00', '16:00', '17:00', '18:00'];
       let tbody = '<tbody>';
       horas.forEach((h, hIdx) => {
-        tbody += `<tr><td style="padding:8px; border:1px solid var(--border); font-weight:800; color:var(--gold);">${h}</td>`;
+        tbody += `<tr><td style="padding:10px; border:1px solid var(--border); font-weight:800; color:var(--gold);">${h}</td>`;
         barbeirosDB.forEach((b, bIdx) => {
           if (!b.presenteHoje) {
-            tbody += `<td style="padding:8px; border:1px solid var(--border); color:#64748b;">Folga</td>`;
+            tbody += `<td style="padding:10px; border:1px solid var(--border); color:#64748b;">Folga</td>`;
           } else if ((hIdx + bIdx) % 3 === 0) {
-            tbody += `<td style="padding:8px; border:1px solid var(--border); background:rgba(212,163,115,0.15); color:var(--gold); font-weight:800;">Reservado</td>`;
+            tbody += `<td style="padding:10px; border:1px solid var(--border);"><span class="slot-booked">Reservado</span></td>`;
           } else {
-            tbody += `<td style="padding:8px; border:1px solid var(--border); color:var(--neon-green);">Livre</td>`;
+            tbody += `<td style="padding:10px; border:1px solid var(--border); color:var(--neon-green); font-weight:700;">Livre</td>`;
           }
         });
         tbody += '</tr>';
@@ -1628,7 +1908,6 @@
       tabela.innerHTML = thead + tbody;
     }
 
-    // 6. BARBEIROS COMPLETOS COM WHATSAPP DIRETO (DONO)
     function renderizarBarbeirosCompletosDono() {
       const container = document.getElementById('lista-barbeiros-cards-completos');
       if (!container) return;
@@ -1642,12 +1921,12 @@
             <div>
               <div class="barber-rank-title">${b.rank}</div>
               <div class="barber-name-txt">${b.nome}</div>
-              <div style="font-size:11px; color:var(--blue); margin-top:2px;">Instagram: ${b.instagram}</div>
-              <div style="font-size:11px; color:#cbd5e1; margin-top:2px;">WhatsApp: ${b.whatsapp}</div>
+              <div style="font-size:12px; color:var(--blue); margin-top:2px;">Instagram: ${b.instagram}</div>
+              <div style="font-size:12px; color:#cbd5e1; margin-top:2px;">WhatsApp: ${b.whatsapp}</div>
             </div>
           </div>
           <div style="display:flex; gap:8px;">
-            <a href="https://wa.me/${b.whatsapp}?text=Olá%20${encodeURIComponent(b.nome)},%20gostaria%20de%20falar%20sobre%20atendimentos!" target="_blank" class="btn-dark-secondary" style="padding:8px 12px; font-size:11px; text-decoration:none;">
+            <a href="https://wa.me/${b.whatsapp}?text=Olá%20${encodeURIComponent(b.nome)},%20gostaria%20de%20falar%20sobre%20atendimentos!" target="_blank" class="btn-dark-secondary" style="padding:10px 14px; font-size:11px; text-decoration:none;">
               WhatsApp Direto 💬
             </a>
           </div>
@@ -1656,44 +1935,43 @@
       });
     }
 
-    function adicionarBarbeiroCompletoPrompt() {
+    function adicionarBarbeiroPrompt() {
       const nome = prompt("Nome do Barbeiro:");
       if (!nome) return;
-      const rank = prompt("Cargo / Nível (ex: MASTER BARBER, SENIOR BARBER):", "MASTER BARBER");
-      const insta = prompt("Instagram:", "@barbeiro.rt");
-      const whats = prompt("WhatsApp com DDD:", "5591984551100");
-
       barbeirosDB.push({
         id: 'b_' + Date.now(),
         nome: nome.trim(),
-        rank: rank.toUpperCase().trim(),
+        rank: 'STYLIST',
         nota: '5.0 (0)',
         foto: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=300',
-        instagram: insta,
-        whatsapp: whats,
+        instagram: '@barber.rt',
+        whatsapp: '5591984551100',
         tags: ['CORTE', 'BARBA'],
         presenteHoje: true
       });
       renderizarTudo();
-      alert(`Barbeiro "${nome}" adicionado com sucesso!`);
+      alert(`Barbeiro "${nome}" adicionado à grade!`);
     }
 
-    // 7. GESTÃO DE SERVIÇOS & PREÇOS
+    function adicionarBarbeiroCompletoPrompt() {
+      adicionarBarbeiroPrompt();
+    }
+
     function renderizarServicosGestao() {
       const container = document.getElementById('lista-servicos-completa-gestao');
       if (!container) return;
       container.innerHTML = '';
       servicosDB.forEach((s, idx) => {
         const row = document.createElement('div');
-        row.style.display = 'flex'; row.style.justifyContent = 'space-between'; row.style.alignItems = 'center'; row.style.background = '#151824'; row.style.padding = '12px 18px'; row.style.borderRadius = '12px'; row.style.marginBottom = '8px';
+        row.style.display = 'flex'; row.style.justifyContent = 'space-between'; row.style.alignItems = 'center'; row.style.background = '#151824'; row.style.padding = '14px 20px'; row.style.borderRadius = '14px'; row.style.marginBottom = '10px';
         row.innerHTML = `
-          <div><h4 style="font-size:12px; font-weight:800; text-transform:uppercase;">${s.nome}</h4><span style="font-size:10px; color:var(--text-muted);">${s.duracao}</span></div>
-          <div style="display:flex; align-items:center; gap:12px;">
-            <div style="display:flex; align-items:center; background:#090a10; border:1px solid var(--border); border-radius:8px; padding:4px 8px;">
-              <span style="font-size:10px; color:var(--gold); font-weight:800;">R$</span>
-              <input type="number" step="0.50" value="${s.preco.toFixed(2)}" onchange="alterarPrecoServico(${idx}, this.value)" style="background:transparent; border:none; color:#fff; font-size:12px; font-weight:900; width:55px; text-align:right; outline:none;">
+          <div><h4 style="font-size:13px; font-weight:800; text-transform:uppercase;">${s.nome}</h4><span style="font-size:11px; color:var(--text-muted);">${s.duracao}</span></div>
+          <div style="display:flex; align-items:center; gap:14px;">
+            <div style="display:flex; align-items:center; background:#090a10; border:1px solid var(--border); border-radius:10px; padding:6px 10px;">
+              <span style="font-size:11px; color:var(--gold); font-weight:800;">R$</span>
+              <input type="number" step="0.50" value="${s.preco.toFixed(2)}" onchange="alterarPrecoServico(${idx}, this.value)" style="background:transparent; border:none; color:#fff; font-size:13px; font-weight:900; width:60px; text-align:right; outline:none;">
             </div>
-            <label class="switch-ui"><input type="checkbox" ${s.ativo ? 'checked' : ''} onchange="toggleServicoAtivo(${idx}, this.checked)"><span class="slider-ui"></span></label>
+            <button onclick="toggleServicoAtivo(${idx}, ${!s.ativo})" class="btn-dark-secondary" style="padding:6px 12px; font-size:10px;">${s.ativo ? 'Ativo' : 'Oculto'}</button>
           </div>
         `;
         container.appendChild(row);
@@ -1708,9 +1986,7 @@
 
     function toggleServicoAtivo(idx, val) {
       servicosDB[idx].ativo = val;
-      renderizarServicosGestao();
-      renderizarCarrosselServicosCliente();
-      renderizarPainelHorizontal4Colunas();
+      renderizarTudo();
     }
 
     function adicionarServicoPrompt() {
@@ -1721,25 +1997,24 @@
       renderizarTudo();
     }
 
-    // 8. ESTOQUE & PREÇO DOS PRODUTOS
     function renderizarEstoqueGestao() {
       const grid = document.getElementById('grid-estoque-produtos-admin');
       if (!grid) return;
       grid.innerHTML = '';
       estoqueDB.forEach((p, idx) => {
         const div = document.createElement('div');
-        div.style.background = '#151824'; div.style.padding = '14px'; div.style.borderRadius = '12px'; div.style.border = '1px solid var(--border)';
+        div.style.background = '#151824'; div.style.padding = '16px'; div.style.borderRadius = '16px'; div.style.border = '1px solid var(--border)';
         div.innerHTML = `
-          <strong style="font-size:12px; color:#fff;">${p.nome}</strong>
-          <div style="font-size:10px; color:${p.estoque < 3 ? 'var(--red)' : 'var(--neon-green)'}; font-weight:800; margin:4px 0;">● ${p.estoque} un (${p.estoque < 3 ? 'Estoque Baixo!' : 'Disponível'})</div>
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px;">
-            <div style="display:flex; align-items:center; background:#090a10; border:1px solid var(--border); border-radius:6px; padding:3px 6px;">
-              <span style="font-size:10px; color:var(--gold); font-weight:800;">R$</span>
-              <input type="number" step="0.50" value="${p.preco.toFixed(2)}" onchange="alterarPrecoProduto(${idx}, this.value)" style="background:transparent; border:none; color:#fff; font-size:11px; font-weight:900; width:45px; text-align:right; outline:none;">
+          <strong style="font-size:13px; color:#fff;">${p.nome}</strong>
+          <div style="font-size:11px; color:${p.estoque < 3 ? 'var(--red)' : 'var(--neon-green)'}; font-weight:800; margin:6px 0;">● ${p.estoque} un (${p.estoque < 3 ? 'Estoque Baixo!' : 'Disponível'})</div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px;">
+            <div style="display:flex; align-items:center; background:#090a10; border:1px solid var(--border); border-radius:8px; padding:4px 8px;">
+              <span style="font-size:11px; color:var(--gold); font-weight:800;">R$</span>
+              <input type="number" step="0.50" value="${p.preco.toFixed(2)}" onchange="alterarPrecoProduto(${idx}, this.value)" style="background:transparent; border:none; color:#fff; font-size:12px; font-weight:900; width:50px; text-align:right; outline:none;">
             </div>
             <div>
-              <button onclick="alterarEstoque(${idx}, 1)" style="background:#1e2233; color:#fff; border:none; padding:4px 8px; border-radius:6px; cursor:pointer; font-weight:900;">+</button>
-              <button onclick="alterarEstoque(${idx}, -1)" style="background:#1e2233; color:#fff; border:none; padding:4px 8px; border-radius:6px; cursor:pointer; font-weight:900;">-</button>
+              <button onclick="alterarEstoque(${idx}, 1)" style="background:#1e2233; color:#fff; border:none; padding:6px 10px; border-radius:8px; cursor:pointer; font-weight:900;">+</button>
+              <button onclick="alterarEstoque(${idx}, -1)" style="background:#1e2233; color:#fff; border:none; padding:6px 10px; border-radius:8px; cursor:pointer; font-weight:900;">-</button>
             </div>
           </div>
         `;
@@ -1769,7 +2044,6 @@
       renderizarLojaCliente();
     }
 
-    // 9. COMANDAS & CAIXA CEGO
     function apurarFechamentoCego() {
       const d = parseFloat(document.getElementById('inp-fech-dinheiro').value) || 0;
       const c = parseFloat(document.getElementById('inp-fech-cartao').value) || 0;
@@ -1786,13 +2060,13 @@
 
     function salvarConfigSupabase() {
       const url = document.getElementById('cfg-supabase-url').value;
-      alert(`Credenciais Supabase salvas e conectadas com sucesso!
+      alert(`Credenciais Supabase salvas!
 URL: ${url}`);
     }
 
     function copiarLinkBio() {
       navigator.clipboard.writeText(document.getElementById('inp-slug-bio').value);
-      alert('Link da Bio copiado! Cole no Instagram da barbearia.');
+      alert('Link da Bio copiado! Cole no Instagram da sua barbearia.');
     }
 
     function salvarConfiguracoesGerais() {
@@ -1802,108 +2076,9 @@ URL: ${url}`);
       dadosBarbearia.chavePix = document.getElementById('cfg-inp-pix').value;
       document.getElementById('lbl-establishment-name').innerText = dadosBarbearia.nome;
       document.getElementById('lbl-establishment-address').innerText = dadosBarbearia.endereco;
+      document.getElementById('side-nome-barbearia').innerText = dadosBarbearia.nome;
       document.getElementById('banner-hero-establishment').style.backgroundImage = `url('${dadosBarbearia.foto}')`;
       alert('Configurações salvas!');
-    }
-
-    // 10. AUTH & WORKSPACE
-    function alternarAbaAuth(tipo) {
-      document.getElementById('btn-tab-auth-cliente').className = 'auth-tab-btn' + (tipo === 'CLIENTE' ? ' active' : '');
-      document.getElementById('btn-tab-auth-dono').className = 'auth-tab-btn' + (tipo === 'DONO' ? ' active' : '');
-      document.getElementById('btn-trial-trigger-auth').style.display = tipo === 'DONO' ? 'inline' : 'none';
-    }
-
-    function aplicarSessao(email, role) {
-      sessaoUsuario.email = email;
-      sessaoUsuario.role = role;
-      sessaoUsuario.autenticado = true;
-      document.getElementById('lbl-logged-email').innerText = email;
-
-      if (email.toLowerCase() === 'roberthaelley75@gmail.com' || role === 'SUPER_ADMIN') {
-        sessaoUsuario.role = 'SUPER_ADMIN';
-        document.getElementById('badge-role-user').className = 'badge-pill-status vitalicio';
-        document.getElementById('badge-role-user').innerText = 'Super Admin Vitalício';
-        definirModoVisao('DONO');
-      } else if (role === 'DONO') {
-        document.getElementById('badge-role-user').className = 'badge-pill-status trial';
-        document.getElementById('badge-role-user').innerText = 'Painel da Barbearia';
-        definirModoVisao('DONO');
-      } else {
-        document.getElementById('badge-role-user').className = 'badge-pill-status';
-        document.getElementById('badge-role-user').innerText = 'Cliente Autenticado';
-        definirModoVisao('CLIENTE');
-      }
-
-      document.getElementById('auth-screen-overlay').classList.add('hidden');
-    }
-
-    function realizarLogin() {
-      const email = document.getElementById('auth-inp-email').value.trim();
-      const senha = document.getElementById('auth-inp-senha').value.trim();
-      if (!email || !email.includes('@')) { alert('Por favor, digite um e-mail válido.'); return; }
-      if (!senha || senha.length < 6) { alert('A senha deve conter no mínimo 6 caracteres.'); return; }
-
-      const role = (email.toLowerCase() === 'roberthaelley75@gmail.com') ? 'SUPER_ADMIN' : (document.getElementById('btn-tab-auth-dono').classList.contains('active') ? 'DONO' : 'CLIENTE');
-
-      // SALVAR PERSISTÊNCIA NO LOCALSTORAGE
-      localStorage.setItem('rt_auth_session', JSON.stringify({ email: email.toLowerCase(), role: role, loggedAt: Date.now() }));
-
-      aplicarSessao(email, role);
-    }
-
-    function verificarSessaoPersistida() {
-      try {
-        const salva = localStorage.getItem('rt_auth_session');
-        if (salva) {
-          const dados = JSON.parse(salva);
-          if (dados && dados.email) {
-            aplicarSessao(dados.email, dados.role);
-            return true;
-          }
-        }
-      } catch (e) {
-        console.error('Erro ao ler sessão salva', e);
-      }
-      return false;
-    }
-
-    function ativarTrial48h() {
-      const email = prompt("Informe o e-mail da sua Barbearia para ativar 48h Grátis:");
-      if (!email || !email.includes('@')) return;
-      sessaoUsuario.email = email;
-      sessaoUsuario.role = 'DONO';
-      sessaoUsuario.autenticado = true;
-      document.getElementById('lbl-logged-email').innerText = email;
-      document.getElementById('badge-role-user').className = 'badge-pill-status trial';
-      document.getElementById('badge-role-user').innerText = 'Teste 48h Ativo';
-      document.getElementById('auth-screen-overlay').classList.add('hidden');
-      definirModoVisao('DONO');
-    }
-
-    function definirModoVisao(modo) {
-      const sidebar = document.getElementById('app-sidebar-lateral');
-      const dockCliente = document.getElementById('dock-cliente-mobile');
-      const dockDono = document.getElementById('dock-dono-mobile');
-
-      if (modo === 'CLIENTE') {
-        sidebar.style.display = 'none';
-        dockCliente.style.display = 'flex';
-        dockDono.style.display = 'none';
-        trocarAbaWorkspace('tab-cliente-portal-view', null);
-      } else {
-        sidebar.style.display = 'flex';
-        dockCliente.style.display = 'none';
-        dockDono.style.display = 'flex';
-        trocarAbaWorkspace('tab-matriz-equipe', null);
-      }
-    }
-
-    function realizarLogout() {
-      sessaoUsuario.autenticado = false;
-      sessaoUsuario.email = null;
-      localStorage.removeItem('rt_auth_session');
-      document.getElementById('auth-inp-senha').value = '';
-      document.getElementById('auth-screen-overlay').classList.remove('hidden');
     }
 
     function trocarAbaWorkspace(tabId, btn) {
