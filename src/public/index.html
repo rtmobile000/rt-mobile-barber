@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>RT Mobile Barber • Gestão Profissional</title>
+  <title>RT Mobile Barber • Sistema de Gestão Profissional</title>
   <style>
     * {
       box-sizing: border-box;
@@ -41,7 +41,7 @@
     }
 
     /* =========================================================
-       1. SPLASH SCREEN (EXECUTA APENAS NO 1º ACESSO DA SESSÃO)
+       1. SPLASH SCREEN (REMOÇÃO GARANTIDA INCONDICIONAL)
        ========================================================= */
     #splash-screen {
       position: fixed;
@@ -51,13 +51,8 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      z-index: 99999;
-      transition: opacity 0.5s ease, visibility 0.5s ease;
-    }
-    #splash-screen.hidden {
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
+      z-index: 999999;
+      transition: opacity 0.4s ease-out;
     }
     .splash-halo {
       position: absolute;
@@ -108,7 +103,7 @@
     }
 
     /* =========================================================
-       2. TELA DE AUTENTICAÇÃO REAL (CLIENTE vs ESTABELECIMENTO)
+       2. TELA DE LOGIN & ONBOARDING HÍBRIDO
        ========================================================= */
     #auth-screen-overlay {
       position: fixed;
@@ -119,7 +114,7 @@
       flex-direction: column;
       overflow-y: auto;
     }
-    #auth-screen-overlay.hidden { display: none; }
+    #auth-screen-overlay.hidden { display: none !important; }
     .auth-split-wrapper {
       display: flex;
       flex: 1;
@@ -178,9 +173,9 @@
     }
     @media (max-width: 900px) {
       .auth-split-wrapper { flex-direction: column; }
-      .auth-hero-side { min-height: 300px; padding: 24px; }
+      .auth-hero-side { min-height: 280px; padding: 24px; }
       .auth-form-side { padding: 24px; max-width: 100%; }
-      .auth-hero-title { font-size: 26px; }
+      .auth-hero-title { font-size: 24px; }
     }
 
     .auth-tabs-toggle {
@@ -239,7 +234,7 @@
     }
 
     /* =========================================================
-       BARRA SUPERIOR SAAS MASTER & CONTROLE DE ROLES
+       3. TOPBAR SAAS & BARRA DE PERMISSÕES MASTER
        ========================================================= */
     .saas-status-bar {
       background: #0d0f17;
@@ -264,7 +259,7 @@
     .badge-pill-status.trial { background: rgba(16, 185, 129, 0.15); color: var(--neon-green); border: 1px solid rgba(16, 185, 129, 0.35); }
 
     /* =========================================================
-       ESTRUTURA GERAL DA PLATAFORMA (DESKTOP HORIZONTAL vs MOBILE)
+       4. ESTRUTURA GERAL DA PLATAFORMA (DESKTOP HORIZONTAL)
        ========================================================= */
     .app-main-layout {
       display: flex;
@@ -412,7 +407,7 @@
     }
 
     /* =========================================================
-       PORTAL DO CLIENTE: BANNER, 4 COLUNAS HORIZONTAIS E LOJA
+       PORTAL DO CLIENTE: 4 COLUNAS HORIZONTAIS
        ========================================================= */
     .hero-banner-establishment {
       width: 100%;
@@ -439,7 +434,7 @@
     }
     .hero-meta-box { position: relative; z-index: 2; }
 
-    /* 4 BOTÕES COM ÍCONES REAIS */
+    /* 4 BOTÕES COM ÍCONES VETORIAIS REAIS */
     .strip-categories-4 {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -585,7 +580,7 @@
       backdrop-filter: blur(24px);
       border: 1.5px solid rgba(255, 255, 255, 0.12);
       border-radius: 999px;
-      display: none; /* Só exibe no mobile! No PC layout é horizontal */
+      display: none;
       justify-content: space-around;
       align-items: center;
       padding: 0 10px;
@@ -606,7 +601,7 @@
       justify-content: center;
       background: transparent;
       border: none;
-      color: #8e95a5; /* Texto cinza claro elegante com contraste */
+      color: #8e95a5;
       cursor: pointer;
       width: 52px;
       height: 50px;
@@ -616,7 +611,7 @@
       width: 20px;
       height: 20px;
       fill: none;
-      stroke: #8e95a5; /* SVG visível e nítido */
+      stroke: #8e95a5;
       stroke-width: 2;
     }
     .dock-tab-btn .lbl {
@@ -644,11 +639,33 @@
       transform: translateY(-8px);
       box-shadow: 0 8px 24px rgba(197, 155, 99, 0.5);
     }
+
+    /* SWITCH TOGGLE */
+    .switch-ui { position: relative; width: 40px; height: 22px; }
+    .switch-ui input { opacity: 0; width: 0; height: 0; }
+    .slider-ui {
+      position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+      background: #2b3044; border-radius: 30px; transition: .2s;
+    }
+    .slider-ui:before {
+      position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px;
+      background: #fff; border-radius: 50%; transition: .2s;
+    }
+    input:checked + .slider-ui { background: var(--neon-green); }
+    input:checked + .slider-ui:before { transform: translateX(18px); }
+
+    /* CUPOM TÉRMICO NÃO FISCAL */
+    @media print {
+      body * { visibility: hidden; }
+      #modal-cupom-print, #modal-cupom-print * { visibility: visible; }
+      #modal-cupom-print { position: absolute; left: 0; top: 0; width: 100%; }
+      .no-print { display: none !important; }
+    }
   </style>
 </head>
 <body>
 
-  <!-- SPLASH SCREEN OFICIAL (SESSIONSTORAGE) -->
+  <!-- SPLASH SCREEN OFICIAL (COM AUTORREMOÇÃO INCONDICIONAL) -->
   <div id="splash-screen">
     <div class="splash-halo"></div>
     <div class="splash-rt">RT</div>
@@ -763,7 +780,7 @@
         </button>
 
         <button class="side-nav-btn" onclick="trocarAbaWorkspace('tab-configuracoes-db', this)">
-          <svg class="svg-icon-ui" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          <svg class="svg-icon-ui" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06-.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06-.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
           Supabase, Bio & Pix
         </button>
       </nav>
@@ -955,8 +972,8 @@
               <label style="font-size:10px; color:var(--text-muted); text-transform:uppercase;">SUPABASE_URL:</label>
               <input type="text" id="cfg-supabase-url" class="form-input-field" value="https://ptzuiinoiycohhnihcmh.supabase.co">
 
-              <label style="font-size:10px; color:var(--text-muted); text-transform:uppercase;">SUPABASE_SERVICE_ROLE_KEY / ANON_KEY:</label>
-              <input type="password" id="cfg-supabase-key" class="form-input-field" value="SUA_CHAVE_AQUI">
+              <label style="font-size:10px; color:var(--text-muted); text-transform:uppercase;">SUPABASE_KEY:</label>
+              <input type="password" id="cfg-supabase-key" class="form-input-field" placeholder="Insira sua chave de API aqui">
 
               <button class="btn-gold-primary" style="width:100%;" onclick="salvarConfigSupabase()">Salvar Credenciais do Banco ↗</button>
             </div>
@@ -981,10 +998,7 @@
 
   </div>
 
-  <!-- =========================================================
-       ILHA FLUTUANTE INFERIOR DOCK DO CLIENTE (MOBILE EXCLUSIVO)
-       NÃO APARECE ESTOQUE, APARECE LOJA! ÍCONES E TEXTO NÍTIDOS!
-       ========================================================= -->
+  <!-- ILHA FLUTUANTE INFERIOR DOCK DO CLIENTE (MOBILE EXCLUSIVO) -->
   <nav class="floating-bottom-dock" id="dock-cliente-mobile">
     <button class="dock-tab-btn active" onclick="trocarAbaMobileCliente('tab-cliente-portal-view', this)">
       <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
@@ -1003,7 +1017,6 @@
       </svg>
     </div>
 
-    <!-- LOJA DE PRODUTOS PARA O CLIENTE (E NÃO ESTOQUE!) -->
     <button class="dock-tab-btn" onclick="trocarAbaMobileCliente('tab-cliente-loja-view', this)">
       <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path></svg>
       <span class="lbl">Loja</span>
@@ -1040,13 +1053,53 @@
     </button>
   </nav>
 
+  <!-- MODAL DE CUPOM TÉRMICO -->
+  <div id="modal-cupom-print" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:99995; align-items:center; justify-content:center; padding:16px;">
+    <div style="background:#fff; color:#000; font-family:monospace; max-width:360px; width:100%; padding:20px; border-radius:0;">
+      <div style="text-align:center; border-bottom:1px dashed #000; padding-bottom:8px; margin-bottom:10px;">
+        <h3 id="cupom-loja-nome" style="font-size:16px; margin:0;">RT MOBILE BARBER</h3>
+        <p id="cupom-loja-endereco" style="font-size:10px; margin:2px 0;">Centro, Santa Izabel do Pará</p>
+        <p style="font-size:11px; font-weight:bold; margin-top:4px;">COMPROVANTE DE ATENDIMENTO</p>
+      </div>
+      <div style="font-size:11px; line-height:1.4;">
+        <p>CLIENTE: <span id="cupom-cliente">Roberto</span></p>
+        <p>BARBEIRO: <span id="cupom-barbeiro">Lucas Ferreira</span></p>
+        <p>SERVIÇO: <span id="cupom-servico">Corte Degradê</span></p>
+        <p>VALOR: <span id="cupom-valor">R$ 50,00</span></p>
+        <p>DATA/HORA: <span id="cupom-data">22/05/2026 16:00</span></p>
+      </div>
+      <div style="border-top:1px dashed #000; margin-top:12px; padding-top:12px; text-align:center; font-size:9px;">
+        <p>Obrigado pela preferência!</p>
+        <br>
+        <p>___________________________________<br>Assinatura do Cliente</p>
+      </div>
+      <div class="no-print" style="margin-top:14px; display:flex; gap:8px;">
+        <button class="btn-gold-primary" style="flex:1;" onclick="window.print()">Imprimir Cupom</button>
+        <button class="btn-dark-secondary" style="flex:1;" onclick="document.getElementById('modal-cupom-print').style.display='none'">Fechar</button>
+      </div>
+    </div>
+  </div>
+
   <script>
-    // ESTADO GERAL
-    let sessaoUsuario = {
-      email: null,
-      role: 'CLIENTE',
-      autenticado: false
-    };
+    // 1. DESATIVAÇÃO INCONDICIONAL DO SPLASH (NUNCA MAIS TRAVA)
+    (function removerSplashGarantido() {
+      const splash = document.getElementById('splash-screen');
+      if (!splash) return;
+      const seen = sessionStorage.getItem('rt_splash_seen');
+      if (seen) {
+        splash.style.display = 'none';
+      } else {
+        setTimeout(() => {
+          splash.style.opacity = '0';
+          setTimeout(() => {
+            splash.style.display = 'none';
+            sessionStorage.setItem('rt_splash_seen', 'true');
+          }, 400);
+        }, 1800);
+      }
+    })();
+
+    let sessaoUsuario = { email: null, role: 'CLIENTE', autenticado: false };
 
     let dadosBarbearia = {
       nome: 'RT Mobile Barber',
@@ -1068,7 +1121,6 @@
       { id: 's8', nome: 'Lavagem Capilar c/ Massagem', preco: 20.00, duracao: '15 min', categoria: 'CORTE', ativo: true }
     ];
 
-    // BARBEIROS COMPLETOS COM WHATSAPP DIRETO E INSTAGRAM
     let barbeirosDB = [
       { id: 'b1', nome: 'Lucas Ferreira', nota: '4.9', foto: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200', instagram: '@lucas.barber', whatsapp: '5591984551100', especialidade: 'Especialista em Degradê & Navalhado', presenteHoje: true },
       { id: 'b2', nome: 'Gabriel Santos', nota: '4.8', foto: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200', instagram: '@gabriel.barber', whatsapp: '5591984551100', especialidade: 'Mestre em Barba Terapia & Toalha Quente', presenteHoje: true },
@@ -1093,7 +1145,6 @@
     let horaSelecionada = '16:00';
     let metodoPagamento = 'LOCAL';
 
-    // AUTENTICAÇÃO REAL & VALIDAÇÃO
     function alternarAbaAuth(tipo) {
       document.getElementById('btn-tab-auth-cliente').className = 'auth-tab-btn' + (tipo === 'CLIENTE' ? ' active' : '');
       document.getElementById('btn-tab-auth-dono').className = 'auth-tab-btn' + (tipo === 'DONO' ? ' active' : '');
@@ -1105,7 +1156,7 @@
       const senha = document.getElementById('auth-input-senha').value.trim();
 
       if (!email || !email.includes('@')) {
-        alert('Por favor, informe um endereço de e-mail válido.');
+        alert('Por favor, informe um e-mail válido.');
         return;
       }
       if (!senha || senha.length < 6) {
@@ -1172,7 +1223,6 @@
       }
     }
 
-    // RENDERIZAR TUDO
     function renderizarTudo() {
       renderizarPainelHorizontal4Colunas();
       renderizarLojaCliente();
@@ -1183,9 +1233,9 @@
       renderizarComandas();
     }
 
-    // 1. HORIZONTAL 4 COLUNAS
     function renderizarPainelHorizontal4Colunas(cat = 'TODOS') {
       const col1 = document.getElementById('col1-services-list');
+      if (!col1) return;
       col1.innerHTML = '';
       const filtrados = servicosDB.filter(s => s.ativo && (cat === 'TODOS' || s.categoria === cat));
       filtrados.forEach(s => {
@@ -1205,73 +1255,81 @@
       });
 
       const col2 = document.getElementById('col2-barbeiros-list');
-      col2.innerHTML = '';
-      barbeirosDB.forEach(b => {
-        const isSel = barbeiroSelecionado.id === b.id;
-        const div = document.createElement('div');
-        div.className = 'schedule-pick-row' + (isSel ? ' selected' : '');
-        div.onclick = () => {
-          if (!b.presenteHoje) { alert(`${b.nome} está de folga.`); return; }
-          barbeiroSelecionado = b;
-          renderizarPainelHorizontal4Colunas(cat);
-          atualizarResumoHorizontal();
-        };
-        div.innerHTML = `
-          <div style="display:flex; align-items:center; gap:8px;">
-            <img src="${b.foto}" style="width:34px; height:34px; border-radius:50%; border:1px solid var(--gold);">
-            <div><h4>${b.nome}</h4><span style="font-size:10px; color:var(--gold);">★ ${b.nota} ${b.presenteHoje ? '' : '(Folga)'}</span></div>
-          </div>
-          <div class="check-circle-dot">${isSel ? '✓' : ''}</div>
-        `;
-        col2.appendChild(div);
-      });
+      if (col2) {
+        col2.innerHTML = '';
+        barbeirosDB.forEach(b => {
+          const isSel = barbeiroSelecionado.id === b.id;
+          const div = document.createElement('div');
+          div.className = 'schedule-pick-row' + (isSel ? ' selected' : '');
+          div.onclick = () => {
+            if (!b.presenteHoje) { alert(`${b.nome} está de folga hoje.`); return; }
+            barbeiroSelecionado = b;
+            renderizarPainelHorizontal4Colunas(cat);
+            atualizarResumoHorizontal();
+          };
+          div.innerHTML = `
+            <div style="display:flex; align-items:center; gap:8px;">
+              <img src="${b.foto}" style="width:34px; height:34px; border-radius:50%; border:1px solid var(--gold);">
+              <div><h4>${b.nome}</h4><span style="font-size:10px; color:var(--gold);">★ ${b.nota} ${b.presenteHoje ? '' : '(Folga)'}</span></div>
+            </div>
+            <div class="check-circle-dot">${isSel ? '✓' : ''}</div>
+          `;
+          col2.appendChild(div);
+        });
+      }
 
       const col3Days = document.getElementById('col3-calendar-days');
-      col3Days.innerHTML = '';
-      for (let i = 1; i <= 31; i++) {
-        const d = document.createElement('div');
-        const isSel = i === 22;
-        d.style.padding = '6px 0'; d.style.borderRadius = '6px'; d.style.fontSize = '11px'; d.style.fontWeight = '700'; d.style.cursor = 'pointer';
-        d.style.background = isSel ? 'var(--gold)' : 'transparent';
-        d.style.color = isSel ? '#000' : '#cbd5e1';
-        d.innerText = i;
-        d.onclick = () => {
-          document.querySelectorAll('#col3-calendar-days div').forEach(x => { x.style.background = 'transparent'; x.style.color = '#cbd5e1'; });
-          d.style.background = 'var(--gold)'; d.style.color = '#000';
-          dataSelecionada = `${i} de Maio de 2026`;
-          atualizarResumoHorizontal();
-        };
-        col3Days.appendChild(d);
+      if (col3Days) {
+        col3Days.innerHTML = '';
+        for (let i = 1; i <= 31; i++) {
+          const d = document.createElement('div');
+          const isSel = i === 22;
+          d.style.padding = '6px 0'; d.style.borderRadius = '6px'; d.style.fontSize = '11px'; d.style.fontWeight = '700'; d.style.cursor = 'pointer';
+          d.style.background = isSel ? 'var(--gold)' : 'transparent';
+          d.style.color = isSel ? '#000' : '#cbd5e1';
+          d.innerText = i;
+          d.onclick = () => {
+            document.querySelectorAll('#col3-calendar-days div').forEach(x => { x.style.background = 'transparent'; x.style.color = '#cbd5e1'; });
+            d.style.background = 'var(--gold)'; d.style.color = '#000';
+            dataSelecionada = `${i} de Maio de 2026`;
+            atualizarResumoHorizontal();
+          };
+          col3Days.appendChild(d);
+        }
       }
 
       const col3Hours = document.getElementById('col3-time-slots');
-      col3Hours.innerHTML = '';
-      const slots = ['09:00', '10:00', '11:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00'];
-      slots.forEach(h => {
-        const btn = document.createElement('div');
-        const isSel = h === horaSelecionada;
-        btn.style.background = isSel ? 'var(--gold)' : '#161824';
-        btn.style.color = isSel ? '#000' : '#fff';
-        btn.style.border = '1px solid var(--border)'; btn.style.borderRadius = '8px'; btn.style.padding = '8px 0'; btn.style.textAlign = 'center'; btn.style.fontSize = '11px'; btn.style.fontWeight = '800'; btn.style.cursor = 'pointer';
-        btn.innerText = h;
-        btn.onclick = () => {
-          document.querySelectorAll('#col3-time-slots div').forEach(x => { x.style.background = '#161824'; x.style.color = '#fff'; });
-          btn.style.background = 'var(--gold)'; btn.style.color = '#000';
-          horaSelecionada = h;
-          atualizarResumoHorizontal();
-        };
-        col3Hours.appendChild(btn);
-      });
+      if (col3Hours) {
+        col3Hours.innerHTML = '';
+        const slots = ['09:00', '10:00', '11:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00'];
+        slots.forEach(h => {
+          const btn = document.createElement('div');
+          const isSel = h === horaSelecionada;
+          btn.style.background = isSel ? 'var(--gold)' : '#161824';
+          btn.style.color = isSel ? '#000' : '#fff';
+          btn.style.border = '1px solid var(--border)'; btn.style.borderRadius = '8px'; btn.style.padding = '8px 0'; btn.style.textAlign = 'center'; btn.style.fontSize = '11px'; btn.style.fontWeight = '800'; btn.style.cursor = 'pointer';
+          btn.innerText = h;
+          btn.onclick = () => {
+            document.querySelectorAll('#col3-time-slots div').forEach(x => { x.style.background = '#161824'; x.style.color = '#fff'; });
+            btn.style.background = 'var(--gold)'; btn.style.color = '#000';
+            horaSelecionada = h;
+            atualizarResumoHorizontal();
+          };
+          col3Hours.appendChild(btn);
+        });
+      }
 
       atualizarResumoHorizontal();
     }
 
     function atualizarResumoHorizontal() {
-      document.getElementById('sum-col4-servico').innerText = servicoSelecionado.nome;
-      document.getElementById('sum-col4-barbeiro').innerText = barbeiroSelecionado.nome;
-      document.getElementById('sum-col4-data').innerText = dataSelecionada;
-      document.getElementById('sum-col4-hora').innerText = horaSelecionada;
-      document.getElementById('sum-col4-total').innerText = `R$ ${servicoSelecionado.preco.toFixed(2).replace('.', ',')}`;
+      if (document.getElementById('sum-col4-servico')) {
+        document.getElementById('sum-col4-servico').innerText = servicoSelecionado.nome;
+        document.getElementById('sum-col4-barbeiro').innerText = barbeiroSelecionado.nome;
+        document.getElementById('sum-col4-data').innerText = dataSelecionada;
+        document.getElementById('sum-col4-hora').innerText = horaSelecionada;
+        document.getElementById('sum-col4-total').innerText = `R$ ${servicoSelecionado.preco.toFixed(2).replace('.', ',')}`;
+      }
     }
 
     function setChoicePayment(m) {
@@ -1286,7 +1344,7 @@
         document.getElementById('auth-screen-overlay').classList.remove('hidden');
         return;
       }
-      const msg = `*NOVO AGENDAMENTO - RT MOBILE BARBER*%0A%0A*Cliente:* ${sessaoUsuario.email}%0A*Barbeiro:* ${barbeiroSelecionado.nome}%0A*Data/Hora:* ${dataSelecionada} às ${horaSelecionada}%0A*Serviço:* ${servicoSelecionado.nome}%0A*Total:* R$ ${servicoSelecionado.preco.toFixed(2).replace('.', ',')}%0A*Pagamento:* ${metodoPagamento === 'LOCAL' ? 'Pagar no Local' : 'Pix'}%0A%0AGostaria de confirmar meu agendamento!`;
+      const msg = `*NOVO AGENDAMENTO - RT MOBILE BARBER*%0A%0A*Cliente:* ${sessaoUsuario.email}%0A*Barbeiro:* ${barbeiroSelecionado.nome}%0A*Data/Hora:* ${dataSelecionada} às ${horaSelecionada}%0A*Serviço:* ${servicoSelecionado.nome}%0A*Total:* R$ ${servicoSelecionado.preco.toFixed(2).replace('.', ',')}%0A*Forma de Pagamento:* ${metodoPagamento === 'LOCAL' ? 'Pagar no Local' : 'Pix'}%0A%0AGostaria de confirmar meu agendamento!`;
       window.open(`https://wa.me/${dadosBarbearia.whatsapp}?text=${msg}`, '_blank');
       alert('Agendamento confirmado!');
     }
@@ -1297,9 +1355,9 @@
       renderizarPainelHorizontal4Colunas(cat);
     }
 
-    // 2. LOJA DE PRODUTOS PARA O CLIENTE (FILTRA ESTOQUE POSITIVO)
     function renderizarLojaCliente() {
       const grid = document.getElementById('grid-loja-cliente-produtos');
+      if (!grid) return;
       grid.innerHTML = '';
       estoqueDB.filter(p => p.estoque > 0).forEach(p => {
         const card = document.createElement('div');
@@ -1323,9 +1381,9 @@
       window.open(`https://wa.me/${dadosBarbearia.whatsapp}?text=${msg}`, '_blank');
     }
 
-    // 3. BARBEIROS COMPLETOS COM WHATSAPP DIRETO E INSTAGRAM
     function renderizarBarbeirosCompletos() {
       const container = document.getElementById('lista-barbeiros-cards-completos');
+      if (!container) return;
       container.innerHTML = '';
       barbeirosDB.forEach((b, idx) => {
         const card = document.createElement('div');
@@ -1381,9 +1439,9 @@
       alert(`Barbeiro ${nome} cadastrado com sucesso!`);
     }
 
-    // 4. MATRIZ SEMANAL DINÂMICA
     function renderizarTabelaMatrizEquipe() {
       const tabela = document.getElementById('tabela-matriz-equipe');
+      if (!tabela) return;
       let thead = '<thead><tr><th style="padding:10px; background:#141724; color:var(--gold); border:1px solid var(--border);">Horário</th>';
       barbeirosDB.forEach(b => {
         thead += `<th style="padding:10px; background:#141724; color:var(--gold); border:1px solid var(--border);">${b.nome}</th>`;
@@ -1409,9 +1467,9 @@
       tabela.innerHTML = thead + tbody;
     }
 
-    // 5. GESTÃO DE SERVIÇOS & PREÇOS
     function renderizarServicosGestao() {
       const container = document.getElementById('lista-servicos-gestao-crud');
+      if (!container) return;
       container.innerHTML = '';
       servicosDB.forEach((s, idx) => {
         const row = document.createElement('div');
@@ -1450,9 +1508,9 @@
       renderizarServicosGestao(); renderizarPainelHorizontal4Colunas();
     }
 
-    // 6. ESTOQUE & PREÇO DOS PRODUTOS
     function renderizarEstoqueGestao() {
       const grid = document.getElementById('grid-estoque-produtos-admin');
+      if (!grid) return;
       grid.innerHTML = '';
       estoqueDB.forEach((p, idx) => {
         const div = document.createElement('div');
@@ -1497,9 +1555,9 @@
       renderizarLojaCliente();
     }
 
-    // 7. COMANDAS & CAIXA
     function renderizarComandas() {
       const container = document.getElementById('lista-comandas-ativas');
+      if (!container) return;
       container.innerHTML = '';
       comandasDB.forEach((c, idx) => {
         const div = document.createElement('div');
@@ -1510,10 +1568,22 @@
             <strong style="color:var(--gold); font-size:13px;">R$ ${c.total.toFixed(2)}</strong>
           </div>
           <div style="font-size:11px; color:#cbd5e1; margin-bottom:8px;">${c.itens.join(' + ')}</div>
-          <button onclick="fecharComanda(${idx})" class="btn-gold-primary" style="padding:6px; font-size:10px; width:100%;">Fechar Comanda ↗</button>
+          <div style="display:flex; gap:6px;">
+            <button onclick="imprimirCupomComanda(${idx})" class="btn-dark-secondary" style="padding:6px; font-size:10px; flex:1;">Imprimir Cupom 🧾</button>
+            <button onclick="fecharComanda(${idx})" class="btn-gold-primary" style="padding:6px; font-size:10px; flex:1;">Fechar Comanda ↗</button>
+          </div>
         `;
         container.appendChild(div);
       });
+    }
+
+    function imprimirCupomComanda(idx) {
+      const c = comandasDB[idx];
+      document.getElementById('cupom-cliente').innerText = c.cliente;
+      document.getElementById('cupom-barbeiro').innerText = c.barbeiro;
+      document.getElementById('cupom-servico').innerText = c.itens.join(' + ');
+      document.getElementById('cupom-valor').innerText = `R$ ${c.total.toFixed(2)}`;
+      document.getElementById('modal-cupom-print').style.display = 'flex';
     }
 
     function fecharComanda(idx) {
@@ -1536,10 +1606,8 @@
       }
     }
 
-    // 8. CONFIGURAÇÕES SUPABASE
     function salvarConfigSupabase() {
       const url = document.getElementById('cfg-supabase-url').value;
-      const key = document.getElementById('cfg-supabase-key').value;
       alert(`Credenciais Supabase salvas e conectadas com sucesso!
 URL: ${url}`);
     }
@@ -1561,10 +1629,10 @@ URL: ${url}`);
       alert('Configurações salvas!');
     }
 
-    // 9. NAVEGAÇÃO DE WORKSPACE
     function trocarAbaWorkspace(tabId, btn) {
       document.querySelectorAll('.screen-tab-panel').forEach(p => p.classList.remove('active'));
-      document.getElementById(tabId).classList.add('active');
+      const target = document.getElementById(tabId);
+      if (target) target.classList.add('active');
       if (btn) {
         document.querySelectorAll('.side-nav-btn, .dock-tab-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
@@ -1580,6 +1648,11 @@ URL: ${url}`);
       trocarAbaWorkspace('tab-cliente-portal-view', null);
       document.querySelector('.board-horizontal-schedule').scrollIntoView({ behavior: 'smooth' });
     }
+
+    // Inicialização ao carregar tudo
+    window.addEventListener('load', () => {
+      renderizarTudo();
+    });
   </script>
 </body>
 </html>
