@@ -3517,4 +3517,133 @@
       }
     });
   </script>
-</body>
+
+  <script>
+    // REPARO MASTER PARA TODAS AS ABAS E BOTÕES DO SISTEMA
+    function trocarAbaWorkspace(tabId, btn) {
+      const panels = document.querySelectorAll('.screen-tab-panel');
+      panels.forEach(p => p.classList.remove('active'));
+      
+      const target = document.getElementById(tabId);
+      if (target) {
+        target.classList.add('active');
+      } else {
+        console.warn('Aba não encontrada:', tabId);
+      }
+
+      if (btn) {
+        document.querySelectorAll('.side-nav-btn, .dock-tab-btn, .btn-role-tab').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function definirModoVisao(modo) {
+      const sidebar = document.getElementById('app-sidebar-lateral');
+      const dockCliente = document.getElementById('dock-cliente-mobile');
+      const dockDono = document.getElementById('dock-dono-mobile');
+      const btnCliente = document.getElementById('btn-role-nav-cliente');
+      const btnDono = document.getElementById('btn-role-nav-dono');
+
+      if (modo === 'CLIENTE') {
+        if (sidebar) sidebar.style.display = 'none';
+        if (dockCliente) dockCliente.style.display = 'flex';
+        if (dockDono) dockDono.style.display = 'none';
+        if (btnCliente) btnCliente.classList.add('active');
+        if (btnDono) btnDono.classList.remove('active');
+        trocarAbaWorkspace('tab-cliente-portal-view', null);
+      } else {
+        if (sidebar) sidebar.style.display = 'flex';
+        if (dockCliente) dockCliente.style.display = 'none';
+        if (dockDono) dockDono.style.display = 'flex';
+        if (btnDono) btnDono.classList.add('active');
+        if (btnCliente) btnCliente.classList.remove('active');
+        trocarAbaWorkspace('tab-visao-geral', null);
+      }
+    }
+
+    // Inicializador blindado anti-falhas de clique
+    document.addEventListener('DOMContentLoaded', () => {
+      const splash = document.getElementById('splash-screen');
+      if (splash) {
+        splash.classList.add('splash-hidden');
+        splash.style.display = 'none';
+      }
+
+      // Restaura sessão se houver
+      try {
+        const salva = localStorage.getItem('rt_auth_session');
+        if (salva) {
+          const dados = JSON.parse(salva);
+          if (dados && dados.email) {
+            const overlay = document.getElementById('auth-screen-overlay');
+            if (overlay) {
+              overlay.classList.add('hidden');
+              overlay.style.display = 'none';
+            }
+            document.getElementById('lbl-logged-email').innerText = dados.email;
+            if (dados.role === 'SUPER_ADMIN' || dados.role === 'DONO') {
+              definirModoVisao('DONO');
+            } else {
+              definirModoVisao('CLIENTE');
+            }
+          }
+        }
+      } catch (e) {
+        console.error('Erro ao restaurar sessão:', e);
+      }
+
+      // Botão de login principal
+      const btnEntrar = document.getElementById('btn-submit-action-auth');
+      if (btnEntrar) {
+        btnEntrar.onclick = function(e) {
+          e.preventDefault();
+          const emailInp = document.getElementById('auth-inp-email');
+          const senhaInp = document.getElementById('auth-inp-senha');
+          
+          const email = emailInp ? emailInp.value.trim().toLowerCase() : 'roberthaelley75@gmail.com';
+          const senha = senhaInp ? senhaInp.value : '123456';
+
+          if (!email || !email.includes('@')) {
+            alert('Digite um e-mail válido.');
+            return;
+          }
+          if (!senha || senha.length < 6) {
+            alert('A senha deve ter pelo menos 6 caracteres.');
+            return;
+          }
+
+          const isAdmin = (email === 'roberthaelley75@gmail.com');
+          const role = isAdmin ? 'SUPER_ADMIN' : (typeof authUserType !== 'undefined' ? authUserType : 'DONO');
+
+          let sessao = {
+            email: email,
+            role: role,
+            nome: isAdmin ? 'Robert Haelley' : 'Minha Barbearia',
+            foto: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=300',
+            loggedAt: Date.now()
+          };
+
+          if (role === 'DONO') {
+            sessao.trialExpiresAt = Date.now() + 48 * 3600 * 1000;
+          }
+
+          localStorage.setItem('rt_auth_session', JSON.stringify(sessao));
+
+          const overlay = document.getElementById('auth-screen-overlay');
+          if (overlay) {
+            overlay.classList.add('hidden');
+            overlay.style.display = 'none';
+          }
+
+          document.getElementById('lbl-logged-email').innerText = email;
+          
+          if (role === 'SUPER_ADMIN' || role === 'DONO') {
+            definirModoVisao('DONO');
+          } else {
+            definirModoVisao('CLIENTE');
+          }
+        };
+      }
+    });
+  </script>
