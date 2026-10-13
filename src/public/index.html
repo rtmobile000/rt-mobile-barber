@@ -1737,6 +1737,7 @@
     let horaSelecionada = '09:00';
     let metodoPagamento = 'LOCAL';
 
+    window.addEventListener('load', () => { barbeariaAtivaSelecionada = null; const m = document.getElementById('cliente-marketplace-barbearias'); const p = document.getElementById('cliente-portal-barbearia-selecionada'); if(m) m.style.display='block'; if(p) p.style.display='none'; });
     window.addEventListener('load', () => {
       renderizarTudo();
       verificarSessaoPersistida();
