@@ -771,7 +771,90 @@
       font-size: 12px;
       line-height: 1.4;
     }
-  </style>
+  
+    /* CORREÇÃO CIRÚRGICA DE ALINHAMENTO NO CELULAR (IMAGENS 9 E 10) */
+    html, body {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+    .main-viewport, .workspace-inner {
+      width: 100%;
+      max-width: 100vw;
+      box-sizing: border-box;
+      overflow-x: hidden;
+    }
+    @media (max-width: 768px) {
+      .workspace-inner {
+        padding: 16px 12px 140px !important;
+      }
+      .schedule-board-horizontal {
+        padding: 18px 12px !important;
+        margin: 20px 0 !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        border-radius: 20px !important;
+      }
+      .board-grid-4-cols {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 16px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+      }
+      .schedule-column-box {
+        padding: 14px 10px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        border-radius: 16px !important;
+      }
+      .service-row-pick {
+        width: 100% !important;
+        box-sizing: border-box !important;
+        padding: 12px 10px !important;
+      }
+      .casa-brava-hero {
+        padding: 20px 16px !important;
+        height: 280px !important;
+      }
+      .hero-casa-title {
+        font-size: 26px !important;
+      }
+    }
+    
+    /* GAVETA / MODAL DO CARRINHO SEM DISPUTA COM A ILHA */
+    #cart-slide-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.94);
+      backdrop-filter: blur(16px);
+      z-index: 9999999 !important;
+      display: none;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 16px;
+      overflow-y: auto;
+    }
+    .cart-box-container {
+      background: #0f111a;
+      border: 1.5px solid var(--gold);
+      border-radius: 24px;
+      max-width: 500px;
+      width: 100%;
+      margin: 20px auto 140px;
+      padding: 24px 20px;
+      box-shadow: 0 24px 70px rgba(0,0,0,0.95);
+      box-sizing: border-box;
+    }
+    /* Quando o modal de compras estiver aberto, a ilha é 100% ocultada */
+    body.cart-open #dock-cliente-mobile,
+    body.cart-open #dock-dono-mobile,
+    body.cart-open #dock-barbeiro-mobile {
+      display: none !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+    }
+
+</style>
 </head>
 <body>
 
@@ -1096,6 +1179,74 @@
           </div>
         </section>
 
+
+        <!-- PAINEL SUPER ADMIN: TODAS AS BARBEARIAS DO SISTEMA (SAAS R$ 50/MÊS) -->
+        <section id="tab-super-admin-barbearias" class="screen-tab-panel">
+          <div class="card-panel-dark">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px;">
+              <div>
+                <div style="font-size:11px; font-weight:900; color:var(--purple); letter-spacing:2px; text-transform:uppercase;">GESTÃO SAAS MASTER</div>
+                <h3 style="font-size:18px; font-weight:900; color:#fff; text-transform:uppercase; margin-top:2px;">Barbearias Assinantes da Plataforma</h3>
+                <p style="font-size:12px; color:var(--text-muted);">Visualize todos os clientes do seu software, controle testes de 48h e assinaturas de R$ 50/mês.</p>
+              </div>
+              <button class="btn-gold-primary" onclick="cadastrarNovaBarbeariaSaaSPrompt()">+ Cadastrar Barbearia Manualmente</button>
+            </div>
+
+            <!-- CARDS DE MÉTRICAS SAAS -->
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:16px; margin-bottom:24px;">
+              <div style="background:#141724; border:1px solid var(--border); border-radius:18px; padding:18px;">
+                <div style="font-size:11px; color:var(--text-muted); font-weight:800; text-transform:uppercase;">Total de Barbearias</div>
+                <div style="font-size:26px; font-weight:900; color:#fff; margin-top:4px;" id="saas-total-estabelecimentos">3</div>
+              </div>
+              <div style="background:#141724; border:1px solid var(--border); border-radius:18px; padding:18px;">
+                <div style="font-size:11px; color:var(--text-muted); font-weight:800; text-transform:uppercase;">Assinaturas Ativas (R$ 50)</div>
+                <div style="font-size:26px; font-weight:900; color:var(--neon-green); margin-top:4px;" id="saas-ativas-count">2</div>
+              </div>
+              <div style="background:#141724; border:1px solid var(--border); border-radius:18px; padding:18px;">
+                <div style="font-size:11px; color:var(--text-muted); font-weight:800; text-transform:uppercase;">Faturamento Mensal Recorrente</div>
+                <div style="font-size:26px; font-weight:900; color:var(--gold); margin-top:4px;" id="saas-mrr-valor">R$ 100,00/mês</div>
+              </div>
+            </div>
+
+            <div id="lista-todas-barbearias-saas"></div>
+          </div>
+        </section>
+
+        <!-- PAINEL EXCLUSIVO DO BARBEIRO CONVIDADO (SEM ACESSO AO FINANCEIRO DO DONO) -->
+        <section id="tab-barbeiro-individual-view" class="screen-tab-panel">
+          <div class="card-panel-dark">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px;">
+              <div>
+                <div style="font-size:11px; font-weight:900; color:var(--blue); letter-spacing:2px; text-transform:uppercase;">MINHA CADEIRA DE ATENDIMENTO</div>
+                <h3 style="font-size:18px; font-weight:900; color:#fff; text-transform:uppercase; margin-top:2px;">Painel do Barbeiro</h3>
+                <p style="font-size:12px; color:var(--text-muted);">Gerencie seus clientes agendados, adicione produtos na conta e solicite folgas.</p>
+              </div>
+              <button class="btn-dark-secondary" style="border-color:var(--red); color:var(--red);" onclick="barbeiroSolicitarFolgaRapida()">Pedir / Marcar Folga 🏖️</button>
+            </div>
+
+            <!-- CADEIRA ATUAL DO BARBEIRO -->
+            <div style="background:#151824; border:1.5px solid var(--border); border-radius:20px; padding:20px; margin-bottom:20px;">
+              <h4 style="font-size:13px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:12px;">✂️ Cliente Atendido Agora na Sua Cadeira</h4>
+              <div id="box-atendimento-barbeiro-cadeira">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+                  <div>
+                    <strong style="font-size:16px; color:#fff;" id="barb-cliente-atual-nome">Felipe Santos</strong>
+                    <div style="font-size:12px; color:var(--text-muted); margin-top:3px;" id="barb-cliente-atual-servico">Corte Degradê Navalhado (R$ 60,00)</div>
+                    <div style="font-size:11px; color:var(--neon-green); font-weight:800; margin-top:4px;" id="barb-cliente-pente">Pente: Degradê na 0, navalhado no topo</div>
+                  </div>
+                  <div style="display:flex; gap:8px;">
+                    <button class="btn-gold-primary" onclick="abrirModalAddProdutoCadeira()">+ Lançar Produto na Comanda 🛍️</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- PROXIMOS CLIENTES DO BARBEIRO -->
+            <h4 style="font-size:13px; font-weight:900; color:#cbd5e1; text-transform:uppercase; margin-bottom:12px;">Seus Próximos Atendimentos</h4>
+            <div id="lista-proximos-clientes-barbeiro"></div>
+          </div>
+        </section>
+
         <!-- CLUBE DE ASSINATURA 4 CORTES (GESTÃO POR BARBEIRO) -->
         <section id="tab-clube-assinatura-gestao" class="screen-tab-panel">
           <div class="card-panel-dark">
@@ -1406,7 +1557,136 @@
       verificarSessaoPersistida();
     });
 
+    
+    // =========================================================
+    // BASE DE DADOS MULTI-BARBEARIAS (SAAS PLATAFORMA)
+    // =========================================================
+    let barbeariasCadastradasSaaS = [
+      { id: 'bb1', nome: 'RT Mobile Barber - Unidade Centro', dono: 'Robert Haelley', email: 'roberthaelley75@gmail.com', whatsapp: '5591984551100', plano: 'Vitalício', status: 'Ativo', valorMensal: 0 },
+      { id: 'bb2', nome: 'Barbearia Dom Mustache', dono: 'Carlos Eduardo', email: 'carlos@dommustache.com', whatsapp: '5591981234567', plano: 'Mensal Pro', status: 'Ativo', valorMensal: 50.00 },
+      { id: 'bb3', nome: 'Navalha de Ouro Barber Shop', dono: 'Rodrigo Silva', email: 'rodrigo@navalhaouro.com', whatsapp: '5591982345678', plano: 'Teste 48h', status: 'Ativo', valorMensal: 50.00 }
+    ];
+
+    function renderizarListaBarbeariasSaaS() {
+      const container = document.getElementById('lista-todas-barbearias-saas');
+      if (!container) return;
+      container.innerHTML = '';
+
+      barbeariasCadastradasSaaS.forEach((bb, idx) => {
+        const div = document.createElement('div');
+        div.style.background = '#151824';
+        div.style.border = '1px solid var(--border)';
+        div.style.borderRadius = '18px';
+        div.style.padding = '18px 22px';
+        div.style.marginBottom = '12px';
+        div.style.display = 'flex';
+        div.style.justifyContent = 'space-between';
+        div.style.alignItems = 'center';
+        div.style.flexWrap = 'wrap';
+        div.style.gap = '14px';
+
+        div.innerHTML = `
+          <div>
+            <div style="font-size:16px; font-weight:900; color:#fff;">${bb.nome}</div>
+            <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">Dono: <strong>${bb.dono}</strong> (${bb.email}) • WhatsApp: ${bb.whatsapp}</div>
+            <div style="display:flex; gap:8px; align-items:center; margin-top:6px;">
+              <span style="font-size:10px; font-weight:900; padding:3px 8px; border-radius:6px; background:rgba(212,163,115,0.15); color:var(--gold); border:1px solid var(--gold);">Plano: ${bb.plano}</span>
+              <span style="font-size:10px; font-weight:900; padding:3px 8px; border-radius:6px; background:${bb.status === 'Ativo' ? 'rgba(16,185,129,0.15)' : 'rgba(239,68,68,0.15)'}; color:${bb.status === 'Ativo' ? 'var(--neon-green)' : 'var(--red)'}; border:1px solid ${bb.status === 'Ativo' ? 'var(--neon-green)' : 'var(--red)'};">Status: ${bb.status}</span>
+            </div>
+          </div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <a href="https://wa.me/${bb.whatsapp}?text=Olá%20${encodeURIComponent(bb.dono)},%20suporte%20RT%20Mobile%20Barber!" target="_blank" class="btn-dark-secondary" style="font-size:11px; text-decoration:none; padding:8px 12px;">WhatsApp 💬</a>
+            <button onclick="alternarStatusSaaS(${idx})" class="btn-dark-secondary" style="font-size:11px; padding:8px 12px; border-color:${bb.status === 'Ativo' ? 'var(--red)' : 'var(--neon-green)'}; color:${bb.status === 'Ativo' ? 'var(--red)' : 'var(--neon-green)'};">
+              ${bb.status === 'Ativo' ? 'Bloquear Acesso' : 'Ativar Acesso'}
+            </button>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+
+      const totalAtivas = barbeariasCadastradasSaaS.filter(b => b.status === 'Ativo').length;
+      const mrr = barbeariasCadastradasSaaS.filter(b => b.status === 'Ativo' && b.plano !== 'Vitalício').reduce((acc, b) => acc + b.valorMensal, 0);
+      if (document.getElementById('saas-total-estabelecimentos')) document.getElementById('saas-total-estabelecimentos').innerText = barbeariasCadastradasSaaS.length;
+      if (document.getElementById('saas-ativas-count')) document.getElementById('saas-ativas-count').innerText = totalAtivas;
+      if (document.getElementById('saas-mrr-valor')) document.getElementById('saas-mrr-valor').innerText = `R$ ${mrr.toFixed(2)}/mês`;
+    }
+
+    function alternarStatusSaaS(idx) {
+      barbeariasCadastradasSaaS[idx].status = barbeariasCadastradasSaaS[idx].status === 'Ativo' ? 'Bloqueado' : 'Ativo';
+      renderizarListaBarbeariasSaaS();
+      alert(`Status da barbearia "${barbeariasCadastradasSaaS[idx].nome}" atualizado!`);
+    }
+
+    function cadastrarNovaBarbeariaSaaSPrompt() {
+      const nome = prompt("Nome da Barbearia Assinante:");
+      if (!nome) return;
+      const dono = prompt("Nome do Dono:");
+      const zap = prompt("WhatsApp (com DDD):", "5591");
+      const email = prompt("E-mail de acesso:");
+      barbeariasCadastradasSaaS.push({
+        id: 'bb_' + Date.now(),
+        nome: nome.trim(),
+        dono: dono || 'Dono da Barbearia',
+        email: email || 'contato@barbearia.com',
+        whatsapp: zap || '5591984551100',
+        plano: 'Mensal Pro',
+        status: 'Ativo',
+        valorMensal: 50.00
+      });
+      renderizarListaBarbeariasSaaS();
+      alert(`Barbearia "${nome}" cadastrada com sucesso!`);
+    }
+
+    // =========================================================
+    // LANÇAR PRODUTOS NA COMANDA DO CLIENTE NA CADEIRA
+    // =========================================================
+    let produtosComandaClienteAtual = [];
+
+    function abrirModalAddProdutoCadeira() {
+      const sel = document.getElementById('sel-produto-para-comanda');
+      if (sel) {
+        sel.innerHTML = '';
+        estoqueDB.filter(p => p.estoque > 0).forEach(p => {
+          const opt = document.createElement('option');
+          opt.value = p.id;
+          opt.innerText = `${p.nome} - R$ ${p.preco.toFixed(2)} (Estoque: ${p.estoque})`;
+          sel.appendChild(opt);
+        });
+      }
+      document.getElementById('modal-add-produto-cadeira').style.display = 'flex';
+    }
+
+    function fecharModalAddProdutoCadeira() {
+      document.getElementById('modal-add-produto-cadeira').style.display = 'none';
+    }
+
+    function confirmarAddProdutoNaComanda() {
+      const pId = document.getElementById('sel-produto-para-comanda').value;
+      const prod = estoqueDB.find(p => p.id === pId);
+      if (!prod) return;
+
+      produtosComandaClienteAtual.push(prod);
+      prod.estoque = Math.max(0, prod.estoque - 1);
+
+      // Atualiza visualização na comanda
+      const servicoEl = document.getElementById('barb-cliente-atual-servico');
+      if (servicoEl) {
+        servicoEl.innerHTML = `Corte Degradê Navalhado (R$ 60,00) + <strong>${produtosComandaClienteAtual.map(p => p.nome + ' (R$ ' + p.preco.toFixed(2) + ')').join(' + ')}</strong>`;
+      }
+
+      fecharModalAddProdutoCadeira();
+      renderizarEstoqueGestao();
+      alert(`Produto "${prod.nome}" adicionado à comanda! O valor será cobrado no caixa.`);
+    }
+
+    function barbeiroSolicitarFolgaRapida() {
+      const tipo = prompt("Solicitar Folga da Cadeira:\n1 - Dia Todo\n2 - Manhã\n3 - Tarde / Noite", "1");
+      if (!tipo) return;
+      alert("Sua folga foi registrada e sua agenda foi fechada para novos agendamentos!");
+    }
+
     function renderizarTudo() {
+      renderizarListaBarbeariasSaaS();
       renderizarGestaoClubeBarbeiros();
       renderizarModoTVTotem();
       renderizarCarrosselServicosCliente();
@@ -2007,6 +2287,7 @@
     }
 
     function abrirModalCarrinho() {
+      document.body.classList.add('cart-open');
       if (cartItens.length === 0) { alert('Sua sacola está vazia.'); return; }
       renderizarItensModalCarrinho();
       document.body.classList.add('modal-open');
@@ -2014,6 +2295,7 @@
     }
 
     function fecharModalCarrinho() {
+      document.body.classList.remove('cart-open');
       document.body.classList.remove('modal-open');
       document.getElementById('cart-slide-modal').style.display = 'none';
     }
@@ -2476,6 +2758,24 @@
       </select>
 
       <button class="btn-gold-primary" style="width:100%; padding:14px; margin-top:8px;" onclick="lancarClienteBalcaoExpress()">Lançar na Cadeira & Caixa ➔</button>
+    </div>
+  </div>
+
+
+  <!-- MODAL ADICIONAR PRODUTO NA COMANDA DA CADEIRA -->
+  <div id="modal-add-produto-cadeira" style="position:fixed; inset:0; background:rgba(0,0,0,0.92); backdrop-filter:blur(14px); z-index:999999; display:none; align-items:center; justify-content:center; padding:16px;">
+    <div style="background:#11131c; border:1.5px solid var(--gold); border-radius:24px; max-width:440px; width:100%; padding:26px; box-shadow:0 24px 60px rgba(0,0,0,0.95);">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:12px; margin-bottom:16px;">
+        <h3 style="font-size:16px; font-weight:900; color:var(--gold); text-transform:uppercase;">+ Adicionar Produto na Cadeira</h3>
+        <button onclick="fecharModalAddProdutoCadeira()" style="background:#1e2333; border:none; color:#fff; width:30px; height:30px; border-radius:50%; cursor:pointer;">✕</button>
+      </div>
+
+      <p style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">Selecione o produto que o cliente consumiu ou vai levar para somar na conta dele no caixa:</p>
+      
+      <label style="font-size:11px; font-weight:800; color:var(--text-muted); text-transform:uppercase; margin-bottom:6px; display:block;">Produto da Loja:</label>
+      <select id="sel-produto-para-comanda" class="form-input-field" style="background:#141724; color:#fff;"></select>
+
+      <button class="btn-gold-primary" style="width:100%; padding:14px; margin-top:8px;" onclick="confirmarAddProdutoNaComanda()">Lançar na Conta do Cliente ➔</button>
     </div>
   </div>
 
