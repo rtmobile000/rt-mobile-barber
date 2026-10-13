@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>RT Mobile Barber • Sistema de Gestão Profissional</title>
+  <title>RT Mobile Barber • Experiência Premium</title>
   <style>
     * {
       box-sizing: border-box;
@@ -15,20 +15,21 @@
 
     :root {
       --bg-black: #000000;
-      --bg-surface: #07080c;
-      --bg-card: #10121a;
-      --bg-card-inner: #151822;
+      --bg-surface: #0a0b10;
+      --bg-card: #12141c;
+      --bg-card-inner: #181b26;
       --border: #222638;
-      --gold: #c59b63;
-      --gold-bright: #d4af37;
-      --gold-glow: rgba(197, 155, 99, 0.16);
+      --gold: #d4a373;
+      --gold-bright: #e5b887;
+      --gold-dark: #b88251;
+      --gold-glow: rgba(212, 163, 115, 0.18);
       --neon-green: #10b981;
       --neon-glow: rgba(16, 185, 129, 0.35);
       --red: #ef4444;
       --blue: #3b82f6;
       --purple: #a855f7;
       --text-white: #ffffff;
-      --text-muted: #8e95a5;
+      --text-muted: #94a3b8;
     }
 
     body {
@@ -41,7 +42,7 @@
     }
 
     /* =========================================================
-       1. SPLASH SCREEN (REMOÇÃO GARANTIDA INCONDICIONAL)
+       1. SPLASH SCREEN (REMOÇÃO GARANTIDA NO 1º ACESSO)
        ========================================================= */
     #splash-screen {
       position: fixed;
@@ -56,8 +57,8 @@
     }
     .splash-halo {
       position: absolute;
-      width: 150px;
-      height: 150px;
+      width: 160px;
+      height: 160px;
       background: radial-gradient(circle, var(--neon-glow) 0%, rgba(16, 185, 129, 0) 70%);
       border-radius: 50%;
       filter: blur(24px);
@@ -103,149 +104,21 @@
     }
 
     /* =========================================================
-       2. TELA DE LOGIN & ONBOARDING HÍBRIDO
-       ========================================================= */
-    #auth-screen-overlay {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: #050608;
-      z-index: 90000;
-      display: flex;
-      flex-direction: column;
-      overflow-y: auto;
-    }
-    #auth-screen-overlay.hidden { display: none !important; }
-    .auth-split-wrapper {
-      display: flex;
-      flex: 1;
-      width: 100%;
-      min-height: 100vh;
-    }
-    .auth-hero-side {
-      flex: 1.1;
-      background: url('https://images.unsplash.com/photo-1503951914875-452162b0f3f1?q=80&w=1200') center/cover no-repeat;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 48px;
-    }
-    .auth-hero-side::after {
-      content: "";
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.88) 75%, #050608 100%);
-    }
-    .auth-hero-content {
-      position: relative;
-      z-index: 2;
-      max-width: 520px;
-    }
-    .auth-hero-tag {
-      font-size: 11px;
-      font-weight: 900;
-      color: var(--gold);
-      letter-spacing: 2.5px;
-      text-transform: uppercase;
-      margin-bottom: 8px;
-    }
-    .auth-hero-title {
-      font-size: 38px;
-      font-weight: 900;
-      line-height: 1.1;
-      text-transform: uppercase;
-      margin-bottom: 12px;
-    }
-    .auth-hero-sub {
-      font-size: 13px;
-      color: #cbd5e1;
-      line-height: 1.5;
-    }
-
-    .auth-form-side {
-      flex: 1;
-      background: #090a0f;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 48px;
-      max-width: 560px;
-    }
-    @media (max-width: 900px) {
-      .auth-split-wrapper { flex-direction: column; }
-      .auth-hero-side { min-height: 280px; padding: 24px; }
-      .auth-form-side { padding: 24px; max-width: 100%; }
-      .auth-hero-title { font-size: 24px; }
-    }
-
-    .auth-tabs-toggle {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6px;
-      background: #11131c;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 4px;
-      margin-bottom: 24px;
-    }
-    .auth-tab-btn {
-      padding: 10px;
-      border-radius: 9px;
-      background: transparent;
-      border: none;
-      color: var(--text-muted);
-      font-size: 11px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .auth-tab-btn.active {
-      background: #191c28;
-      color: var(--gold);
-      border: 1px solid var(--border);
-    }
-
-    .form-input-field {
-      width: 100%;
-      background: #141622;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 13px 16px;
-      color: #fff;
-      font-size: 13px;
-      margin-bottom: 14px;
-      outline: none;
-    }
-    .form-input-field:focus { border-color: var(--gold); }
-    .btn-submit-auth {
-      width: 100%;
-      background: var(--gold);
-      color: #000;
-      border: none;
-      padding: 14px;
-      border-radius: 12px;
-      font-size: 12px;
-      font-weight: 900;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      cursor: pointer;
-    }
-
-    /* =========================================================
-       3. TOPBAR SAAS & BARRA DE PERMISSÕES MASTER
+       2. TOPBAR SAAS & BARRA DE PERMISSÕES MASTER
        ========================================================= */
     .saas-status-bar {
       background: #0d0f17;
       border-bottom: 1px solid var(--border);
-      padding: 8px 32px;
+      padding: 10px 28px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       font-size: 11px;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
     }
     .badge-pill-status {
       padding: 3px 8px;
@@ -258,36 +131,56 @@
     .badge-pill-status.vitalicio { background: rgba(168, 85, 247, 0.15); color: var(--purple); border: 1px solid rgba(168, 85, 247, 0.35); }
     .badge-pill-status.trial { background: rgba(16, 185, 129, 0.15); color: var(--neon-green); border: 1px solid rgba(16, 185, 129, 0.35); }
 
+    .btn-role-tab {
+      background: #151824;
+      border: 1px solid var(--border);
+      color: #cbd5e1;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-role-tab.active {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: var(--gold-glow);
+    }
+
     /* =========================================================
-       4. ESTRUTURA GERAL DA PLATAFORMA (DESKTOP HORIZONTAL)
+       ESTRUTURA GERAL (DESKTOP HORIZONTAL vs MOBILE)
        ========================================================= */
     .app-main-layout {
       display: flex;
       width: 100%;
-      min-height: calc(100vh - 40px);
+      min-height: calc(100vh - 42px);
     }
 
+    /* SIDEBAR DESKTOP DO DONO */
     .desktop-sidebar {
-      width: 270px;
+      width: 280px;
       background: #08090d;
       border-right: 1px solid var(--border);
       display: flex;
       flex-direction: column;
-      padding: 24px 18px;
+      padding: 24px 20px;
       flex-shrink: 0;
     }
     .sq-logo-rt {
-      width: 42px;
-      height: 42px;
+      width: 44px;
+      height: 44px;
       border-radius: 12px;
-      background: #12141c;
+      background: #141722;
       border: 1.5px solid var(--gold);
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 900;
       font-size: 16px;
-      color: #fff;
+      color: #ffffff;
+      letter-spacing: -0.5px;
     }
     .sq-logo-rt span { color: var(--gold); }
 
@@ -297,24 +190,24 @@
       color: #64748b;
       letter-spacing: 1.5px;
       text-transform: uppercase;
-      margin: 14px 0 6px 6px;
+      margin: 16px 0 8px 6px;
     }
     .sidebar-nav-list {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 5px;
       flex: 1;
     }
     .side-nav-btn {
       display: flex;
       align-items: center;
       gap: 12px;
-      padding: 11px 14px;
+      padding: 12px 14px;
       border-radius: 12px;
       background: transparent;
       border: 1px solid transparent;
       color: var(--text-muted);
-      font-size: 11px;
+      font-size: 12px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -330,15 +223,6 @@
       border-color: var(--border);
       font-weight: 900;
     }
-    .svg-icon-ui {
-      width: 18px;
-      height: 18px;
-      fill: none;
-      stroke: currentColor;
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
 
     .main-viewport {
       flex: 1;
@@ -350,7 +234,7 @@
     }
 
     .main-top-navbar {
-      height: 70px;
+      height: 72px;
       background: #000000;
       border-bottom: 1px solid var(--border);
       display: flex;
@@ -361,6 +245,7 @@
       top: 0;
       z-index: 80;
     }
+
     .workspace-inner {
       padding: 28px 32px 140px;
       max-width: 1400px;
@@ -376,23 +261,24 @@
 
     /* BOTÕES GERAIS */
     .btn-gold-primary {
-      background: var(--gold);
+      background: linear-gradient(135deg, #d4a373 0%, #b88251 100%);
       color: #000;
       border: none;
-      padding: 10px 18px;
-      border-radius: 10px;
+      padding: 12px 20px;
+      border-radius: 12px;
       font-size: 11px;
       font-weight: 900;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.8px;
       cursor: pointer;
+      box-shadow: 0 8px 24px rgba(212, 163, 115, 0.25);
     }
     .btn-dark-secondary {
       background: #151824;
       border: 1px solid var(--border);
       color: #cbd5e1;
-      padding: 9px 16px;
-      border-radius: 10px;
+      padding: 10px 18px;
+      border-radius: 12px;
       font-size: 11px;
       font-weight: 800;
       text-transform: uppercase;
@@ -407,11 +293,11 @@
     }
 
     /* =========================================================
-       PORTAL DO CLIENTE: 4 COLUNAS HORIZONTAIS
+       3. ESTILO EXATO "CASA BRAVA" (PORTAL DO CLIENTE)
        ========================================================= */
-    .hero-banner-establishment {
+    .casa-brava-hero {
       width: 100%;
-      height: 280px;
+      height: 320px;
       border-radius: 24px;
       background-size: cover;
       background-position: center;
@@ -419,66 +305,163 @@
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
-      padding: 28px 32px;
-      margin-bottom: 24px;
+      padding: 32px;
+      margin-bottom: 28px;
       border: 1px solid var(--border);
-      box-shadow: 0 16px 40px rgba(0,0,0,0.7);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.8);
     }
-    .hero-banner-establishment::after {
+    .casa-brava-hero::after {
       content: "";
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(180deg, rgba(0,0,0,0.05) 15%, rgba(0,0,0,0.85) 75%, #07080c 100%);
+      background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.85) 75%, #07080c 100%);
       border-radius: 24px;
       z-index: 1;
     }
-    .hero-meta-box { position: relative; z-index: 2; }
-
-    /* 4 BOTÕES COM ÍCONES VETORIAIS REAIS */
-    .strip-categories-4 {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
-      margin-bottom: 28px;
+    .hero-casa-content {
+      position: relative;
+      z-index: 2;
     }
-    .category-card-item {
-      background: var(--bg-card);
-      border: 1.5px solid var(--border);
+    .hero-kicker-badge {
+      font-size: 11px;
+      font-weight: 900;
+      color: var(--gold);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .hero-casa-title {
+      font-size: 34px;
+      font-weight: 900;
+      line-height: 1.1;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .hero-casa-sub {
+      font-size: 13px;
+      color: #cbd5e1;
+      max-width: 520px;
+      line-height: 1.5;
+    }
+
+    /* CARROSSEL HORIZONTAL DE SERVIÇOS (ESTILO CASA BRAVA 00:01) */
+    .services-carousel-strip {
+      display: flex;
+      gap: 14px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 32px;
+      scrollbar-width: none;
+    }
+    .services-carousel-strip::-webkit-scrollbar { display: none; }
+
+    .service-bubble-card {
+      min-width: 170px;
+      background: #12141c;
+      border: 1px solid #222638;
       border-radius: 18px;
-      padding: 16px 8px;
+      padding: 16px;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
+      gap: 12px;
       cursor: pointer;
       transition: all 0.2s;
     }
-    .category-card-item:hover, .category-card-item.active {
+    .service-bubble-card:hover, .service-bubble-card.selected {
       border-color: var(--gold);
-      background: var(--gold-glow);
+      background: rgba(212, 163, 115, 0.12);
       transform: translateY(-2px);
     }
-    .category-svg-custom {
-      width: 26px;
-      height: 26px;
-      fill: none;
-      stroke: var(--gold);
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
+    .service-bubble-top {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: #191c28;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border);
     }
-    .category-card-item .label {
+    .service-bubble-card h4 {
+      font-size: 13px;
+      font-weight: 800;
+      color: #fff;
+    }
+    .service-bubble-card .price {
+      font-size: 14px;
+      font-weight: 900;
+      color: var(--gold);
+    }
+
+    /* CARDS LUXUOSOS DOS BARBEIROS (ESTILO CASA BRAVA 00:02) */
+    .barber-pro-card {
+      background: #12141c;
+      border: 1.5px solid #222638;
+      border-radius: 20px;
+      padding: 16px 20px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .barber-pro-card:hover, .barber-pro-card.selected {
+      border-color: var(--gold);
+      background: rgba(212, 163, 115, 0.12);
+    }
+    .barber-pro-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .barber-img-frame {
+      width: 60px;
+      height: 60px;
+      border-radius: 16px;
+      object-fit: cover;
+      border: 1.5px solid var(--gold);
+    }
+    .barber-rank-title {
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--gold);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+    .barber-name-txt {
+      font-size: 15px;
+      font-weight: 900;
+      color: #fff;
+    }
+    .barber-stars-badge {
+      display: flex;
+      align-items: center;
+      gap: 4px;
       font-size: 11px;
+      color: var(--gold);
+      font-weight: 800;
+      margin-top: 3px;
+    }
+    .barber-tags-row {
+      display: flex;
+      gap: 6px;
+      margin-top: 6px;
+    }
+    .barber-pill-tag {
+      background: #191c28;
+      border: 1px solid var(--border);
+      color: #cbd5e1;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 9px;
       font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      color: #cbd5e1;
     }
-    .category-card-item.active .label { color: var(--gold); }
 
-    /* PAINEL 4 COLUNAS HORIZONTAL (IMAGE_2.PNG) */
-    .board-horizontal-schedule {
+    /* O PAINEL DE AGENDAMENTO 4 COLUNAS HORIZONTAL (CASA BRAVA + IMAGE_2.PNG) */
+    .schedule-board-horizontal {
       background: #0d0f17;
       border: 1.5px solid var(--border);
       border-radius: 28px;
@@ -486,15 +469,15 @@
       box-shadow: 0 20px 60px rgba(0,0,0,0.8);
       margin-bottom: 28px;
     }
-    .grid-4-columns-schedule {
+    .board-grid-4-cols {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 20px;
     }
-    @media (max-width: 1024px) { .grid-4-columns-schedule { grid-template-columns: 1fr 1fr; } }
-    @media (max-width: 768px) { .grid-4-columns-schedule { grid-template-columns: 1fr; } }
+    @media (max-width: 1024px) { .board-grid-4-cols { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 768px) { .board-grid-4-cols { grid-template-columns: 1fr; } }
 
-    .col-schedule-box {
+    .schedule-column-box {
       background: #11131c;
       border: 1px solid var(--border);
       border-radius: 20px;
@@ -502,7 +485,7 @@
       display: flex;
       flex-direction: column;
     }
-    .col-schedule-box h3 {
+    .schedule-column-box h3 {
       font-size: 12px;
       font-weight: 900;
       color: var(--gold);
@@ -511,7 +494,7 @@
       margin-bottom: 14px;
     }
 
-    .schedule-pick-row {
+    .service-row-pick {
       background: #161824;
       border: 1.5px solid var(--border);
       border-radius: 14px;
@@ -523,11 +506,11 @@
       cursor: pointer;
       transition: all 0.2s;
     }
-    .schedule-pick-row.selected {
+    .service-row-pick.selected {
       border-color: var(--gold);
       background: var(--gold-glow);
     }
-    .check-circle-dot {
+    .check-dot-gold {
       width: 18px;
       height: 18px;
       border-radius: 50%;
@@ -540,33 +523,181 @@
       color: transparent;
       margin-left: 8px;
     }
-    .schedule-pick-row.selected .check-circle-dot {
+    .service-row-pick.selected .check-dot-gold {
       background: var(--gold);
       border-color: var(--gold);
       color: #000;
     }
 
-    /* CARD DE BARBEIRO COM BOTÃO DE WHATSAPP DIRETO */
-    .barber-detail-profile-card {
-      background: #141624;
-      border: 1.5px solid var(--border);
-      border-radius: 16px;
-      padding: 16px;
-      margin-bottom: 12px;
+    /* PÍLULAS DE DIAS DA SEMANA (ESTILO CASA BRAVA 00:04: SEG 15 jun, TER 16 jun...) */
+    .calendar-pills-row {
       display: flex;
-      gap: 14px;
-      align-items: center;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      margin-bottom: 16px;
+      scrollbar-width: none;
     }
-    .barber-pic-lg {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
+    .calendar-pills-row::-webkit-scrollbar { display: none; }
+    .day-pill-card {
+      min-width: 60px;
+      background: #161824;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 6px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .day-pill-card.selected {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: #000;
+    }
+    .day-pill-card .weekday { font-size: 10px; font-weight: 800; text-transform: uppercase; }
+    .day-pill-card .daynum { font-size: 18px; font-weight: 900; margin-top: 2px; }
+
+    /* GRADE DE HORÁRIOS ESTILO CASA BRAVA (00:05: 09:00, 11:30 DOURADO...) */
+    .time-grid-casa-brava {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    .time-slot-btn {
+      background: #161824;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 0;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      color: #cbd5e1;
+      transition: all 0.2s;
+    }
+    .time-slot-btn.selected {
+      background: var(--gold);
+      color: #000;
+      border-color: var(--gold);
+      font-weight: 900;
+    }
+
+    /* TICKET COMPROVANTE ESTILO CASA BRAVA (00:08) */
+    .ticket-receipt-card {
+      background: #141724;
+      border: 1px dashed var(--gold);
+      border-radius: 18px;
+      padding: 18px;
+      position: relative;
+      margin-bottom: 16px;
+    }
+    .receipt-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 5px 0;
+      font-size: 12px;
+      color: #cbd5e1;
+    }
+    .receipt-row.total {
+      border-top: 1px dashed #333;
+      margin-top: 10px;
+      padding-top: 10px;
+      font-size: 16px;
+      font-weight: 900;
+      color: #fff;
+    }
+    .receipt-row.total strong { color: var(--gold); }
+
+    /* =========================================================
+       4. LOJA DE PRODUTOS COM CARRINHO MULTIPLO & CHECKOUT COMPLETO
+       ========================================================= */
+    .product-shop-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+    }
+    .prod-card-shop {
+      background: #12141c;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .prod-card-shop img {
+      width: 100%;
+      height: 140px;
+      border-radius: 12px;
       object-fit: cover;
-      border: 2px solid var(--gold);
+      margin-bottom: 12px;
+    }
+
+    /* CARRINHO MODAL FLUTUANTE */
+    #cart-slide-modal {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.88);
+      backdrop-filter: blur(12px);
+      z-index: 99990;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .cart-box-container {
+      background: #11131c;
+      border: 1px solid var(--gold);
+      border-radius: 28px;
+      max-width: 480px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 24px;
     }
 
     /* =========================================================
-       ILHAS FLUTUANTES SEPARADAS: DONO vs CLIENTE (CORRIGIDO)
+       5. MATRIZ SEMANAL EXPANSÍVEL NA VISÃO DO DONO
+       ========================================================= */
+    .matrix-board-container {
+      width: 100%;
+      overflow-x: auto;
+      background: #0d0f17;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 18px;
+      margin-top: 16px;
+    }
+    .matrix-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+      text-align: center;
+    }
+    .matrix-table th {
+      padding: 12px 10px;
+      background: #151824;
+      color: var(--gold);
+      border: 1px solid var(--border);
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+    .matrix-table td {
+      padding: 10px 8px;
+      border: 1px solid var(--border);
+      background: #10121a;
+      color: #cbd5e1;
+    }
+    .slot-booked {
+      background: rgba(212, 163, 115, 0.2) !important;
+      color: var(--gold) !important;
+      font-weight: 800;
+      border-radius: 6px;
+      padding: 4px;
+    }
+
+    /* =========================================================
+       6. ILHAS FLUTUANTES SEPARADAS (CLIENTE vs DONO COM EMOJIS)
        ========================================================= */
     .floating-bottom-dock {
       position: fixed;
@@ -575,19 +706,18 @@
       transform: translateX(-50%);
       width: calc(100% - 32px);
       max-width: 440px;
-      height: 66px;
+      height: 68px;
       background: rgba(10, 11, 16, 0.94);
       backdrop-filter: blur(24px);
       border: 1.5px solid rgba(255, 255, 255, 0.12);
       border-radius: 999px;
-      display: none;
+      display: none; /* Apenas no celular! No PC o layout é horizontal */
       justify-content: space-around;
       align-items: center;
       padding: 0 10px;
       z-index: 1000;
       box-shadow: 0 16px 40px rgba(0,0,0,0.85);
     }
-
     @media (max-width: 768px) {
       .floating-bottom-dock { display: flex; }
       .desktop-sidebar { display: none !important; }
@@ -604,30 +734,22 @@
       color: #8e95a5;
       cursor: pointer;
       width: 52px;
-      height: 50px;
+      height: 52px;
       border-radius: 50%;
-    }
-    .dock-tab-btn svg {
-      width: 20px;
-      height: 20px;
-      fill: none;
-      stroke: #8e95a5;
-      stroke-width: 2;
+      font-size: 16px;
     }
     .dock-tab-btn .lbl {
       font-size: 9px;
       font-weight: 800;
       text-transform: uppercase;
       margin-top: 3px;
-      color: #8e95a5;
     }
     .dock-tab-btn.active { color: var(--gold); }
-    .dock-tab-btn.active svg { stroke: var(--gold); }
     .dock-tab-btn.active .lbl { color: var(--gold); }
 
-    .dock-scissor-gold-btn {
-      width: 52px;
-      height: 52px;
+    .dock-center-scissor-btn {
+      width: 54px;
+      height: 54px;
       border-radius: 50%;
       background: var(--gold);
       color: #000;
@@ -637,35 +759,14 @@
       justify-content: center;
       cursor: pointer;
       transform: translateY(-8px);
-      box-shadow: 0 8px 24px rgba(197, 155, 99, 0.5);
-    }
-
-    /* SWITCH TOGGLE */
-    .switch-ui { position: relative; width: 40px; height: 22px; }
-    .switch-ui input { opacity: 0; width: 0; height: 0; }
-    .slider-ui {
-      position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
-      background: #2b3044; border-radius: 30px; transition: .2s;
-    }
-    .slider-ui:before {
-      position: absolute; content: ""; height: 16px; width: 16px; left: 3px; bottom: 3px;
-      background: #fff; border-radius: 50%; transition: .2s;
-    }
-    input:checked + .slider-ui { background: var(--neon-green); }
-    input:checked + .slider-ui:before { transform: translateX(18px); }
-
-    /* CUPOM TÉRMICO NÃO FISCAL */
-    @media print {
-      body * { visibility: hidden; }
-      #modal-cupom-print, #modal-cupom-print * { visibility: visible; }
-      #modal-cupom-print { position: absolute; left: 0; top: 0; width: 100%; }
-      .no-print { display: none !important; }
+      box-shadow: 0 8px 24px rgba(212, 163, 115, 0.5);
+      font-size: 20px;
     }
   </style>
 </head>
 <body>
 
-  <!-- SPLASH SCREEN OFICIAL (COM AUTORREMOÇÃO INCONDICIONAL) -->
+  <!-- 1. SPLASH SCREEN (AUTORREMOÇÃO INCONDICIONAL) -->
   <div id="splash-screen">
     <div class="splash-halo"></div>
     <div class="splash-rt">RT</div>
@@ -674,15 +775,15 @@
     <div class="splash-tagline">SISTEMA DE GESTÃO PROFISSIONAL</div>
   </div>
 
-  <!-- TELA DE LOGIN & CADASTRO REAL (SUPABASE COMPATIBLE) -->
+  <!-- 2. TELA DE AUTENTICAÇÃO HÍBRIDA REAL -->
   <div id="auth-screen-overlay">
     <div class="auth-split-wrapper">
       
       <div class="auth-hero-side">
         <div class="auth-hero-content">
           <div class="auth-hero-tag">EXPERIÊNCIA EXCLUSIVA</div>
-          <h1 class="auth-hero-title">CORTE FINO • ESTILO PURO • MASCULINO</h1>
-          <p class="auth-hero-sub">Plataforma oficial de agendamentos, estoque, comissões e gestão completa para barbearias de alto padrão.</p>
+          <h1 class="auth-hero-title">SUA ROTINA, REFINADA.</h1>
+          <p class="auth-hero-sub">Agende seu corte, escolha seu barbeiro e pague em segundos. Tudo na palma da mão.</p>
         </div>
       </div>
 
@@ -700,17 +801,17 @@
           <button class="auth-tab-btn" id="btn-tab-auth-dono" onclick="alternarAbaAuth('DONO')">Painel Barbearia</button>
         </div>
 
-        <div id="auth-form-box">
+        <div>
           <label style="font-size:11px; font-weight:800; color:var(--text-muted); text-transform:uppercase; margin-bottom:6px; display:block;">Seu E-mail:</label>
-          <input type="email" id="auth-input-email" class="form-input-field" placeholder="seu@email.com">
+          <input type="email" id="auth-inp-email" class="form-input-field" placeholder="seu@email.com" value="roberthaelley75@gmail.com">
 
           <label style="font-size:11px; font-weight:800; color:var(--text-muted); text-transform:uppercase; margin-bottom:6px; display:block;">Sua Senha:</label>
-          <input type="password" id="auth-input-senha" class="form-input-field" placeholder="Mínimo de 6 caracteres">
+          <input type="password" id="auth-inp-senha" class="form-input-field" placeholder="Mínimo de 6 caracteres" value="123456">
 
-          <button class="btn-submit-auth" onclick="processarAutenticacao()">Acessar Plataforma ➔</button>
+          <button class="btn-submit-auth" onclick="realizarLogin()">Acessar Plataforma ➔</button>
 
           <div style="text-align:center; margin-top:16px;">
-            <span id="btn-trial-trigger-auth" style="font-size:11px; color:var(--neon-green); font-weight:800; cursor:pointer; text-transform:uppercase;" onclick="ativarTrial48h()">
+            <span id="btn-trial-trigger-auth" style="font-size:11px; color:var(--neon-green); font-weight:800; cursor:pointer; text-transform:uppercase; display:none;" onclick="ativarTrial48h()">
               Ainda não tem conta? Testar 48h Grátis ↗
             </span>
           </div>
@@ -723,14 +824,14 @@
   <!-- BARRA SUPERIOR SAAS MASTER & ROLES -->
   <div class="saas-status-bar">
     <div>
-      Usuário: <strong id="lbl-logged-email">Desconectado</strong>
+      Usuário: <strong id="lbl-logged-email">roberthaelley75@gmail.com</strong>
       <span class="badge-pill-status vitalicio" id="badge-role-user">Super Admin Vitalício</span>
     </div>
 
     <div style="display:flex; gap:6px;">
-      <button class="btn-dark-secondary" style="padding:4px 10px; font-size:10px;" onclick="mudarPerfilVisual('CLIENTE')">Visão Cliente</button>
-      <button class="btn-dark-secondary" style="padding:4px 10px; font-size:10px;" onclick="mudarPerfilVisual('DONO')">Painel Dono</button>
-      <button class="btn-dark-secondary" style="padding:4px 10px; font-size:10px; color:var(--red);" onclick="realizarLogout()">Desconectar</button>
+      <button class="btn-role-tab active" onclick="definirModoVisao('CLIENTE')">Visão Cliente</button>
+      <button class="btn-role-tab" onclick="definirModoVisao('DONO')">Painel Dono</button>
+      <button class="btn-role-tab" style="color:var(--red);" onclick="realizarLogout()">Desconectar</button>
     </div>
   </div>
 
@@ -747,43 +848,40 @@
         </div>
       </div>
 
-      <div class="menu-group-label">GESTÃO DA BARBEARIA</div>
+      <div class="menu-group-label">GESTÃO OPERACIONAL</div>
       <nav class="sidebar-nav-list">
         <button class="side-nav-btn active" onclick="trocarAbaWorkspace('tab-visao-geral', this)">
-          <svg class="svg-icon-ui" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
           Visão Geral
         </button>
 
         <button class="side-nav-btn" onclick="trocarAbaWorkspace('tab-matriz-equipe', this)">
-          <svg class="svg-icon-ui" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line></svg>
-          Grade Semanal
+          Grade Semanal da Equipe
         </button>
 
         <button class="side-nav-btn" onclick="trocarAbaWorkspace('tab-servicos-tabela', this)">
-          <svg class="svg-icon-ui" viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><line x1="20" y1="4" x2="8.12" y2="15.88"></line></svg>
           Catálogo & Preços
         </button>
 
         <button class="side-nav-btn" onclick="trocarAbaWorkspace('tab-barbeiros-painel', this)">
-          <svg class="svg-icon-ui" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
           Barbeiros & Contatos
         </button>
 
         <button class="side-nav-btn" onclick="trocarAbaWorkspace('tab-estoque-geral', this)">
-          <svg class="svg-icon-ui" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path></svg>
           Estoque da Loja
         </button>
 
         <button class="side-nav-btn" onclick="trocarAbaWorkspace('tab-caixa-comandas', this)">
-          <svg class="svg-icon-ui" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"></rect><line x1="6" y1="12" x2="18" y2="12"></line></svg>
-          Caixa & Fechamento
+          Caixa & Fechamento Cego
         </button>
 
         <button class="side-nav-btn" onclick="trocarAbaWorkspace('tab-configuracoes-db', this)">
-          <svg class="svg-icon-ui" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06-.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06-.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
           Supabase, Bio & Pix
         </button>
       </nav>
+
+      <div style="padding-top:14px; border-top:1px solid var(--border); font-size:11px; color:var(--text-muted);">
+        Plataforma SaaS: <strong style="color:var(--neon-green);">Ativa (R$ 50/mês)</strong>
+      </div>
     </aside>
 
     <!-- ÁREA PRINCIPAL -->
@@ -791,157 +889,183 @@
       <div class="workspace-inner">
 
         <!-- =======================================================
-             1. VISÃO DO CLIENTE: 4 COLUNAS HORIZONTAIS
+             1. VISÃO DO CLIENTE: O PADRÃO "CASA BRAVA" COM 4 COLUNAS
              ======================================================= -->
         <section id="tab-cliente-portal-view" class="screen-tab-panel active">
           
-          <div class="hero-banner-establishment" id="banner-hero-establishment" style="background-image: url('https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=900');">
-            <div class="hero-meta-box">
-              <div style="font-size:11px; font-weight:800; letter-spacing:2px; color:var(--gold); text-transform:uppercase; margin-bottom:4px;">UNIDADE OFICIAL</div>
-              <h1 style="font-size:28px; font-weight:900; line-height:1.15; text-transform:uppercase;" id="lbl-establishment-name">RT Mobile Barber</h1>
-              <p style="font-size:13px; color:#cbd5e1; margin-top:4px;" id="lbl-establishment-address">Centro, Santa Izabel do Pará – PA</p>
+          <!-- BANNER HERO CASA BRAVA COM FOTO DO ESPAÇO FÍSICO RESTAURADA -->
+          <div class="casa-brava-hero" id="banner-hero-establishment" style="background-image: url('https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=900');">
+            <div class="hero-casa-content">
+              <div class="hero-kicker-badge">BARBEARIA PREMIUM</div>
+              <h1 class="hero-casa-title" id="lbl-establishment-name">Sua rotina, refinada.</h1>
+              <p class="hero-casa-sub" id="lbl-establishment-address">Agende seu corte, escolha seu barbeiro e pague em segundos. Tudo na palma da mão.</p>
+              
+              <button class="btn-gold-primary" style="margin-top:16px; padding:14px 28px; font-size:12px;" onclick="rolarParaAgendamento()">
+                Toque para Agendar ➔
+              </button>
             </div>
           </div>
 
-          <!-- 4 BOTÕES COM ÍCONES VETORIAIS REAIS -->
-          <div class="strip-categories-4">
-            <div class="category-card-item active" onclick="filtrarCategoriaPortal('CORTE', this)">
-              <svg class="category-svg-custom" viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><line x1="20" y1="4" x2="8.12" y2="15.88"></line></svg>
-              <span class="label">Cortes</span>
-            </div>
-            <div class="category-card-item" onclick="filtrarCategoriaPortal('BARBA', this)">
-              <svg class="category-svg-custom" viewBox="0 0 24 24"><path d="M4 7c0 4 2 8 8 11 6-3 8-7 8-11"></path><line x1="12" y1="17" x2="12" y2="21"></line></svg>
-              <span class="label">Barba</span>
-            </div>
-            <div class="category-card-item" onclick="filtrarCategoriaPortal('NAVALHA', this)">
-              <svg class="category-svg-custom" viewBox="0 0 24 24"><path d="M3 14l9-9 3 3-9 9z"></path><line x1="12" y1="5" x2="19" y2="2"></line></svg>
-              <span class="label">Navalha</span>
-            </div>
-            <div class="category-card-item" onclick="filtrarCategoriaPortal('COMBO', this)">
-              <svg class="category-svg-custom" viewBox="0 0 24 24"><line x1="4" y1="4" x2="20" y2="20"></line><line x1="20" y1="4" x2="4" y2="20"></line></svg>
-              <span class="label">Combos</span>
-            </div>
+          <!-- CARROSSEL DE SERVIÇOS (ESTILO CASA BRAVA 00:01) -->
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+            <h3 style="font-size:14px; font-weight:900; text-transform:uppercase; letter-spacing:1px; color:#fff;">Serviços em Destaque</h3>
+            <span style="font-size:11px; color:var(--gold); font-weight:800; cursor:pointer;" onclick="rolarParaAgendamento()">Ver Tudo ➔</span>
           </div>
+          <div class="services-carousel-strip" id="carousel-servicos-cliente"></div>
 
-          <!-- AS 4 COLUNAS HORIZONTAIS DA FOTO (IMAGE_2.PNG) -->
-          <div class="board-horizontal-schedule">
+          <!-- SEÇÃO "NOSSOS BARBEIROS" LUXUOSOS (ESTILO CASA BRAVA 00:02) -->
+          <div style="display:flex; justify-content:space-between; align-items:center; margin:24px 0 14px;">
+            <h3 style="font-size:14px; font-weight:900; text-transform:uppercase; letter-spacing:1px; color:#fff;">Nossos Barbeiros Especialistas</h3>
+            <span style="font-size:11px; color:var(--gold); font-weight:800; cursor:pointer;" onclick="trocarAbaMobileCliente('tab-barbeiros-painel', null)">Equipe Completa ➔</span>
+          </div>
+          <div id="lista-barbeiros-casa-brava"></div>
+
+          <!-- PAINEL HORIZONTAL 4 COLUNAS (IMAGE_2.PNG + CASA BRAVA) -->
+          <div class="schedule-board-horizontal" id="bloco-agendamento-completo" style="margin-top:32px;">
             <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:18px; margin-bottom:20px;">
-              <h2 style="font-size:22px; font-weight:900;">Agende seu horário</h2>
+              <div>
+                <h2 style="font-size:22px; font-weight:900;">Agende seu horário</h2>
+                <div style="font-size:11px; color:var(--gold); font-weight:800; text-transform:uppercase; margin-top:4px;">Atendimento com hora marcada</div>
+              </div>
               <div style="font-size:11px; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Seg - Sáb: 09h às 20h</div>
             </div>
 
-            <div class="grid-4-columns-schedule">
-              <div class="col-schedule-box">
+            <div class="board-grid-4-cols">
+              
+              <!-- COLUNA 1: SERVIÇO -->
+              <div class="schedule-column-box">
                 <h3>1. Escolha o serviço</h3>
                 <div id="col1-services-list"></div>
+                <div style="font-size:10px; color:#64748b; margin-top:auto; padding-top:12px;">
+                  Todos os serviços incluem toalha quente e finalização.
+                </div>
               </div>
 
-              <div class="col-schedule-box">
+              <!-- COLUNA 2: BARBEIRO -->
+              <div class="schedule-column-box">
                 <h3>2. Escolha o barbeiro</h3>
                 <div id="col2-barbers-list"></div>
               </div>
 
-              <div class="col-schedule-box">
-                <h3>3. Escolha a data & hora</h3>
-                <div style="display:grid; grid-template-columns:repeat(7, 1fr); gap:3px; text-align:center; margin-bottom:14px;" id="col3-calendar-days"></div>
-                <h3 style="margin-top:8px;">Horários</h3>
-                <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:6px;" id="col3-time-slots"></div>
+              <!-- COLUNA 3: DATA & HORÁRIO (ESTILO CASA BRAVA 00:04) -->
+              <div class="schedule-column-box">
+                <h3>3. Escolha a data</h3>
+                <div class="calendar-pills-row" id="col3-days-pills"></div>
+
+                <h3 style="margin-top:12px;">Horários Disponíveis</h3>
+                <div class="time-grid-casa-brava" id="col3-time-slots"></div>
               </div>
 
-              <div class="col-schedule-box">
-                <h3>4. Resumo do agendamento</h3>
-                <div style="background:#161824; border-radius:14px; padding:14px; font-size:11px; margin-bottom:14px; border:1px solid var(--border);">
-                  <div style="display:flex; justify-content:space-between; padding:4px 0;"><span>Serviço:</span><strong id="sum-col4-servico" style="color:#fff;">Corte Degradê</strong></div>
-                  <div style="display:flex; justify-content:space-between; padding:4px 0;"><span>Barbeiro:</span><strong id="sum-col4-barbeiro" style="color:#fff;">Lucas Ferreira</strong></div>
-                  <div style="display:flex; justify-content:space-between; padding:4px 0;"><span>Data:</span><strong id="sum-col4-data" style="color:#fff;">22 de Maio de 2026</strong></div>
-                  <div style="display:flex; justify-content:space-between; padding:4px 0;"><span>Horário:</span><strong id="sum-col4-hora" style="color:#fff;">16:00</strong></div>
-                  <div style="display:flex; justify-content:space-between; border-top:1px solid var(--border); margin-top:8px; padding-top:10px; font-size:14px; font-weight:900;"><span>Total:</span><strong id="sum-col4-total" style="color:var(--gold);">R$ 50,00</strong></div>
+              <!-- COLUNA 4: RESUMO & CONFIRMAÇÃO (ESTILO CASA BRAVA 00:06) -->
+              <div class="schedule-column-box">
+                <h3>4. Confirme seu pedido</h3>
+                
+                <div class="ticket-receipt-card">
+                  <div class="receipt-row"><span>Barbeiro:</span><strong id="sum-col4-barbeiro" style="color:#fff;">Lucas Ferreira</strong></div>
+                  <div class="receipt-row"><span>Serviço:</span><strong id="sum-col4-servico" style="color:#fff;">Combo Corte + Barba</strong></div>
+                  <div class="receipt-row"><span>Duração:</span><strong id="sum-col4-duracao" style="color:#fff;">60 min</strong></div>
+                  <div class="receipt-row"><span>Data:</span><strong id="sum-col4-data" style="color:#fff;">Segunda-Feira, 15 de Junho</strong></div>
+                  <div class="receipt-row"><span>Horário:</span><strong id="sum-col4-hora" style="color:#fff;">11:30</strong></div>
+                  <div class="receipt-row total"><span>Total:</span><strong id="sum-col4-total">R$ 95,00</strong></div>
                 </div>
 
+                <div style="font-size:10px; font-weight:800; color:var(--gold); text-transform:uppercase; margin-bottom:6px;">
+                  Forma de Pagamento:
+                </div>
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:12px;">
-                  <button class="btn-dark-secondary" style="font-size:10px;" id="btn-pay-local-choice" onclick="setChoicePayment('LOCAL')">No Local</button>
-                  <button class="btn-dark-secondary" style="font-size:10px;" id="btn-pay-pix-choice" onclick="setChoicePayment('PIX')">Pix Online</button>
+                  <button class="time-slot-btn selected" id="btn-pay-local-choice" onclick="setChoicePayment('LOCAL')">Pagar no Local</button>
+                  <button class="time-slot-btn" id="btn-pay-pix-choice" onclick="setChoicePayment('PIX')">Pix Online</button>
                 </div>
 
-                <button class="btn-gold-primary" style="width:100%; padding:14px;" onclick="confirmarAgendamentoClienteFinal()">CONFIRMAR AGENDAMENTO ➔</button>
+                <button class="btn-gold-primary" style="width:100%; padding:14px;" onclick="confirmarAgendamentoClienteFinal()">
+                  GARANTIR MEU HORÁRIO ➔
+                </button>
               </div>
+
             </div>
           </div>
 
         </section>
 
         <!-- =======================================================
-             2. VISÃO DO CLIENTE: LOJA DE PRODUTOS & CARRINHO (NÃO ESTOQUE!)
+             2. LOJA DO CLIENTE: COM CARRINHO MÚLTIPLO & NEGOCIAÇÃO
              ======================================================= -->
         <section id="tab-cliente-loja-view" class="screen-tab-panel">
           <div class="card-panel-dark">
-            <h3 style="font-size:16px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:6px;">Loja de Produtos da Barbearia</h3>
-            <p style="font-size:12px; color:var(--text-muted); margin-bottom:20px;">Pomadas em pó, óleos e itens exclusivos para levar para casa.</p>
-            
-            <div id="grid-loja-cliente-produtos" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); gap:16px;"></div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+              <div>
+                <h3 style="font-size:15px; font-weight:900; color:var(--gold); text-transform:uppercase;">Loja de Produtos & Pomadas</h3>
+                <p style="font-size:12px; color:var(--text-muted);">Adicione múltiplos itens ao seu carrinho e retire no balcão.</p>
+              </div>
+              <button class="btn-gold-primary" onclick="abrirModalCarrinho()" style="display:flex; align-items:center; gap:8px;">
+                Ver Sacola (<span id="lbl-cart-count-badge">0</span>) 🛍️
+              </button>
+            </div>
+
+            <div class="product-shop-grid" id="grid-loja-cliente-produtos"></div>
           </div>
         </section>
 
         <!-- =======================================================
-             3. VISÃO DO DONO: PAINEL DE BARBEIROS COM WHATSAPP DIRETO
+             3. VISÃO DO DONO: GRADE SEMANAL DINÂMICA
+             ======================================================= -->
+        <section id="tab-matriz-equipe" class="screen-tab-panel">
+          <div class="card-panel-dark">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <h3 style="font-size:14px; font-weight:900; color:var(--gold); text-transform:uppercase;">Matriz Semanal de Agendamentos da Equipe</h3>
+                <p style="font-size:11px; color:var(--text-muted); margin-top:2px;">Tabela expandida automaticamente de acordo com os barbeiros da barbearia.</p>
+              </div>
+              <button class="btn-gold-primary" onclick="adicionarBarbeiroPrompt()">+ Adicionar Barbeiro</button>
+            </div>
+
+            <div class="matrix-board-container">
+              <table class="matrix-table" id="tabela-matriz-equipe"></table>
+            </div>
+          </div>
+        </section>
+
+        <!-- =======================================================
+             4. VISÃO DO DONO: SERVIÇOS & PREÇOS
+             ======================================================= -->
+        <section id="tab-servicos-tabela" class="screen-tab-panel">
+          <div class="card-panel-dark">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+              <h3 style="font-size:14px; font-weight:900; color:var(--gold); text-transform:uppercase;">Catálogo de Cortes & Procedimentos</h3>
+              <button class="btn-gold-primary" onclick="adicionarServicoPrompt()">+ Novo Procedimento</button>
+            </div>
+            <div id="lista-servicos-completa-gestao"></div>
+          </div>
+        </section>
+
+        <!-- =======================================================
+             5. VISÃO DO DONO: BARBEIROS, WHATSAPP & INSTAGRAM
              ======================================================= -->
         <section id="tab-barbeiros-painel" class="screen-tab-panel">
           <div class="card-panel-dark">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
-              <div>
-                <h3 style="font-size:15px; font-weight:900; color:var(--gold); text-transform:uppercase;">Equipe de Barbeiros & Contato Direto</h3>
-                <p style="font-size:12px; color:var(--text-muted);">Foto, Nome, @ do Instagram, Telefone e botão de WhatsApp direto.</p>
-              </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+              <h3 style="font-size:14px; font-weight:900; color:var(--gold); text-transform:uppercase;">Equipe de Barbeiros & Contato Direto</h3>
               <button class="btn-gold-primary" onclick="adicionarBarbeiroCompletoPrompt()">+ Cadastrar Novo Barbeiro</button>
             </div>
-
             <div id="lista-barbeiros-cards-completos"></div>
           </div>
         </section>
 
         <!-- =======================================================
-             4. VISÃO DO DONO: GRADE SEMANAL DINÂMICA
-             ======================================================= -->
-        <section id="tab-matriz-equipe" class="screen-tab-panel">
-          <div class="card-panel-dark">
-            <h3 style="font-size:15px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:14px;">Grade Semanal da Equipe</h3>
-            <div style="overflow-x:auto;">
-              <table style="width:100%; border-collapse:collapse; font-size:11px; text-align:center;" id="tabela-matriz-equipe"></table>
-            </div>
-          </div>
-        </section>
-
-        <!-- =======================================================
-             5. VISÃO DO DONO: CATÁLOGO DE SERVIÇOS & PREÇOS
-             ======================================================= -->
-        <section id="tab-servicos-tabela" class="screen-tab-panel">
-          <div class="card-panel-dark">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-              <h3 style="font-size:15px; font-weight:900; color:var(--gold); text-transform:uppercase;">Catálogo de Procedimentos & Preços</h3>
-              <button class="btn-gold-primary" onclick="adicionarServicoPrompt()">+ Novo Procedimento</button>
-            </div>
-            <div id="lista-servicos-gestao-crud"></div>
-          </div>
-        </section>
-
-        <!-- =======================================================
-             6. VISÃO DO DONO: ESTOQUE DE PRODUTOS & COMANDAS
+             6. VISÃO DO DONO: ESTOQUE DE PRODUTOS & AJUSTE DE PREÇO
              ======================================================= -->
         <section id="tab-estoque-geral" class="screen-tab-panel">
           <div class="card-panel-dark">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-              <div>
-                <h3 style="font-size:15px; font-weight:900; color:var(--gold); text-transform:uppercase;">Estoque de Produtos & Ajuste de Preço</h3>
-                <p style="font-size:11px; color:var(--text-muted);">Altere a quantidade e o preço. O que tiver estoque positivo aparece na Loja do Cliente.</p>
-              </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+              <h3 style="font-size:14px; font-weight:900; color:var(--gold); text-transform:uppercase;">Estoque de Produtos & Ajuste de Preço</h3>
               <button class="btn-gold-primary" onclick="cadastrarProdutoEstoquePrompt()">+ Novo Produto</button>
             </div>
-            <div id="grid-estoque-produtos-admin" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap:14px;"></div>
+            <div id="grid-estoque-produtos-admin" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(240px, 1fr)); gap:14px;"></div>
           </div>
         </section>
 
         <!-- =======================================================
-             7. VISÃO DO DONO: CAIXA, COMANDAS & FECHAMENTO CEGO
+             7. VISÃO DO DONO: COMANDAS & CAIXA CEGO
              ======================================================= -->
         <section id="tab-caixa-comandas" class="screen-tab-panel">
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
@@ -952,23 +1076,21 @@
 
             <div class="card-panel-dark">
               <h3 style="font-size:14px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:12px;">Fechamento Cego de Caixa</h3>
-              <input type="number" id="inp-fech-dinheiro" class="form-input-field" placeholder="Dinheiro Contado (R$)" value="120.00">
+              <input type="number" id="inp-fech-dinheiro" class="form-input-field" placeholder="Total em Dinheiro (R$)" value="120.00">
               <input type="number" id="inp-fech-cartao" class="form-input-field" placeholder="Comprovantes Cartão (R$)" value="60.00">
               <button class="btn-gold-primary" style="width:100%;" onclick="apurarFechamentoCego()">Realizar Fechamento Cego ↗</button>
-              <div id="box-resultado-fechamento" style="display:none; margin-top:14px; padding:12px; border-radius:10px; background:#141724; font-size:11px;"></div>
+              <div id="box-resultado-fechamento-cego" style="display:none; margin-top:14px; padding:12px; border-radius:10px; background:#141724; font-size:11px;"></div>
             </div>
           </div>
         </section>
 
         <!-- =======================================================
-             8. VISÃO DO DONO: CONFIGURAÇÃO SUPABASE & BIO
+             8. VISÃO DO DONO: CONFIGURAÇÕES & SUPABASE
              ======================================================= -->
         <section id="tab-configuracoes-db" class="screen-tab-panel">
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
             <div class="card-panel-dark">
               <h3 style="font-size:14px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:12px;">Conexão Supabase / Banco de Dados</h3>
-              <p style="font-size:11px; color:var(--text-muted); margin-bottom:14px;">Gerencie as credenciais oficiais de banco de dados e autenticação.</p>
-              
               <label style="font-size:10px; color:var(--text-muted); text-transform:uppercase;">SUPABASE_URL:</label>
               <input type="text" id="cfg-supabase-url" class="form-input-field" value="https://ptzuiinoiycohhnihcmh.supabase.co">
 
@@ -983,7 +1105,7 @@
               <input type="text" id="inp-slug-bio" class="form-input-field" readonly value="https://rt-mobile-barber.onrender.com/unidade-centro">
               <button class="btn-gold-primary" style="width:100%; margin-bottom:18px;" onclick="copiarLinkBio()">Copiar Link da Bio 📋</button>
 
-              <h3 style="font-size:14px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:12px;">Dados do Estabelecimento & Pix</h3>
+              <h3 style="font-size:14px; font-weight:900; color:var(--gold); text-transform:uppercase; margin-bottom:12px;">Dados da Barbearia & Pix</h3>
               <input type="text" id="cfg-inp-nome" class="form-input-field" value="RT Mobile Barber">
               <input type="text" id="cfg-inp-endereco" class="form-input-field" value="Centro, Santa Izabel do Pará – PA">
               <input type="text" id="cfg-inp-foto" class="form-input-field" value="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=900">
@@ -998,95 +1120,115 @@
 
   </div>
 
-  <!-- ILHA FLUTUANTE INFERIOR DOCK DO CLIENTE (MOBILE EXCLUSIVO) -->
+  <!-- =========================================================
+       ILHA FLUTUANTE INFERIOR DOCK DO CLIENTE (MOBILE)
+       [Início] [Agenda] [Tesoura] [Loja] [Equipe]
+       ========================================================= -->
   <nav class="floating-bottom-dock" id="dock-cliente-mobile">
     <button class="dock-tab-btn active" onclick="trocarAbaMobileCliente('tab-cliente-portal-view', this)">
-      <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+      🏠
       <span class="lbl">Início</span>
     </button>
 
-    <button class="dock-tab-btn" onclick="trocarAbaMobileCliente('tab-cliente-portal-view', this)">
-      <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line></svg>
+    <button class="dock-tab-btn" onclick="trocarAbaMobileCliente('tab-cliente-portal-view', this); rolarParaAgendamento();">
+      📅
       <span class="lbl">Agenda</span>
     </button>
 
-    <div class="dock-scissor-gold-btn" onclick="abrirAgendamentoRapidoDock()">
-      <svg style="width:24px; height:24px; stroke:#000; fill:none; stroke-width:2.2;" viewBox="0 0 24 24">
-        <circle cx="6" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle>
-        <line x1="20" y1="4" x2="8.12" y2="15.88"></line><line x1="14.47" y1="14.48" x2="20" y2="20"></line>
-      </svg>
+    <div class="dock-center-scissor-btn" onclick="rolarParaAgendamento()">
+      ✂️
     </div>
 
+    <!-- LOJA DE PRODUTOS PARA O CLIENTE -->
     <button class="dock-tab-btn" onclick="trocarAbaMobileCliente('tab-cliente-loja-view', this)">
-      <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path></svg>
+      🛍️
       <span class="lbl">Loja</span>
     </button>
 
     <button class="dock-tab-btn" onclick="trocarAbaMobileCliente('tab-barbeiros-painel', this)">
-      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+      💈
       <span class="lbl">Equipe</span>
     </button>
   </nav>
 
-  <!-- ILHA FLUTUANTE INFERIOR DOCK DO DONO (MOBILE EXCLUSIVO) -->
+  <!-- =========================================================
+       ILHA FLUTUANTE INFERIOR DOCK DO DONO (COM EMOJIS MODERNOS!)
+       ========================================================= -->
   <nav class="floating-bottom-dock" id="dock-dono-mobile" style="display:none;">
-    <button class="dock-tab-btn active" onclick="trocarAbaWorkspace('tab-visao-geral', this)">
-      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect></svg>
+    <button class="dock-tab-btn active" onclick="trocarAbaWorkspace('tab-matriz-equipe', this)">
+      📊
       <span class="lbl">Painel</span>
     </button>
     <button class="dock-tab-btn" onclick="trocarAbaWorkspace('tab-matriz-equipe', this)">
-      <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"></rect></svg>
+      📅
       <span class="lbl">Grade</span>
     </button>
-    <div class="dock-scissor-gold-btn" onclick="trocarAbaWorkspace('tab-caixa-comandas', null)">
-      <svg style="width:24px; height:24px; stroke:#000; fill:none; stroke-width:2.2;" viewBox="0 0 24 24">
-        <rect x="2" y="4" width="20" height="16" rx="2"></rect><line x1="6" y1="12" x2="18" y2="12"></line>
-      </svg>
+    <div class="dock-center-scissor-btn" onclick="trocarAbaWorkspace('tab-caixa-comandas', null)">
+      ✂️
     </div>
     <button class="dock-tab-btn" onclick="trocarAbaWorkspace('tab-estoque-geral', this)">
-      <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path></svg>
+      📦
       <span class="lbl">Estoque</span>
     </button>
     <button class="dock-tab-btn" onclick="trocarAbaWorkspace('tab-configuracoes-db', this)">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle></svg>
+      ⚙️
       <span class="lbl">Config</span>
     </button>
   </nav>
 
-  <!-- MODAL DE CUPOM TÉRMICO -->
-  <div id="modal-cupom-print" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:99995; align-items:center; justify-content:center; padding:16px;">
-    <div style="background:#fff; color:#000; font-family:monospace; max-width:360px; width:100%; padding:20px; border-radius:0;">
-      <div style="text-align:center; border-bottom:1px dashed #000; padding-bottom:8px; margin-bottom:10px;">
-        <h3 id="cupom-loja-nome" style="font-size:16px; margin:0;">RT MOBILE BARBER</h3>
-        <p id="cupom-loja-endereco" style="font-size:10px; margin:2px 0;">Centro, Santa Izabel do Pará</p>
-        <p style="font-size:11px; font-weight:bold; margin-top:4px;">COMPROVANTE DE ATENDIMENTO</p>
+  <!-- MODAL DO CARRINHO MULTIPLO & CHECKOUT COMPLETO (REQUISITO A) -->
+  <div id="cart-slide-modal">
+    <div class="cart-box-container">
+      <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:12px; margin-bottom:16px;">
+        <h3 style="font-size:15px; font-weight:900; color:var(--gold); text-transform:uppercase;">Sua Sacola de Compras</h3>
+        <button onclick="fecharModalCarrinho()" style="background:#1e2333; border:none; color:#fff; width:28px; height:28px; border-radius:50%; cursor:pointer;">✕</button>
       </div>
-      <div style="font-size:11px; line-height:1.4;">
-        <p>CLIENTE: <span id="cupom-cliente">Roberto</span></p>
-        <p>BARBEIRO: <span id="cupom-barbeiro">Lucas Ferreira</span></p>
-        <p>SERVIÇO: <span id="cupom-servico">Corte Degradê</span></p>
-        <p>VALOR: <span id="cupom-valor">R$ 50,00</span></p>
-        <p>DATA/HORA: <span id="cupom-data">22/05/2026 16:00</span></p>
+
+      <div id="cart-items-list" style="margin-bottom:16px;"></div>
+
+      <div style="display:flex; justify-content:space-between; font-size:15px; font-weight:900; margin-bottom:16px; border-top:1px dashed #333; padding-top:12px;">
+        <span>Total a Pagar:</span>
+        <span style="color:var(--gold);" id="lbl-total-carrinho">R$ 0,00</span>
       </div>
-      <div style="border-top:1px dashed #000; margin-top:12px; padding-top:12px; text-align:center; font-size:9px;">
-        <p>Obrigado pela preferência!</p>
-        <br>
-        <p>___________________________________<br>Assinatura do Cliente</p>
+
+      <label style="font-size:11px; font-weight:800; color:var(--text-muted); text-transform:uppercase; margin-bottom:6px; display:block;">Nome de quem comprou:</label>
+      <input type="text" id="cart-buyer-name" class="form-input-field" placeholder="Ex: Lucas Silva" required>
+
+      <div style="background:#141724; padding:12px; border-radius:12px; border:1px solid var(--border); margin-bottom:14px;">
+        <span style="font-size:11px; font-weight:800; color:#cbd5e1; display:block; margin-bottom:8px;">Quem vai buscar na barbearia?</span>
+        <div style="display:flex; gap:8px;">
+          <button type="button" id="btn-retirada-eu" class="time-slot-btn selected" style="flex:1;" onclick="setRetiradaTipo('EU')">Eu Mesmo</button>
+          <button type="button" id="btn-retirada-outro" class="time-slot-btn" style="flex:1;" onclick="setRetiradaTipo('OUTRO')">Outra Pessoa</button>
+        </div>
+
+        <div id="box-outro-nome" style="display:none; margin-top:10px;">
+          <input type="text" id="cart-pickup-other-name" class="form-input-field" placeholder="Nome completo de quem vai retirar">
+        </div>
       </div>
-      <div class="no-print" style="margin-top:14px; display:flex; gap:8px;">
-        <button class="btn-gold-primary" style="flex:1;" onclick="window.print()">Imprimir Cupom</button>
-        <button class="btn-dark-secondary" style="flex:1;" onclick="document.getElementById('modal-cupom-print').style.display='none'">Fechar</button>
+
+      <!-- PIX DA BARBEARIA COM QR CODE E COPIAR E COLAR -->
+      <div style="background:#090a10; padding:14px; border-radius:14px; border:1px solid #333; text-align:center; margin-bottom:16px;">
+        <div style="background:#fff; padding:8px; border-radius:10px; display:inline-block; margin-bottom:8px;">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=00020126580014BR.GOV.BCB.PIX0136contato@rtmobilebarber.com.br520400005303986540545.005802BR" style="width:110px; height:110px; display:block;">
+        </div>
+        <div style="font-size:11px; color:#cbd5e1; margin-bottom:6px;">Chave Pix: <strong>contato@rtmobilebarber.com.br</strong></div>
+        <button class="btn-dark-secondary" style="font-size:11px; padding:6px 14px;" onclick="navigator.clipboard.writeText('contato@rtmobilebarber.com.br'); alert('Chave Pix copiada com sucesso!');">
+          Copiar Chave Pix 📋
+        </button>
       </div>
+
+      <button class="btn-gold-primary" style="width:100%; padding:14px; background:#25d366; color:#000;" onclick="finalizarPedidoProdutosWhatsApp()">
+        Enviar Comprovante no WhatsApp 💬
+      </button>
     </div>
   </div>
 
   <script>
-    // 1. DESATIVAÇÃO INCONDICIONAL DO SPLASH (NUNCA MAIS TRAVA)
-    (function removerSplashGarantido() {
+    // 1. INICIALIZAÇÃO E REMOÇÃO GARANTIDA DA SPLASH
+    (function removerSplash() {
       const splash = document.getElementById('splash-screen');
       if (!splash) return;
-      const seen = sessionStorage.getItem('rt_splash_seen');
-      if (seen) {
+      if (sessionStorage.getItem('rt_splash_seen')) {
         splash.style.display = 'none';
       } else {
         setTimeout(() => {
@@ -1094,12 +1236,14 @@
           setTimeout(() => {
             splash.style.display = 'none';
             sessionStorage.setItem('rt_splash_seen', 'true');
-          }, 400);
+          }, 350);
         }, 1800);
       }
     })();
 
     let sessaoUsuario = { email: null, role: 'CLIENTE', autenticado: false };
+    let cartItens = [];
+    let tipoRetirada = 'EU';
 
     let dadosBarbearia = {
       nome: 'RT Mobile Barber',
@@ -1111,334 +1255,351 @@
     };
 
     let servicosDB = [
-      { id: 's1', nome: 'Corte Social Masculino', preco: 45.00, duracao: '30 min', categoria: 'CORTE', ativo: true },
-      { id: 's2', nome: 'Corte Degradê / Fade', preco: 50.00, duracao: '35 min', categoria: 'CORTE', ativo: true },
-      { id: 's3', nome: 'Corte Degradê Navalhado', preco: 55.00, duracao: '40 min', categoria: 'NAVALHA', ativo: true },
-      { id: 's4', nome: 'Corte Exclusivo na Tesoura', preco: 60.00, duracao: '45 min', categoria: 'CORTE', ativo: true },
-      { id: 's5', nome: 'Barba Tradicional c/ Toalha Quente', preco: 40.00, duracao: '30 min', categoria: 'BARBA', ativo: true },
-      { id: 's6', nome: 'Combo: Corte Degradê + Barba Completa', preco: 85.00, duracao: '60 min', categoria: 'COMBO', ativo: true },
-      { id: 's7', nome: 'Design de Sobrancelha Navalhada', preco: 20.00, duracao: '15 min', categoria: 'NAVALHA', ativo: true },
-      { id: 's8', nome: 'Lavagem Capilar c/ Massagem', preco: 20.00, duracao: '15 min', categoria: 'CORTE', ativo: true }
+      { id: 's1', nome: 'Corte Masculino', preco: 60.00, duracao: '30 min', categoria: 'CORTE', ativo: true },
+      { id: 's2', nome: 'Barba Completa', preco: 45.00, duracao: '30 min', categoria: 'BARBA', ativo: true },
+      { id: 's3', nome: 'Combo Corte + Barba', preco: 95.00, duracao: '60 min', categoria: 'COMBO', ativo: true },
+      { id: 's4', nome: 'Sobrancelha', preco: 25.00, duracao: '15 min', categoria: 'NAVALHA', ativo: true },
+      { id: 's5', nome: 'Corte Degradê Navalhado', preco: 65.00, duracao: '40 min', categoria: 'NAVALHA', ativo: true },
+      { id: 's6', nome: 'Hidratação Capilar', preco: 35.00, duracao: '25 min', categoria: 'CORTE', ativo: true }
     ];
 
     let barbeirosDB = [
-      { id: 'b1', nome: 'Lucas Ferreira', nota: '4.9', foto: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200', instagram: '@lucas.barber', whatsapp: '5591984551100', especialidade: 'Especialista em Degradê & Navalhado', presenteHoje: true },
-      { id: 'b2', nome: 'Gabriel Santos', nota: '4.8', foto: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200', instagram: '@gabriel.barber', whatsapp: '5591984551100', especialidade: 'Mestre em Barba Terapia & Toalha Quente', presenteHoje: true },
-      { id: 'b3', nome: 'Rafael Lima', nota: '4.9', foto: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?q=80&w=200', instagram: '@rafael.fade', whatsapp: '5591984551100', especialidade: 'Corte na Tesoura & Penteados Clássicos', presenteHoje: true },
-      { id: 'b4', nome: 'Matheus Alves', nota: '4.7', foto: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200', instagram: '@matheus.cut', whatsapp: '5591984551100', especialidade: 'Platinados, Luzes & Químicas', presenteHoje: false }
+      { id: 'b1', nome: 'Vicente Cruz', rank: 'MASTER BARBER', nota: '4.9 (128)', foto: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=300', instagram: '@vicente.barber', whatsapp: '5591984551100', tags: ['CORTE CLÁSSICO', 'BARBA'], presenteHoje: true },
+      { id: 'b2', nome: 'Arthur Mendes', rank: 'SENIOR BARBER', nota: '4.8 (94)', foto: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=300', instagram: '@arthur.barber', whatsapp: '5591984551100', tags: ['DEGRADÊ', 'NAVALHADO'], presenteHoje: true },
+      { id: 'b3', nome: 'Rodrigo Fade', rank: 'STYLIST', nota: '4.9 (210)', foto: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?q=80&w=300', instagram: '@rodrigo.fade', whatsapp: '5591984551100', tags: ['PIGMENTAÇÃO', 'TESOURA'], presenteHoje: true },
+      { id: 'b4', nome: 'Matheus Alves', rank: 'BARBER', nota: '4.7 (76)', foto: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=300', instagram: '@matheus.cut', whatsapp: '5591984551100', tags: ['LUZES', 'NEVOU'], presenteHoje: false }
     ];
 
     let estoqueDB = [
-      { id: 'p1', nome: 'Pomada em Pó Extra Volume', preco: 45.00, estoque: 6 },
-      { id: 'p2', nome: 'Pomada Efeito Matte 150g', preco: 40.00, estoque: 8 },
-      { id: 'p3', nome: 'Óleo Hidratante Barba 30ml', preco: 35.00, estoque: 5 },
-      { id: 'p4', nome: 'Cerveja Artesanal Long Neck', preco: 12.00, estoque: 18 }
+      { id: 'p1', nome: 'Pomada em Pó Extra Volume', preco: 45.00, estoque: 6, img: 'https://images.unsplash.com/photo-1597854710119-a5a8fc2579b5?q=80&w=300' },
+      { id: 'p2', nome: 'Pomada Efeito Matte 150g', preco: 40.00, estoque: 8, img: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=300' },
+      { id: 'p3', nome: 'Óleo Hidratante Barba 30ml', preco: 35.00, estoque: 5, img: 'https://images.unsplash.com/photo-1621607512214-68297480165e?q=80&w=300' },
+      { id: 'p4', nome: 'Cerveja Artesanal Long Neck', preco: 12.00, estoque: 18, img: 'https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?q=80&w=300' }
     ];
 
-    let comandasDB = [
-      { id: 'c1', cliente: 'Lucas Silva', barbeiro: 'Lucas Ferreira', itens: ['Corte Degradê (R$ 50)', 'Cerveja Artesanal (R$ 12)'], total: 62.00 }
+    let diasCasaBrava = [
+      { dia: 'SEG', num: '15 jun' },
+      { dia: 'TER', num: '16 jun' },
+      { dia: 'QUA', num: '17 jun' },
+      { dia: 'QUI', num: '18 jun' },
+      { dia: 'SEX', num: '19 jun' },
+      { dia: 'SÁB', num: '20 jun' }
     ];
 
-    let servicoSelecionado = servicosDB[1];
-    let barbeiroSelecionado = barbeirosDB[0];
-    let dataSelecionada = '22 de Maio de 2026';
-    let horaSelecionada = '16:00';
+    let servicoSelecionado = servicosDB[2]; // Combo Corte + Barba R$ 95
+    let barbeiroSelecionado = barbeirosDB[0]; // Vicente Cruz
+    let diaSelecionadoTxt = 'Segunda-Feira, 15 de Junho';
+    let horaSelecionada = '11:30';
     let metodoPagamento = 'LOCAL';
 
-    function alternarAbaAuth(tipo) {
-      document.getElementById('btn-tab-auth-cliente').className = 'auth-tab-btn' + (tipo === 'CLIENTE' ? ' active' : '');
-      document.getElementById('btn-tab-auth-dono').className = 'auth-tab-btn' + (tipo === 'DONO' ? ' active' : '');
-      document.getElementById('btn-trial-trigger-auth').style.display = tipo === 'DONO' ? 'inline' : 'none';
-    }
-
-    function processarAutenticacao() {
-      const email = document.getElementById('auth-input-email').value.trim();
-      const senha = document.getElementById('auth-input-senha').value.trim();
-
-      if (!email || !email.includes('@')) {
-        alert('Por favor, informe um e-mail válido.');
-        return;
-      }
-      if (!senha || senha.length < 6) {
-        alert('A senha deve ter no mínimo 6 caracteres.');
-        return;
-      }
-
-      sessaoUsuario.email = email;
-      sessaoUsuario.autenticado = true;
-      document.getElementById('lbl-logged-email').innerText = email;
-
-      if (email === 'roberthaelley75@gmail.com') {
-        sessaoUsuario.role = 'SUPER_ADMIN';
-        document.getElementById('badge-role-user').className = 'badge-pill-status vitalicio';
-        document.getElementById('badge-role-user').innerText = 'Super Admin Vitalício';
-        mudarPerfilVisual('DONO');
-      } else {
-        sessaoUsuario.role = 'CLIENTE';
-        document.getElementById('badge-role-user').className = 'badge-pill-status';
-        document.getElementById('badge-role-user').innerText = 'Cliente Autenticado';
-        mudarPerfilVisual('CLIENTE');
-      }
-
-      document.getElementById('auth-screen-overlay').classList.add('hidden');
-    }
-
-    function ativarTrial48h() {
-      const email = prompt("Informe o e-mail da sua Barbearia para ativar 48h Grátis:");
-      if (!email || !email.includes('@')) return;
-      sessaoUsuario.email = email;
-      sessaoUsuario.role = 'DONO';
-      sessaoUsuario.autenticado = true;
-      document.getElementById('lbl-logged-email').innerText = email;
-      document.getElementById('badge-role-user').className = 'badge-pill-status trial';
-      document.getElementById('badge-role-user').innerText = 'Teste 48h Ativo';
-      document.getElementById('auth-screen-overlay').classList.add('hidden');
-      mudarPerfilVisual('DONO');
-      alert(`Parabéns! Barbearia ${email} ativada com 48 Horas de Teste Grátis.`);
-    }
-
-    function realizarLogout() {
-      sessaoUsuario.autenticado = false;
-      sessaoUsuario.email = null;
-      document.getElementById('auth-input-email').value = '';
-      document.getElementById('auth-input-senha').value = '';
-      document.getElementById('auth-screen-overlay').classList.remove('hidden');
-    }
-
-    function mudarPerfilVisual(perfil) {
-      const sidebar = document.getElementById('app-sidebar-lateral');
-      const dockCliente = document.getElementById('dock-cliente-mobile');
-      const dockDono = document.getElementById('dock-dono-mobile');
-
-      if (perfil === 'CLIENTE') {
-        sidebar.style.display = 'none';
-        dockCliente.style.display = 'flex';
-        dockDono.style.display = 'none';
-        trocarAbaWorkspace('tab-cliente-portal-view', null);
-      } else {
-        sidebar.style.display = 'flex';
-        dockCliente.style.display = 'none';
-        dockDono.style.display = 'flex';
-        trocarAbaWorkspace('tab-visao-geral', null);
-      }
-    }
+    // RENDERIZAÇÃO & RESTAURAÇÃO DE SESSÃO PERSISTENTE
+    window.addEventListener('load', () => {
+      renderizarTudo();
+      verificarSessaoPersistida();
+    });
 
     function renderizarTudo() {
+      renderizarCarrosselServicosCliente();
+      renderizarBarbeirosCasaBrava();
       renderizarPainelHorizontal4Colunas();
       renderizarLojaCliente();
-      renderizarBarbeirosCompletos();
+      renderizarBarbeirosCompletosDono();
       renderizarTabelaMatrizEquipe();
       renderizarServicosGestao();
       renderizarEstoqueGestao();
-      renderizarComandas();
     }
 
-    function renderizarPainelHorizontal4Colunas(cat = 'TODOS') {
-      const col1 = document.getElementById('col1-services-list');
-      if (!col1) return;
-      col1.innerHTML = '';
-      const filtrados = servicosDB.filter(s => s.ativo && (cat === 'TODOS' || s.categoria === cat));
-      filtrados.forEach(s => {
-        const isSel = servicoSelecionado.id === s.id;
+    // 1. CARROSSEL DE SERVIÇOS (ESTILO CASA BRAVA 00:01)
+    function renderizarCarrosselServicosCliente() {
+      const c = document.getElementById('carousel-servicos-cliente');
+      if (!c) return;
+      c.innerHTML = '';
+      servicosDB.filter(s => s.ativo).forEach(s => {
         const div = document.createElement('div');
-        div.className = 'schedule-pick-row' + (isSel ? ' selected' : '');
+        div.className = 'service-bubble-card' + (servicoSelecionado.id === s.id ? ' selected' : '');
         div.onclick = () => {
           servicoSelecionado = s;
-          renderizarPainelHorizontal4Colunas(cat);
-          atualizarResumoHorizontal();
+          renderizarCarrosselServicosCliente();
+          renderizarPainelHorizontal4Colunas();
+          rolarParaAgendamento();
         };
         div.innerHTML = `
-          <div><h4>${s.nome}</h4><div class="val">R$ ${s.preco.toFixed(2).replace('.', ',')}</div></div>
-          <div class="check-circle-dot">${isSel ? '✓' : ''}</div>
+          <div class="service-bubble-top">✂️</div>
+          <h4>${s.nome}</h4>
+          <div class="price">R$ ${s.preco.toFixed(2)}</div>
         `;
-        col1.appendChild(div);
+        c.appendChild(div);
       });
+    }
 
+    // 2. LISTA DE BARBEIROS (ESTILO CASA BRAVA 00:02)
+    function renderizarBarbeirosCasaBrava() {
+      const container = document.getElementById('lista-barbeiros-casa-brava');
+      if (!container) return;
+      container.innerHTML = '';
+      barbeirosDB.forEach(b => {
+        const isSel = barbeiroSelecionado.id === b.id;
+        const card = document.createElement('div');
+        card.className = 'barber-pro-card' + (isSel ? ' selected' : '');
+        card.onclick = () => {
+          if (!b.presenteHoje) { alert(`${b.nome} está de folga hoje.`); return; }
+          barbeiroSelecionado = b;
+          renderizarBarbeirosCasaBrava();
+          renderizarPainelHorizontal4Colunas();
+          rolarParaAgendamento();
+        };
+        card.innerHTML = `
+          <div class="barber-pro-left">
+            <img src="${b.foto}" class="barber-img-frame">
+            <div>
+              <div class="barber-rank-title">${b.rank}</div>
+              <div class="barber-name-txt">${b.nome}</div>
+              <div class="barber-stars-badge">★ ${b.nota}</div>
+              <div class="barber-tags-row">
+                ${b.tags.map(t => `<span class="barber-pill-tag">${t}</span>`).join('')}
+              </div>
+            </div>
+          </div>
+          <div style="font-size:18px; color:var(--gold);">➔</div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // 3. PAINEL 4 COLUNAS HORIZONTAL (CASA BRAVA)
+    function renderizarPainelHorizontal4Colunas() {
+      // Coluna 1
+      const col1 = document.getElementById('col1-services-list');
+      if (col1) {
+        col1.innerHTML = '';
+        servicosDB.filter(s => s.ativo).forEach(s => {
+          const isSel = servicoSelecionado.id === s.id;
+          const div = document.createElement('div');
+          div.className = 'service-row-pick' + (isSel ? ' selected' : '');
+          div.onclick = () => {
+            servicoSelecionado = s;
+            renderizarPainelHorizontal4Colunas();
+            renderizarCarrosselServicosCliente();
+          };
+          div.innerHTML = `
+            <div>
+              <h4 style="font-size:12px; font-weight:800;">${s.nome}</h4>
+              <span style="font-size:10px; color:var(--text-muted);">${s.duracao}</span>
+            </div>
+            <div style="display:flex; align-items:center;">
+              <strong style="color:var(--gold); font-size:12px;">R$ ${s.preco.toFixed(2)}</strong>
+              <div class="check-dot-gold">${isSel ? '✓' : ''}</div>
+            </div>
+          `;
+          col1.appendChild(div);
+        });
+      }
+
+      // Coluna 2
       const col2 = document.getElementById('col2-barbeiros-list');
       if (col2) {
         col2.innerHTML = '';
         barbeirosDB.forEach(b => {
           const isSel = barbeiroSelecionado.id === b.id;
           const div = document.createElement('div');
-          div.className = 'schedule-pick-row' + (isSel ? ' selected' : '');
+          div.className = 'service-row-pick' + (isSel ? ' selected' : '');
           div.onclick = () => {
             if (!b.presenteHoje) { alert(`${b.nome} está de folga hoje.`); return; }
             barbeiroSelecionado = b;
-            renderizarPainelHorizontal4Colunas(cat);
-            atualizarResumoHorizontal();
+            renderizarPainelHorizontal4Colunas();
+            renderizarBarbeirosCasaBrava();
           };
           div.innerHTML = `
             <div style="display:flex; align-items:center; gap:8px;">
               <img src="${b.foto}" style="width:34px; height:34px; border-radius:50%; border:1px solid var(--gold);">
-              <div><h4>${b.nome}</h4><span style="font-size:10px; color:var(--gold);">★ ${b.nota} ${b.presenteHoje ? '' : '(Folga)'}</span></div>
+              <div>
+                <h4 style="font-size:12px; font-weight:800;">${b.nome}</h4>
+                <span style="font-size:10px; color:var(--gold);">★ ${b.nota}</span>
+              </div>
             </div>
-            <div class="check-circle-dot">${isSel ? '✓' : ''}</div>
+            <div class="check-dot-gold">${isSel ? '✓' : ''}</div>
           `;
           col2.appendChild(div);
         });
       }
 
-      const col3Days = document.getElementById('col3-calendar-days');
+      // Coluna 3: Pílulas de Dias
+      const col3Days = document.getElementById('col3-days-pills');
       if (col3Days) {
         col3Days.innerHTML = '';
-        for (let i = 1; i <= 31; i++) {
-          const d = document.createElement('div');
-          const isSel = i === 22;
-          d.style.padding = '6px 0'; d.style.borderRadius = '6px'; d.style.fontSize = '11px'; d.style.fontWeight = '700'; d.style.cursor = 'pointer';
-          d.style.background = isSel ? 'var(--gold)' : 'transparent';
-          d.style.color = isSel ? '#000' : '#cbd5e1';
-          d.innerText = i;
-          d.onclick = () => {
-            document.querySelectorAll('#col3-calendar-days div').forEach(x => { x.style.background = 'transparent'; x.style.color = '#cbd5e1'; });
-            d.style.background = 'var(--gold)'; d.style.color = '#000';
-            dataSelecionada = `${i} de Maio de 2026`;
-            atualizarResumoHorizontal();
+        diasCasaBrava.forEach((d, idx) => {
+          const isSel = idx === 0;
+          const pill = document.createElement('div');
+          pill.className = 'day-pill-card' + (isSel ? ' selected' : '');
+          pill.onclick = () => {
+            document.querySelectorAll('.day-pill-card').forEach(x => x.classList.remove('selected'));
+            pill.classList.add('selected');
+            diaSelecionadoTxt = `${d.dia}, ${d.num}`;
+            atualizarResumoTicket();
           };
-          col3Days.appendChild(d);
-        }
+          pill.innerHTML = `<div class="weekday">${d.dia}</div><div class="daynum">${d.num.split(' ')[0]}</div>`;
+          col3Days.appendChild(pill);
+        });
       }
 
+      // Coluna 3: Horários
       const col3Hours = document.getElementById('col3-time-slots');
       if (col3Hours) {
         col3Hours.innerHTML = '';
-        const slots = ['09:00', '10:00', '11:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00'];
+        const slots = ['09:00', '10:00', '11:00', '11:30', '14:00', '15:00', '16:00', '17:00', '18:00'];
         slots.forEach(h => {
-          const btn = document.createElement('div');
           const isSel = h === horaSelecionada;
-          btn.style.background = isSel ? 'var(--gold)' : '#161824';
-          btn.style.color = isSel ? '#000' : '#fff';
-          btn.style.border = '1px solid var(--border)'; btn.style.borderRadius = '8px'; btn.style.padding = '8px 0'; btn.style.textAlign = 'center'; btn.style.fontSize = '11px'; btn.style.fontWeight = '800'; btn.style.cursor = 'pointer';
+          const btn = document.createElement('div');
+          btn.className = 'time-slot-btn' + (isSel ? ' selected' : '');
           btn.innerText = h;
           btn.onclick = () => {
-            document.querySelectorAll('#col3-time-slots div').forEach(x => { x.style.background = '#161824'; x.style.color = '#fff'; });
-            btn.style.background = 'var(--gold)'; btn.style.color = '#000';
+            document.querySelectorAll('#col3-time-slots .time-slot-btn').forEach(x => x.classList.remove('selected'));
+            btn.classList.add('selected');
             horaSelecionada = h;
-            atualizarResumoHorizontal();
+            atualizarResumoTicket();
           };
           col3Hours.appendChild(btn);
         });
       }
 
-      atualizarResumoHorizontal();
+      atualizarResumoTicket();
     }
 
-    function atualizarResumoHorizontal() {
-      if (document.getElementById('sum-col4-servico')) {
-        document.getElementById('sum-col4-servico').innerText = servicoSelecionado.nome;
+    function atualizarResumoTicket() {
+      if (document.getElementById('sum-col4-barbeiro')) {
         document.getElementById('sum-col4-barbeiro').innerText = barbeiroSelecionado.nome;
-        document.getElementById('sum-col4-data').innerText = dataSelecionada;
+        document.getElementById('sum-col4-servico').innerText = servicoSelecionado.nome;
+        document.getElementById('sum-col4-duracao').innerText = servicoSelecionado.duracao;
+        document.getElementById('sum-col4-data').innerText = diaSelecionadoTxt;
         document.getElementById('sum-col4-hora').innerText = horaSelecionada;
-        document.getElementById('sum-col4-total').innerText = `R$ ${servicoSelecionado.preco.toFixed(2).replace('.', ',')}`;
+        document.getElementById('sum-col4-total').innerText = `R$ ${servicoSelecionado.preco.toFixed(2)}`;
       }
     }
 
     function setChoicePayment(m) {
       metodoPagamento = m;
-      document.getElementById('btn-pay-local-choice').style.borderColor = m === 'LOCAL' ? 'var(--gold)' : 'var(--border)';
-      document.getElementById('btn-pay-pix-choice').style.borderColor = m === 'PIX' ? 'var(--gold)' : 'var(--border)';
+      document.getElementById('btn-pay-local-choice').className = 'time-slot-btn' + (m === 'LOCAL' ? ' selected' : '');
+      document.getElementById('btn-pay-pix-choice').className = 'time-slot-btn' + (m === 'PIX' ? ' selected' : '');
     }
 
     function confirmarAgendamentoClienteFinal() {
-      if (!sessaoUsuario.autenticado) {
-        alert('Por favor, faça login ou cadastre-se primeiro.');
-        document.getElementById('auth-screen-overlay').classList.remove('hidden');
-        return;
-      }
-      const msg = `*NOVO AGENDAMENTO - RT MOBILE BARBER*%0A%0A*Cliente:* ${sessaoUsuario.email}%0A*Barbeiro:* ${barbeiroSelecionado.nome}%0A*Data/Hora:* ${dataSelecionada} às ${horaSelecionada}%0A*Serviço:* ${servicoSelecionado.nome}%0A*Total:* R$ ${servicoSelecionado.preco.toFixed(2).replace('.', ',')}%0A*Forma de Pagamento:* ${metodoPagamento === 'LOCAL' ? 'Pagar no Local' : 'Pix'}%0A%0AGostaria de confirmar meu agendamento!`;
+      const msg = `*CONFIRMAÇÃO DE AGENDAMENTO - RT MOBILE BARBER*%0A%0A*Barbeiro:* ${barbeiroSelecionado.nome}%0A*Serviço:* ${servicoSelecionado.nome}%0A*Data/Hora:* ${diaSelecionadoTxt} às ${horaSelecionada}%0A*Total:* R$ ${servicoSelecionado.preco.toFixed(2)}%0A*Pagamento:* ${metodoPagamento === 'LOCAL' ? 'No Local' : 'Pix'}%0A%0AHorário reservado com sucesso!`;
       window.open(`https://wa.me/${dadosBarbearia.whatsapp}?text=${msg}`, '_blank');
-      alert('Agendamento confirmado!');
+      alert('Tudo certo! Seu horário está garantido.');
     }
 
-    function filtrarCategoriaPortal(cat, btn) {
-      document.querySelectorAll('.category-card-item').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      renderizarPainelHorizontal4Colunas(cat);
+    function rolarParaAgendamento() {
+      document.getElementById('bloco-agendamento-completo').scrollIntoView({ behavior: 'smooth' });
     }
 
+    // 4. LOJA DO CLIENTE: CARRINHO MÚLTIPLO & CHECKOUT COMPLETO
     function renderizarLojaCliente() {
       const grid = document.getElementById('grid-loja-cliente-produtos');
       if (!grid) return;
       grid.innerHTML = '';
       estoqueDB.filter(p => p.estoque > 0).forEach(p => {
-        const card = document.createElement('div');
-        card.style.background = '#141624'; card.style.border = '1px solid var(--border)'; card.style.borderRadius = '16px'; card.style.padding = '14px'; card.style.display = 'flex'; card.style.flexDirection = 'column'; card.style.justifyContent = 'space-between';
-        card.innerHTML = `
+        const div = document.createElement('div');
+        div.className = 'prod-card-shop';
+        div.innerHTML = `
+          <img src="${p.img}">
           <div>
-            <h4 style="font-size:13px; font-weight:900; text-transform:uppercase;">${p.nome}</h4>
-            <div style="font-size:10px; color:var(--neon-green); font-weight:800; margin-top:2px;">● ${p.estoque} unidades disponíveis</div>
+            <h4 style="font-size:13px; font-weight:900;">${p.nome}</h4>
+            <div style="font-size:10px; color:var(--neon-green); font-weight:800; margin:4px 0;">● ${p.estoque} unidades disponíveis</div>
           </div>
-          <div style="margin-top:14px; display:flex; justify-content:space-between; align-items:center;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px;">
             <strong style="color:var(--gold); font-size:14px;">R$ ${p.preco.toFixed(2)}</strong>
-            <button class="btn-gold-primary" style="padding:6px 12px; font-size:10px;" onclick="comprarProdutoWhatsApp('${p.nome}', ${p.preco})">Comprar ➔</button>
+            <button class="btn-gold-primary" style="padding:6px 12px; font-size:10px;" onclick="adicionarAoCarrinho('${p.id}')">
+              + Carrinho
+            </button>
           </div>
         `;
-        grid.appendChild(card);
+        grid.appendChild(div);
       });
     }
 
-    function comprarProdutoWhatsApp(nome, preco) {
-      const msg = `*PEDIDO DE PRODUTO - RT MOBILE BARBER*%0A%0A*Item:* ${nome}%0A*Valor:* R$ ${preco.toFixed(2)}%0A%0AGostaria de reservar para retirar na barbearia!`;
-      window.open(`https://wa.me/${dadosBarbearia.whatsapp}?text=${msg}`, '_blank');
+    function adicionarAoCarrinho(id) {
+      const prod = estoqueDB.find(p => p.id === id);
+      if (!prod) return;
+      const ex = cartItens.find(c => c.id === id);
+      if (ex) { ex.qtd++; }
+      else { cartItens.push({ ...prod, qtd: 1 }); }
+      atualizarContadorSacola();
+      alert(`"${prod.nome}" adicionado à sacola!`);
     }
 
-    function renderizarBarbeirosCompletos() {
-      const container = document.getElementById('lista-barbeiros-cards-completos');
-      if (!container) return;
+    function atualizarContadorSacola() {
+      const total = cartItens.reduce((a, b) => a + b.qtd, 0);
+      document.getElementById('lbl-cart-count-badge').innerText = total;
+    }
+
+    function abrirModalCarrinho() {
+      if (cartItens.length === 0) {
+        alert('Sua sacola está vazia. Adicione algum produto primeiro.');
+        return;
+      }
+      renderizarItensModalCarrinho();
+      document.getElementById('cart-slide-modal').style.display = 'flex';
+    }
+
+    function fecharModalCarrinho() {
+      document.getElementById('cart-slide-modal').style.display = 'none';
+    }
+
+    function renderizarItensModalCarrinho() {
+      const container = document.getElementById('cart-items-list');
       container.innerHTML = '';
-      barbeirosDB.forEach((b, idx) => {
-        const card = document.createElement('div');
-        card.className = 'barber-detail-profile-card';
-        card.innerHTML = `
-          <img src="${b.foto}" class="barber-pic-lg">
-          <div style="flex:1;">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-              <h4 style="font-size:14px; font-weight:900;">${b.nome}</h4>
-              <span style="font-size:11px; color:var(--gold); font-weight:800;">★ ${b.nota}</span>
-            </div>
-            <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">${b.especialidade}</div>
-            <div style="font-size:11px; color:var(--blue); font-weight:800; margin-top:2px;">Instagram: ${b.instagram}</div>
-            <div style="margin-top:10px; display:flex; gap:8px;">
-              <a href="https://wa.me/${b.whatsapp}?text=Olá%20${encodeURIComponent(b.nome)},%20gostaria%20de%20saber%20sobre%20seus%20horários!" target="_blank" class="btn-dark-secondary" style="padding:6px 12px; font-size:10px; text-decoration:none; display:inline-block;">
-                Falar no WhatsApp Direto 💬
-              </a>
-              <button class="btn-gold-primary" style="padding:6px 12px; font-size:10px;" onclick="selecionarBarbeiroDireto(${idx})">Agendar Horário ➔</button>
-            </div>
+      let total = 0;
+      cartItens.forEach((item, idx) => {
+        const sub = item.preco * item.qtd;
+        total += sub;
+        const row = document.createElement('div');
+        row.style.display = 'flex'; row.style.justifyContent = 'space-between'; row.style.alignItems = 'center'; row.style.padding = '8px 0'; row.style.borderBottom = '1px solid var(--border)';
+        row.innerHTML = `
+          <div>
+            <strong style="font-size:12px; color:#fff;">${item.nome}</strong>
+            <div style="font-size:11px; color:var(--gold);">R$ ${item.preco.toFixed(2)} x ${item.qtd}</div>
+          </div>
+          <div>
+            <button onclick="alterarQtdSacola(${idx}, -1)" class="btn-dark-secondary" style="padding:2px 8px;">-</button>
+            <span style="font-weight:900; margin:0 6px; font-size:12px;">${item.qtd}</span>
+            <button onclick="alterarQtdSacola(${idx}, 1)" class="btn-dark-secondary" style="padding:2px 8px;">+</button>
           </div>
         `;
-        container.appendChild(card);
+        container.appendChild(row);
       });
+      document.getElementById('lbl-total-carrinho').innerText = `R$ ${total.toFixed(2)}`;
     }
 
-    function selecionarBarbeiroDireto(idx) {
-      barbeiroSelecionado = barbeirosDB[idx];
-      mudarPerfilVisual('CLIENTE');
-      renderizarPainelHorizontal4Colunas();
-      alert(`Barbeiro ${barbeiroSelecionado.nome} selecionado! Escolha o serviço e a data.`);
+    function alterarQtdSacola(idx, delta) {
+      cartItens[idx].qtd += delta;
+      if (cartItens[idx].qtd <= 0) cartItens.splice(idx, 1);
+      atualizarContadorSacola();
+      renderizarItensModalCarrinho();
+      if (cartItens.length === 0) fecharModalCarrinho();
     }
 
-    function adicionarBarbeiroCompletoPrompt() {
-      const nome = prompt("Nome do Barbeiro:");
-      if (!nome) return;
-      const insta = prompt("Instagram do Barbeiro (com @):", "@barbeiro.rt");
-      const fone = prompt("WhatsApp do Barbeiro com DDD:", "5591984551100");
-      const esp = prompt("Especialidade:", "Cortes Modernos & Barba");
-
-      barbeirosDB.push({
-        id: 'b_' + Date.now(),
-        nome: nome.trim(),
-        nota: '5.0',
-        foto: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200',
-        instagram: insta,
-        whatsapp: fone,
-        especialidade: esp,
-        presenteHoje: true
-      });
-      renderizarBarbeirosCompletos();
-      renderizarPainelHorizontal4Colunas();
-      renderizarTabelaMatrizEquipe();
-      alert(`Barbeiro ${nome} cadastrado com sucesso!`);
+    function setRetiradaTipo(tipo) {
+      tipoRetirada = tipo;
+      document.getElementById('btn-retirada-eu').className = 'time-slot-btn' + (tipo === 'EU' ? ' selected' : '');
+      document.getElementById('btn-retirada-outro').className = 'time-slot-btn' + (tipo === 'OUTRO' ? ' selected' : '');
+      document.getElementById('box-outro-nome').style.display = tipo === 'OUTRO' ? 'block' : 'none';
     }
 
+    function finalizarPedidoProdutosWhatsApp() {
+      const comprador = document.getElementById('cart-buyer-name').value.trim();
+      if (!comprador) { alert('Informe seu nome.'); return; }
+      const total = cartItens.reduce((a, b) => a + (b.preco * b.qtd), 0);
+      const itensTxt = cartItens.map(i => `• ${i.qtd}x ${i.nome} (R$ ${(i.preco * i.qtd).toFixed(2)})`).join('%0A');
+      const quemRetira = tipoRetirada === 'EU' ? 'O próprio comprador' : `Outra pessoa: ${document.getElementById('cart-pickup-other-name').value || 'Não informado'}`;
+
+      const msg = `*NOVO PEDIDO DE PRODUTOS - RT MOBILE BARBER*%0A%0A*Comprador:* ${comprador}%0A*Quem vai buscar:* ${quemRetira}%0A%0A*Itens:*%0A${itensTxt}%0A%0A*Total:* R$ ${total.toFixed(2)}%0A*Pagamento:* Pix (Comprovante em anexo)%0A%0AGostaria de confirmar a separação!`;
+      window.open(`https://wa.me/${dadosBarbearia.whatsapp}?text=${msg}`, '_blank');
+      fecharModalCarrinho();
+      cartItens = [];
+      atualizarContadorSacola();
+    }
+
+    // 5. MATRIZ SEMANAL EXPANSÍVEL (DONO)
     function renderizarTabelaMatrizEquipe() {
       const tabela = document.getElementById('tabela-matriz-equipe');
       if (!tabela) return;
@@ -1448,7 +1609,7 @@
       });
       thead += '</tr></thead>';
 
-      const horas = ['09:00', '10:00', '11:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00'];
+      const horas = ['09:00', '10:00', '11:00', '11:30', '14:00', '15:00', '16:00', '17:00', '18:00'];
       let tbody = '<tbody>';
       horas.forEach((h, hIdx) => {
         tbody += `<tr><td style="padding:8px; border:1px solid var(--border); font-weight:800; color:var(--gold);">${h}</td>`;
@@ -1456,7 +1617,7 @@
           if (!b.presenteHoje) {
             tbody += `<td style="padding:8px; border:1px solid var(--border); color:#64748b;">Folga</td>`;
           } else if ((hIdx + bIdx) % 3 === 0) {
-            tbody += `<td style="padding:8px; border:1px solid var(--border); background:rgba(197,155,99,0.15); color:var(--gold); font-weight:800;">Reservado</td>`;
+            tbody += `<td style="padding:8px; border:1px solid var(--border); background:rgba(212,163,115,0.15); color:var(--gold); font-weight:800;">Reservado</td>`;
           } else {
             tbody += `<td style="padding:8px; border:1px solid var(--border); color:var(--neon-green);">Livre</td>`;
           }
@@ -1467,8 +1628,59 @@
       tabela.innerHTML = thead + tbody;
     }
 
+    // 6. BARBEIROS COMPLETOS COM WHATSAPP DIRETO (DONO)
+    function renderizarBarbeirosCompletosDono() {
+      const container = document.getElementById('lista-barbeiros-cards-completos');
+      if (!container) return;
+      container.innerHTML = '';
+      barbeirosDB.forEach(b => {
+        const div = document.createElement('div');
+        div.className = 'barber-pro-card';
+        div.innerHTML = `
+          <div class="barber-pro-left">
+            <img src="${b.foto}" class="barber-img-frame">
+            <div>
+              <div class="barber-rank-title">${b.rank}</div>
+              <div class="barber-name-txt">${b.nome}</div>
+              <div style="font-size:11px; color:var(--blue); margin-top:2px;">Instagram: ${b.instagram}</div>
+              <div style="font-size:11px; color:#cbd5e1; margin-top:2px;">WhatsApp: ${b.whatsapp}</div>
+            </div>
+          </div>
+          <div style="display:flex; gap:8px;">
+            <a href="https://wa.me/${b.whatsapp}?text=Olá%20${encodeURIComponent(b.nome)},%20gostaria%20de%20falar%20sobre%20atendimentos!" target="_blank" class="btn-dark-secondary" style="padding:8px 12px; font-size:11px; text-decoration:none;">
+              WhatsApp Direto 💬
+            </a>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function adicionarBarbeiroCompletoPrompt() {
+      const nome = prompt("Nome do Barbeiro:");
+      if (!nome) return;
+      const rank = prompt("Cargo / Nível (ex: MASTER BARBER, SENIOR BARBER):", "MASTER BARBER");
+      const insta = prompt("Instagram:", "@barbeiro.rt");
+      const whats = prompt("WhatsApp com DDD:", "5591984551100");
+
+      barbeirosDB.push({
+        id: 'b_' + Date.now(),
+        nome: nome.trim(),
+        rank: rank.toUpperCase().trim(),
+        nota: '5.0 (0)',
+        foto: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=300',
+        instagram: insta,
+        whatsapp: whats,
+        tags: ['CORTE', 'BARBA'],
+        presenteHoje: true
+      });
+      renderizarTudo();
+      alert(`Barbeiro "${nome}" adicionado com sucesso!`);
+    }
+
+    // 7. GESTÃO DE SERVIÇOS & PREÇOS
     function renderizarServicosGestao() {
-      const container = document.getElementById('lista-servicos-gestao-crud');
+      const container = document.getElementById('lista-servicos-completa-gestao');
       if (!container) return;
       container.innerHTML = '';
       servicosDB.forEach((s, idx) => {
@@ -1490,24 +1702,26 @@
 
     function alterarPrecoServico(idx, val) {
       servicosDB[idx].preco = parseFloat(val) || 0;
-      renderizarPainelHorizontal4Colunas();
+      renderizarTudo();
       alert(`Preço de "${servicosDB[idx].nome}" atualizado!`);
     }
 
     function toggleServicoAtivo(idx, val) {
       servicosDB[idx].ativo = val;
       renderizarServicosGestao();
+      renderizarCarrosselServicosCliente();
       renderizarPainelHorizontal4Colunas();
     }
 
     function adicionarServicoPrompt() {
-      const nome = prompt("Nome do Procedimento (será forçado em MAIÚSCULAS):");
+      const nome = prompt("Nome do Procedimento:");
       if (!nome) return;
-      const preco = parseFloat(prompt("Preço sugerido (R$):", "50.00"));
-      servicosDB.push({ id: 's_' + Date.now(), nome: nome.toUpperCase().trim(), preco: isNaN(preco) ? 50.00 : preco, duracao: '30 min', categoria: 'CORTE', ativo: true });
-      renderizarServicosGestao(); renderizarPainelHorizontal4Colunas();
+      const preco = parseFloat(prompt("Preço de Venda (R$):", "60.00"));
+      servicosDB.push({ id: 's_' + Date.now(), nome: nome.trim(), preco: isNaN(preco) ? 60.00 : preco, duracao: '30 min', categoria: 'CORTE', ativo: true });
+      renderizarTudo();
     }
 
+    // 8. ESTOQUE & PREÇO DOS PRODUTOS
     function renderizarEstoqueGestao() {
       const grid = document.getElementById('grid-estoque-produtos-admin');
       if (!grid) return;
@@ -1536,7 +1750,7 @@
     function alterarPrecoProduto(idx, val) {
       estoqueDB[idx].preco = parseFloat(val) || 0;
       renderizarLojaCliente();
-      alert(`Preço de "${estoqueDB[idx].nome}" atualizado!`);
+      alert(`Preço atualizado para R$ ${estoqueDB[idx].preco.toFixed(2)}!`);
     }
 
     function alterarEstoque(idx, delta) {
@@ -1547,60 +1761,24 @@
     }
 
     function cadastrarProdutoEstoquePrompt() {
-      const nome = prompt("Nome do Produto / Pomada / Bebida:");
+      const nome = prompt("Nome da Pomada / Produto:");
       if (!nome) return;
-      const preco = parseFloat(prompt("Preço de Venda (R$):", "40.00"));
-      estoqueDB.push({ id: 'p_' + Date.now(), nome: nome.trim(), preco: isNaN(preco) ? 40.00 : preco, estoque: 10 });
+      const preco = parseFloat(prompt("Preço de Venda (R$):", "45.00"));
+      estoqueDB.push({ id: 'p_' + Date.now(), nome: nome.trim(), preco: isNaN(preco) ? 45.00 : preco, estoque: 10, img: 'https://images.unsplash.com/photo-1597854710119-a5a8fc2579b5?q=80&w=300' });
       renderizarEstoqueGestao();
       renderizarLojaCliente();
     }
 
-    function renderizarComandas() {
-      const container = document.getElementById('lista-comandas-ativas');
-      if (!container) return;
-      container.innerHTML = '';
-      comandasDB.forEach((c, idx) => {
-        const div = document.createElement('div');
-        div.style.background = '#151824'; div.style.padding = '14px'; div.style.borderRadius = '12px'; div.style.marginBottom = '10px';
-        div.innerHTML = `
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-            <strong style="color:#fff; font-size:12px;">${c.cliente} (${c.barbeiro})</strong>
-            <strong style="color:var(--gold); font-size:13px;">R$ ${c.total.toFixed(2)}</strong>
-          </div>
-          <div style="font-size:11px; color:#cbd5e1; margin-bottom:8px;">${c.itens.join(' + ')}</div>
-          <div style="display:flex; gap:6px;">
-            <button onclick="imprimirCupomComanda(${idx})" class="btn-dark-secondary" style="padding:6px; font-size:10px; flex:1;">Imprimir Cupom 🧾</button>
-            <button onclick="fecharComanda(${idx})" class="btn-gold-primary" style="padding:6px; font-size:10px; flex:1;">Fechar Comanda ↗</button>
-          </div>
-        `;
-        container.appendChild(div);
-      });
-    }
-
-    function imprimirCupomComanda(idx) {
-      const c = comandasDB[idx];
-      document.getElementById('cupom-cliente').innerText = c.cliente;
-      document.getElementById('cupom-barbeiro').innerText = c.barbeiro;
-      document.getElementById('cupom-servico').innerText = c.itens.join(' + ');
-      document.getElementById('cupom-valor').innerText = `R$ ${c.total.toFixed(2)}`;
-      document.getElementById('modal-cupom-print').style.display = 'flex';
-    }
-
-    function fecharComanda(idx) {
-      alert(`Comanda de ${comandasDB[idx].cliente} fechada no valor de R$ ${comandasDB[idx].total.toFixed(2)}!`);
-      comandasDB.splice(idx, 1);
-      renderizarComandas();
-    }
-
+    // 9. COMANDAS & CAIXA CEGO
     function apurarFechamentoCego() {
       const d = parseFloat(document.getElementById('inp-fech-dinheiro').value) || 0;
       const c = parseFloat(document.getElementById('inp-fech-cartao').value) || 0;
       const total = d + c + 380.00;
       const diff = total - 560.00;
-      const box = document.getElementById('box-resultado-fechamento');
+      const box = document.getElementById('box-resultado-fechamento-cego');
       box.style.display = 'block';
       if (diff === 0) {
-        box.innerHTML = '<strong style="color:var(--neon-green);">CAIXA CONCILIADO EXATO!</strong><br>R$ 560,00 conferidos sem quebras.';
+        box.innerHTML = '<strong style="color:var(--neon-green);">CAIXA CONCILIADO EXATO!</strong><br>R$ 560,00 conferidos sem nenhuma quebra.';
       } else {
         box.innerHTML = `<strong style="color:${diff > 0 ? 'var(--gold)' : 'var(--red)'};">DIFERENÇA: R$ ${diff.toFixed(2)}</strong><br>Apurado: R$ ${total.toFixed(2)} | Esperado: R$ 560,00`;
       }
@@ -1614,7 +1792,7 @@ URL: ${url}`);
 
     function copiarLinkBio() {
       navigator.clipboard.writeText(document.getElementById('inp-slug-bio').value);
-      alert('Link exclusivo da Bio copiado! Cole no Instagram da sua barbearia.');
+      alert('Link da Bio copiado! Cole no Instagram da barbearia.');
     }
 
     function salvarConfiguracoesGerais() {
@@ -1624,9 +1802,108 @@ URL: ${url}`);
       dadosBarbearia.chavePix = document.getElementById('cfg-inp-pix').value;
       document.getElementById('lbl-establishment-name').innerText = dadosBarbearia.nome;
       document.getElementById('lbl-establishment-address').innerText = dadosBarbearia.endereco;
-      document.getElementById('side-nome-barbearia').innerText = dadosBarbearia.nome;
       document.getElementById('banner-hero-establishment').style.backgroundImage = `url('${dadosBarbearia.foto}')`;
       alert('Configurações salvas!');
+    }
+
+    // 10. AUTH & WORKSPACE
+    function alternarAbaAuth(tipo) {
+      document.getElementById('btn-tab-auth-cliente').className = 'auth-tab-btn' + (tipo === 'CLIENTE' ? ' active' : '');
+      document.getElementById('btn-tab-auth-dono').className = 'auth-tab-btn' + (tipo === 'DONO' ? ' active' : '');
+      document.getElementById('btn-trial-trigger-auth').style.display = tipo === 'DONO' ? 'inline' : 'none';
+    }
+
+    function aplicarSessao(email, role) {
+      sessaoUsuario.email = email;
+      sessaoUsuario.role = role;
+      sessaoUsuario.autenticado = true;
+      document.getElementById('lbl-logged-email').innerText = email;
+
+      if (email.toLowerCase() === 'roberthaelley75@gmail.com' || role === 'SUPER_ADMIN') {
+        sessaoUsuario.role = 'SUPER_ADMIN';
+        document.getElementById('badge-role-user').className = 'badge-pill-status vitalicio';
+        document.getElementById('badge-role-user').innerText = 'Super Admin Vitalício';
+        definirModoVisao('DONO');
+      } else if (role === 'DONO') {
+        document.getElementById('badge-role-user').className = 'badge-pill-status trial';
+        document.getElementById('badge-role-user').innerText = 'Painel da Barbearia';
+        definirModoVisao('DONO');
+      } else {
+        document.getElementById('badge-role-user').className = 'badge-pill-status';
+        document.getElementById('badge-role-user').innerText = 'Cliente Autenticado';
+        definirModoVisao('CLIENTE');
+      }
+
+      document.getElementById('auth-screen-overlay').classList.add('hidden');
+    }
+
+    function realizarLogin() {
+      const email = document.getElementById('auth-inp-email').value.trim();
+      const senha = document.getElementById('auth-inp-senha').value.trim();
+      if (!email || !email.includes('@')) { alert('Por favor, digite um e-mail válido.'); return; }
+      if (!senha || senha.length < 6) { alert('A senha deve conter no mínimo 6 caracteres.'); return; }
+
+      const role = (email.toLowerCase() === 'roberthaelley75@gmail.com') ? 'SUPER_ADMIN' : (document.getElementById('btn-tab-auth-dono').classList.contains('active') ? 'DONO' : 'CLIENTE');
+
+      // SALVAR PERSISTÊNCIA NO LOCALSTORAGE
+      localStorage.setItem('rt_auth_session', JSON.stringify({ email: email.toLowerCase(), role: role, loggedAt: Date.now() }));
+
+      aplicarSessao(email, role);
+    }
+
+    function verificarSessaoPersistida() {
+      try {
+        const salva = localStorage.getItem('rt_auth_session');
+        if (salva) {
+          const dados = JSON.parse(salva);
+          if (dados && dados.email) {
+            aplicarSessao(dados.email, dados.role);
+            return true;
+          }
+        }
+      } catch (e) {
+        console.error('Erro ao ler sessão salva', e);
+      }
+      return false;
+    }
+
+    function ativarTrial48h() {
+      const email = prompt("Informe o e-mail da sua Barbearia para ativar 48h Grátis:");
+      if (!email || !email.includes('@')) return;
+      sessaoUsuario.email = email;
+      sessaoUsuario.role = 'DONO';
+      sessaoUsuario.autenticado = true;
+      document.getElementById('lbl-logged-email').innerText = email;
+      document.getElementById('badge-role-user').className = 'badge-pill-status trial';
+      document.getElementById('badge-role-user').innerText = 'Teste 48h Ativo';
+      document.getElementById('auth-screen-overlay').classList.add('hidden');
+      definirModoVisao('DONO');
+    }
+
+    function definirModoVisao(modo) {
+      const sidebar = document.getElementById('app-sidebar-lateral');
+      const dockCliente = document.getElementById('dock-cliente-mobile');
+      const dockDono = document.getElementById('dock-dono-mobile');
+
+      if (modo === 'CLIENTE') {
+        sidebar.style.display = 'none';
+        dockCliente.style.display = 'flex';
+        dockDono.style.display = 'none';
+        trocarAbaWorkspace('tab-cliente-portal-view', null);
+      } else {
+        sidebar.style.display = 'flex';
+        dockCliente.style.display = 'none';
+        dockDono.style.display = 'flex';
+        trocarAbaWorkspace('tab-matriz-equipe', null);
+      }
+    }
+
+    function realizarLogout() {
+      sessaoUsuario.autenticado = false;
+      sessaoUsuario.email = null;
+      localStorage.removeItem('rt_auth_session');
+      document.getElementById('auth-inp-senha').value = '';
+      document.getElementById('auth-screen-overlay').classList.remove('hidden');
     }
 
     function trocarAbaWorkspace(tabId, btn) {
@@ -1643,16 +1920,6 @@ URL: ${url}`);
     function trocarAbaMobileCliente(tabId, btn) {
       trocarAbaWorkspace(tabId, btn);
     }
-
-    function abrirAgendamentoRapidoDock() {
-      trocarAbaWorkspace('tab-cliente-portal-view', null);
-      document.querySelector('.board-horizontal-schedule').scrollIntoView({ behavior: 'smooth' });
-    }
-
-    // Inicialização ao carregar tudo
-    window.addEventListener('load', () => {
-      renderizarTudo();
-    });
   </script>
 </body>
 </html>
